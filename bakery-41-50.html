@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>烘焙食品丙級｜原料之選用｜第41～50題</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f6f8;color:#202124;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+main{max-width:700px;margin:auto;padding:14px}
+.card{background:#fff;border:1px solid #d9dee5;border-radius:18px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.header{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+h1{font-size:21px;margin:0 0 4px}.sub{font-size:14px;color:#667085}
+.progress{height:8px;background:#e7ebef;border-radius:99px;overflow:hidden;margin:16px 0 20px}.fill{height:100%;width:0;background:#2563eb;transition:.2s}
+.qno{font-size:15px;font-weight:700;color:#2563eb;margin-bottom:8px}
+.question{font-size:20px;font-weight:700;line-height:1.55;margin-bottom:18px}
+.options{display:grid;gap:11px}.option{width:100%;border:1px solid #cfd6df;background:#fff;border-radius:12px;padding:14px;text-align:left;font-size:17px;line-height:1.45;cursor:pointer}
+.option:disabled{cursor:default;color:#202124}.correct{background:#ecfdf3!important;border-color:#16a34a!important}.wrong{background:#fef2f2!important;border-color:#dc2626!important}
+.feedback{display:none;margin-top:14px;padding:13px;border-radius:11px;font-size:16px;line-height:1.5}.show{display:block}.ok{background:#ecfdf3;color:#166534}.bad{background:#fef2f2;color:#991b1b}
+.actions{display:flex;justify-content:flex-end;margin-top:14px}.next,.restart{border:0;border-radius:11px;padding:12px 20px;background:#2563eb;color:#fff;font-size:16px;font-weight:700;cursor:pointer}.next:disabled{opacity:.45;cursor:default}
+#result{display:none;text-align:center}.score{font-size:48px;font-weight:800;margin:15px 0}.rate{font-size:20px}
+</style>
+</head>
+<body>
+<main>
+<section class="card" id="quiz">
+<div class="header"><div><h1>烘焙食品丙級｜原料之選用</h1><div class="sub">第41～50題・共10題｜選擇後立即顯示答案</div></div><div class="sub">答對 <b id="score">0</b> 題</div></div>
+<div class="progress"><div class="fill" id="fill"></div></div>
+<div class="qno" id="qno"></div><div class="question" id="question"></div>
+<div class="options" id="options"></div>
+<div class="feedback" id="feedback"></div>
+<div class="actions"><button class="next" id="next" disabled>下一題</button></div>
+</section>
+<section class="card" id="result">
+<h1>作答完成</h1><div class="score" id="finalScore"></div><div class="rate" id="finalRate"></div>
+<p>第41～50題已完成。</p><button class="restart" onclick="start()">重新作答</button>
+</section>
+</main>
+<script>
+const qs=[{"no": "41", "q": "麵粉中每增加 1％的活性麵筋粉，麵粉的吸水量約可提高多少？", "answer": "② 1.5％", "options": ["① 1％", "② 1.5％", "③ 2％", "④ 2.5％"]}, {"no": "42", "q": "新鮮酵母的水分含量約為多少？", "answer": "③ 65～70％", "options": ["① 45～50％", "② 55～60％", "③ 65～70％", "④ 80～85％"]}, {"no": "43", "q": "烘焙人員所稱的「重曹」（baking soda）是指什麼？", "answer": "② 蘇打粉", "options": ["① 發粉", "② 蘇打粉", "③ 酵母", "④ 酵素"]}, {"no": "44", "q": "沙拉油為什麼需要密封保存？", "answer": "② 含不飽和脂肪酸，容易氧化酸敗", "options": ["① 遇到空氣容易變色", "② 含不飽和脂肪酸，容易氧化酸敗", "③ 容易揮發", "④ 容易吸收其他不良味道"]}, {"no": "45", "q": "雞蛋中的水分含量約為多少？", "answer": "② 75％", "options": ["① 70％", "② 75％", "③ 80％", "④ 85％"]}, {"no": "46", "q": "乳化劑添加於麵包中，主要作用為何？", "answer": "② 使麵包柔軟、不易老化", "options": ["① 增加麵包風味", "② 使麵包柔軟、不易老化", "③ 防止麵包發黴", "④ 促進酵母活力"]}, {"no": "47", "q": "全蛋的固形物約為多少？", "answer": "③ 25％", "options": ["① 10％", "② 15％", "③ 25％", "④ 35％"]}, {"no": "48", "q": "麵包製作過程中，主要加入哪一種原料可使麵包組織鬆軟？", "answer": "① 酵母", "options": ["① 酵母", "② 發粉", "③ 小蘇打", "④ 阿摩尼亞"]}, {"no": "49", "q": "若希望麵包能長時間保持柔軟，可在配方中添加哪一種材料？", "answer": "③ 乳化劑", "options": ["① 膨大劑", "② 麥芽酵素", "③ 乳化劑", "④ 丙酸鈣"]}, {"no": "50", "q": "控制麵包發酵最有效的原料是？", "answer": "① 食鹽", "options": ["① 食鹽", "② 糖", "③ 改良劑", "④ 奶粉"]}];
+let order=[],idx=0,score=0,answered=false;
+const $=id=>document.getElementById(id);
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function start(){order=shuffle([...Array(qs.length).keys()]);idx=0;score=0;$('quiz').style.display='block';$('result').style.display='none';render()}
+function render(){
+ answered=false;const x=qs[order[idx]];
+ $('qno').textContent='第'+x.no+'題';$('question').textContent=x.q;
+ $('score').textContent=score;$('fill').style.width=(idx/qs.length*100)+'%';
+ $('feedback').className='feedback';$('feedback').innerHTML='';
+ $('next').disabled=true;$('next').textContent=idx===qs.length-1?'看成績':'下一題';
+ $('options').innerHTML='';
+ shuffle(x.options).forEach(t=>{let b=document.createElement('button');b.className='option';b.textContent=t;b.onclick=()=>choose(b,t,x.answer);$('options').appendChild(b)})
+}
+function choose(btn,text,answer){
+ if(answered)return;answered=true;
+ document.querySelectorAll('.option').forEach(b=>b.disabled=true);
+ if(text===answer){score++;btn.classList.add('correct');$('feedback').className='feedback show ok';$('feedback').innerHTML='<b>答對！</b><br>正確答案：'+answer}
+ else{btn.classList.add('wrong');[...document.querySelectorAll('.option')].find(b=>b.textContent===answer).classList.add('correct');$('feedback').className='feedback show bad';$('feedback').innerHTML='<b>答錯。</b><br>正確答案：'+answer}
+ $('score').textContent=score;$('next').disabled=false;
+}
+$('next').onclick=()=>{if(!answered)return;if(idx===qs.length-1){$('quiz').style.display='none';$('result').style.display='block';$('finalScore').textContent=score+' / '+qs.length;$('finalRate').textContent='正確率 '+Math.round(score/qs.length*100)+'％'}else{idx++;render();scrollTo({top:0,behavior:'smooth'})}};
+start();
+</script>
+</body></html>
