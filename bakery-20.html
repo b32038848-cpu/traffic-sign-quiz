@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>烘焙食品丙級｜20題手機作答</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f6f8;color:#202124;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+main{max-width:700px;margin:auto;padding:14px}
+.card{background:#fff;border:1px solid #d9dee5;border-radius:18px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.header{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+h1{font-size:21px;margin:0 0 4px}.sub{font-size:14px;color:#667085}
+.progress{height:8px;background:#e7ebef;border-radius:99px;overflow:hidden;margin:16px 0 20px}.fill{height:100%;width:0;background:#2563eb;transition:.2s}
+.qno{font-size:15px;font-weight:700;color:#2563eb;margin-bottom:8px}
+.question{font-size:20px;font-weight:700;line-height:1.55;margin-bottom:18px}
+.options{display:grid;gap:11px}.option{width:100%;border:1px solid #cfd6df;background:#fff;border-radius:12px;padding:14px;text-align:left;font-size:17px;line-height:1.45;cursor:pointer}
+.option:disabled{cursor:default;color:#202124}.correct{background:#ecfdf3!important;border-color:#16a34a!important}.wrong{background:#fef2f2!important;border-color:#dc2626!important}
+.feedback{display:none;margin-top:14px;padding:13px;border-radius:11px;font-size:16px;line-height:1.5}.show{display:block}.ok{background:#ecfdf3;color:#166534}.bad{background:#fef2f2;color:#991b1b}
+.actions{display:flex;justify-content:flex-end;margin-top:14px}.next,.restart{border:0;border-radius:11px;padding:12px 20px;background:#2563eb;color:#fff;font-size:16px;font-weight:700;cursor:pointer}.next:disabled{opacity:.45;cursor:default}
+#result{display:none;text-align:center}.score{font-size:48px;font-weight:800;margin:15px 0}.rate{font-size:20px}
+</style>
+</head>
+<body>
+<main>
+<section class="card" id="quiz">
+<div class="header"><div><h1>烘焙食品丙級｜手機作答</h1><div class="sub">共20題｜選擇後立即顯示答案</div></div><div class="sub">答對 <b id="score">0</b> 題</div></div>
+<div class="progress"><div class="fill" id="fill"></div></div>
+<div class="qno" id="qno"></div><div class="question" id="question"></div>
+<div class="options" id="options"></div>
+<div class="feedback" id="feedback"></div>
+<div class="actions"><button class="next" id="next" disabled>下一題</button></div>
+</section>
+<section class="card" id="result">
+<h1>作答完成</h1><div class="score" id="finalScore"></div><div class="rate" id="finalRate"></div>
+<p>20題已完成。</p><button class="restart" onclick="start()">重新作答</button>
+</section>
+</main>
+<script>
+const qs=[{"no": "1", "q": "蛋白在烘焙原料中屬於哪一種性質？", "answer": "C. 韌性原料", "options": ["A. 酸性原料", "B. 柔性原料", "C. 韌性原料", "D. 中性原料"]}, {"no": "2", "q": "一般奶油或瑪琪琳含水量約為多少？", "answer": "B. 14～22％", "options": ["A. 24～30％", "B. 14～22％", "C. 6～10％", "D. 11～13％"]}, {"no": "3", "q": "巧克力融化加熱時，最好使用哪一種方式？", "answer": "C. 隔水加熱", "options": ["A. 自然融化", "B. 烤爐加熱", "C. 隔水加熱", "D. 直火加熱"]}, {"no": "4", "q": "麵包配方中正常用糖量由5％增加為10％，烤好後最明顯的不同是？", "answer": "A. 表皮顏色加深", "options": ["A. 表皮顏色加深", "B. 表皮變粗糙", "C. 表皮變薄而軟", "D. 表皮顏色變淺"]}, {"no": "5", "q": "若用快速酵母粉取代新鮮酵母，快速酵母粉的用量應為新鮮酵母的？", "answer": "D. 1/3", "options": ["A. 2倍", "B. 1/2", "C. 等量", "D. 1/3"]}, {"no": "6", "q": "奶水中含固形物（奶粉）量為多少？", "answer": "D. 12％", "options": ["A. 16％", "B. 8％", "C. 4％", "D. 12％"]}, {"no": "7", "q": "海綿蛋糕配方的主要原料為？", "answer": "A. 麵粉、細砂糖、蛋", "options": ["A. 麵粉、細砂糖、蛋", "B. 麵粉、沙拉油、水", "C. 麵粉、細砂糖、發粉", "D. 細砂糖、麵粉、鹽、牛奶"]}, {"no": "8", "q": "蛋黃成分中所含的油脂具有什麼作用？", "answer": "D. 乳化作用", "options": ["A. 起泡作用", "B. 膨大作用", "C. 安定作用", "D. 乳化作用"]}, {"no": "9", "q": "製作蛋糕時，奶粉應屬於哪一種材料？", "answer": "B. 韌性材料", "options": ["A. 芳香材料", "B. 韌性材料", "C. 柔性材料", "D. 鹼性材料"]}, {"no": "10", "q": "蛋白的含水量約為多少？", "answer": "A. 88％", "options": ["A. 88％", "B. 95％", "C. 50％", "D. 75％"]}, {"no": "11", "q": "麵包配方中使用2％細砂糖，若增加至4％，發酵時間會如何？", "answer": "A. 不變", "options": ["A. 不變", "B. 延長", "C. 縮短很多", "D. 縮短很少"]}, {"no": "12", "q": "做蘇打餅乾時應注意油脂的哪一項特性？", "answer": "B. 安定性好、不易酸敗", "options": ["A. 可塑性好", "B. 安定性好、不易酸敗", "C. 乳化效果好", "D. 打發性好"]}, {"no": "13", "q": "配方內使用60％鮮奶製作麵包，比使用4％脫脂奶粉製作麵包，其實際奶粉固形量如何？", "answer": "C. 較多", "options": ["A. 大同小異", "B. 相同", "C. 較多", "D. 較少"]}, {"no": "14", "q": "做麵包時，配方中油脂量高，可使麵包表皮如何？", "answer": "C. 柔軟", "options": ["A. 厚", "B. 顏色深", "C. 柔軟", "D. 硬"]}, {"no": "15", "q": "蒸發奶水含固形物約為多少？", "answer": "A. 26％", "options": ["A. 26％", "B. 35％", "C. 30％", "D. 40％"]}, {"no": "16", "q": "下列何種材料可以提高小西餅產品的脆性？", "answer": "B. 糖", "options": ["A. 蛋", "B. 糖", "C. 鹽", "D. 水"]}, {"no": "17", "q": "蛋黃的水分含量約為多少？", "answer": "C. 50～55％", "options": ["A. 40～44％", "B. 35～39％", "C. 50～55％", "D. 30～34％"]}, {"no": "18", "q": "製作某種麵包，使用新鮮酵母4％，若改用快速即發酵母粉，用量應為多少？", "answer": "A. 1.33％", "options": ["A. 1.33％", "B. 1.6％", "C. 4％", "D. 2％"]}, {"no": "19", "q": "下列何種原料不是製作奶油布丁派餡的凝凍原料？", "answer": "B. 奶油水", "options": ["A. 玉米澱粉", "B. 奶油水", "C. 動物膠", "D. 蛋"]}, {"no": "20", "q": "乳化劑在蛋糕中的主要功能是？", "answer": "C. 融和配方內水和油，使組織細膩", "options": ["A. 縮短攪拌時間、減少人工", "B. 使蛋糕顏色加深", "C. 融和配方內水和油，使組織細膩", "D. 使蛋糕風味佳"]}];
+let order=[],idx=0,score=0,answered=false;
+const $=id=>document.getElementById(id);
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function start(){order=shuffle([...Array(qs.length).keys()]);idx=0;score=0;$('quiz').style.display='block';$('result').style.display='none';render()}
+function render(){
+ answered=false;const x=qs[order[idx]];
+ $('qno').textContent='第'+x.no+'題';$('question').textContent=x.q;
+ $('score').textContent=score;$('fill').style.width=(idx/qs.length*100)+'%';
+ $('feedback').className='feedback';$('feedback').innerHTML='';
+ $('next').disabled=true;$('next').textContent=idx===qs.length-1?'看成績':'下一題';
+ $('options').innerHTML='';
+ shuffle(x.options).forEach(t=>{let b=document.createElement('button');b.className='option';b.textContent=t;b.onclick=()=>choose(b,t,x.answer);$('options').appendChild(b)})
+}
+function choose(btn,text,answer){
+ if(answered)return;answered=true;
+ document.querySelectorAll('.option').forEach(b=>b.disabled=true);
+ if(text===answer){score++;btn.classList.add('correct');$('feedback').className='feedback show ok';$('feedback').innerHTML='<b>答對！</b><br>正確答案：'+answer}
+ else{btn.classList.add('wrong');[...document.querySelectorAll('.option')].find(b=>b.textContent===answer).classList.add('correct');$('feedback').className='feedback show bad';$('feedback').innerHTML='<b>答錯。</b><br>正確答案：'+answer}
+ $('score').textContent=score;$('next').disabled=false;
+}
+$('next').onclick=()=>{if(!answered)return;if(idx===qs.length-1){$('quiz').style.display='none';$('result').style.display='block';$('finalScore').textContent=score+' / '+qs.length;$('finalRate').textContent='正確率 '+Math.round(score/qs.length*100)+'％'}else{idx++;render();scrollTo({top:0,behavior:'smooth'})}};
+start();
+</script>
+</body></html>
