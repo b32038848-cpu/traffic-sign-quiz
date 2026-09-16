@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-Hant"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>烘焙食品丙級｜第51～60題｜手機互動遊戲</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f6f8;color:#202124;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+main{max-width:700px;margin:auto;padding:14px}
+.card{background:#fff;border:1px solid #d9dee5;border-radius:18px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+h1{font-size:21px;margin:0 0 5px}.sub{font-size:14px;color:#667085}
+.progress{height:9px;background:#e7ebef;border-radius:99px;overflow:hidden;margin:16px 0 20px}.fill{height:100%;width:0;background:#2563eb;transition:.2s}
+.qno{font-size:15px;font-weight:700;color:#2563eb;margin-bottom:8px}
+.q{font-size:20px;font-weight:700;line-height:1.55;margin-bottom:18px}
+.options{display:grid;gap:11px}.opt{width:100%;min-height:52px;border:1px solid #cfd6df;background:#fff;border-radius:12px;padding:14px;text-align:left;font-size:17px;line-height:1.45;cursor:pointer}
+.opt:disabled{cursor:default;color:#202124}.correct{background:#ecfdf3!important;border-color:#16a34a!important}.wrong{background:#fef2f2!important;border-color:#dc2626!important}
+.fb{display:none;margin-top:14px;padding:13px;border-radius:11px;font-size:16px;line-height:1.5}.fb.show{display:block}.ok{background:#ecfdf3;color:#166534}.bad{background:#fef2f2;color:#991b1b}
+.actions{display:flex;justify-content:flex-end;margin-top:14px}.next,.restart{border:0;border-radius:11px;padding:12px 20px;background:#2563eb;color:#fff;font-size:16px;font-weight:700;cursor:pointer}.next:disabled{opacity:.45;cursor:default}
+#result{display:none;text-align:center}.score{font-size:48px;font-weight:800;margin:15px 0}.rate{font-size:20px;margin-bottom:16px}
+.note{font-size:14px;color:#667085;line-height:1.6}
+@media(max-width:520px){.card{padding:15px}.q{font-size:18px}.opt{font-size:16px}}
+</style></head>
+<body><main>
+<section class="card" id="quiz">
+<div class="head"><div><h1>烘焙食品丙級｜手機互動遊戲</h1><div class="sub">第51～60題・共10題</div></div><div class="sub">答對 <b id="score">0</b> 題</div></div>
+<div class="progress"><div class="fill" id="fill"></div></div>
+<div class="qno" id="qno"></div><div class="q" id="question"></div>
+<div class="options" id="options"></div><div class="fb" id="feedback"></div>
+<div class="actions"><button class="next" id="next" type="button" disabled>下一題</button></div>
+</section>
+<section class="card" id="result"><h1>作答完成</h1><div class="score" id="finalScore"></div><div class="rate" id="finalRate"></div>
+<p class="note">題目與選項會隨機排列，可以重新挑戰。</p><button class="restart" id="restart" type="button">重新作答</button></section>
+</main>
+<script>
+const QUESTIONS=[{"no": "51", "q": "稀釋奶油霜飾時，適合加入哪一種原料？", "opts": ["沙拉油", "水", "蛋", "稀糖漿"], "answer": 3}, {"no": "52", "q": "一般油炸用油的發煙點，至少應達到哪個範圍較適當？", "opts": ["150～160℃", "160～170℃", "170～180℃", "200℃以上"], "answer": 3}, {"no": "53", "q": "若要讓小西餅具有較好的鬆脆性與擴展性，可以增加哪一種糖？", "opts": ["細砂糖", "糖粉", "糖漿", "麥芽糖"], "answer": 1}, {"no": "54", "q": "製作水果蛋糕時，較適合使用哪一類水果？", "opts": ["新鮮水果", "罐頭水果", "蜜餞水果", "脫水水果"], "answer": 2}, {"no": "55", "q": "製作西點派皮或蛋糕奶酥底時，較適合使用哪種油脂？", "opts": ["無水奶油或精製豬油", "瑪琪琳", "含水奶油", "沙拉油"], "answer": 0}, {"no": "56", "q": "製作蘋果派餡時，通常使用哪一種原料來增加凝膠作用？", "opts": ["玉米澱粉", "動物膠", "洋菜粉", "甘藷粉"], "answer": 0}, {"no": "57", "q": "食品工廠進行油炸時，較適合選用哪一種油？", "opts": ["沙拉油", "氫化油", "黃豆油", "奶油"], "answer": 1}, {"no": "58", "q": "麵包製作中可以使用哪一種防腐劑？", "opts": ["丙酸鈣", "去水醋酸", "硼酸", "苯甲酸"], "answer": 0}, {"no": "59", "q": "蛋糕製作中可以使用哪一種防腐劑？", "opts": ["苯甲酸", "丙酸鈉", "對羥苯甲酸丁酯", "異抗壞血酸"], "answer": 2}, {"no": "60", "q": "新鮮酵母最適合的保存溫度為何？", "opts": ["−10～0℃", "2～10℃", "11～20℃", "21～27℃"], "answer": 1}];let order=[],index=0,score=0,locked=false;
+const $=id=>document.getElementById(id);
+function shuffle(a){const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x}
+function start(){order=shuffle(QUESTIONS);index=0;score=0;$("quiz").style.display="block";$("result").style.display="none";render()}
+function render(){locked=false;const item=order[index];$("qno").textContent="第"+item.no+"題";$("question").textContent=item.q;$("score").textContent=score;$("fill").style.width=(index/order.length*100)+"%";$("feedback").className="fb";$("feedback").textContent="";$("next").disabled=true;$("next").textContent=index===order.length-1?"查看成績":"下一題";$("options").innerHTML="";item.shuffled=shuffle(item.opts.map((text,i)=>({text,i})));item.shuffled.forEach((o,i)=>{const b=document.createElement("button");b.type="button";b.className="opt";b.textContent=String.fromCharCode(65+i)+"．"+o.text;b.addEventListener("click",()=>choose(o.i,b,item));$("options").appendChild(b)})}
+function choose(originalIndex,btn,item){if(locked)return;locked=true;const buttons=[...document.querySelectorAll(".opt")];buttons.forEach(b=>b.disabled=true);const correctPos=item.shuffled.findIndex(o=>o.i===item.answer);if(originalIndex===item.answer){score++;btn.classList.add("correct");$("feedback").className="fb show ok";$("feedback").innerHTML="<b>答對！</b>"}else{btn.classList.add("wrong");buttons[correctPos].classList.add("correct");$("feedback").className="fb show bad";$("feedback").innerHTML="<b>答錯。</b><br>正確答案："+String.fromCharCode(65+correctPos)+"．"+item.opts[item.answer]}$("score").textContent=score;$("next").disabled=false}
+$("next").addEventListener("click",()=>{if(!locked)return;if(index===order.length-1){$("quiz").style.display="none";$("result").style.display="block";$("finalScore").textContent=score+" / "+order.length;$("finalRate").textContent="正確率 "+Math.round(score/order.length*100)+"％"}else{index++;render();window.scrollTo({top:0,behavior:"smooth"})}});
+$("restart").addEventListener("click",start);start();
+</script></body></html>
