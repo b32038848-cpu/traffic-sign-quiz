@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>烘焙食品丙級｜原料之選用｜第51～70題</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f6f8;color:#202124;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+main{max-width:700px;margin:auto;padding:14px}
+.card{background:#fff;border:1px solid #d9dee5;border-radius:18px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.title{font-size:21px;font-weight:800}.sub{font-size:14px;color:#667085}
+.progress{height:9px;background:#e7ebef;border-radius:99px;overflow:hidden;margin:16px 0 20px}
+.fill{height:100%;width:0;background:#2563eb;transition:.2s}
+.qno{font-size:15px;font-weight:800;color:#2563eb;margin-bottom:8px}
+.q{font-size:20px;font-weight:800;line-height:1.55;margin-bottom:18px}
+.options{display:grid;gap:11px}
+.opt{width:100%;min-height:52px;border:1px solid #cfd6df;background:#fff;border-radius:12px;padding:14px;text-align:left;font-size:17px;line-height:1.45;cursor:pointer}
+.opt:disabled{cursor:default;color:#202124}
+.correct{background:#ecfdf3!important;border-color:#16a34a!important}
+.wrong{background:#fef2f2!important;border-color:#dc2626!important}
+.fb{display:none;margin-top:14px;padding:13px;border-radius:11px;font-size:16px;line-height:1.5}
+.fb.show{display:block}.ok{background:#ecfdf3;color:#166534}.bad{background:#fef2f2;color:#991b1b}
+.actions{display:flex;justify-content:flex-end;margin-top:14px}
+.next,.restart{border:0;border-radius:11px;padding:12px 20px;background:#2563eb;color:#fff;font-size:16px;font-weight:800;cursor:pointer}
+.next:disabled{opacity:.45}
+.result{display:none;text-align:center}
+.score{font-size:48px;font-weight:800;margin:15px 0}
+.rate{font-size:21px}
+.note{font-size:14px;color:#667085;line-height:1.6}
+@media(max-width:520px){.card{padding:15px}.title{font-size:19px}.q{font-size:18px}.opt{font-size:16px}}
+</style>
+</head>
+<body>
+<main>
+<section class="card" id="quiz">
+<div class="head"><div><div class="title">烘焙食品丙級｜原料之選用</div><div class="sub">第51～70題・共20題</div></div>
+<div class="sub">答對 <b id="score">0</b> 題</div></div>
+<div class="progress"><div class="fill" id="fill"></div></div>
+<div class="qno" id="qno"></div><div class="q" id="question"></div>
+<div class="options" id="options"></div>
+<div class="fb" id="feedback" aria-live="polite"></div>
+<div class="actions"><button class="next" id="next" type="button" disabled>下一題</button></div>
+</section>
+<section class="card result" id="result">
+<h1>作答完成</h1><div class="score" id="finalScore"></div><div class="rate" id="finalRate"></div>
+<p class="note">第51～70題已完成。題目與選項會隨機排列。</p>
+<button class="restart" id="restart" type="button">重新作答</button>
+</section>
+</main>
+<script>
+const QUESTIONS=[{"no": "51", "q": "稀釋奶油霜飾最適當的原料是？", "options": ["沙拉油", "水", "蛋", "稀糖漿"], "answer": 3}, {"no": "52", "q": "一般油炸用油發煙點應在？", "options": ["150～160℃", "160～170℃", "170～180℃", "200℃以上"], "answer": 3}, {"no": "53", "q": "為使小西餅達到鬆脆與擴展的目的，配方內可多使用？", "options": ["細砂糖", "糖粉", "糖漿", "麥芽糖"], "answer": 0}, {"no": "54", "q": "製作水果蛋糕應選用？", "options": ["新鮮水果", "罐頭水果", "蜜餞水果", "脫水水果"], "answer": 2}, {"no": "55", "q": "一般西點派皮或蛋糕用的奶酥底，配方內油脂應用？", "options": ["無水奶油或精製豬油", "瑪琪琳", "含水奶油", "沙拉油"], "answer": 0}, {"no": "56", "q": "做蘋果派餡的膠凍原料，通常採用？", "options": ["玉米澱粉", "動物膠", "洋菜粉", "甘藷粉"], "answer": 0}, {"no": "57", "q": "食品工廠用的油炸用油最好選用？", "options": ["沙拉油", "氫化油", "黃豆油", "奶油"], "answer": 1}, {"no": "58", "q": "麵包可使用的防腐劑為？", "options": ["丙酸鈣", "去水醋酸", "硼酸", "苯甲酸"], "answer": 0}, {"no": "59", "q": "蛋糕可使用的防腐劑為？", "options": ["苯甲酸", "丙酸鈉", "對羥苯甲酸丁酯", "異抗壞血酸"], "answer": 1}, {"no": "60", "q": "新鮮酵母貯存的最佳溫度為？", "options": ["−10～0℃", "2～10℃", "11～20℃", "21～27℃"], "answer": 1}, {"no": "61", "q": "製作麩皮或裸麥麵包，其主要原料的麵粉為？", "options": ["低筋麵粉", "中筋麵粉", "高筋麵粉", "小麥澱粉"], "answer": 2}, {"no": "62", "q": "下列哪一種油脂其烤酥性最大？", "options": ["奶油", "瑪琪琳", "沙拉油", "豬油"], "answer": 3}, {"no": "63", "q": "製作天使蛋糕時塔塔粉與鹽的用量總和為？", "options": ["0.5％", "1％", "1.5％", "2％"], "answer": 1}, {"no": "64", "q": "下列哪一種糖的甜度最高？", "options": ["乳糖", "麥芽糖", "蔗糖", "果糖"], "answer": 3}, {"no": "65", "q": "製做丹麥麵包或鬆餅，其裹入用油脂應採用？", "options": ["無水奶油", "瑪琪琳", "沙拉油", "豬油"], "answer": 1}, {"no": "66", "q": "麵粉如因貯存太久筋性受損，在做麵包時可酌量在配方內？", "options": ["增加食鹽", "增加水量", "增加脫脂奶粉", "增加乳化劑"], "answer": 2}, {"no": "67", "q": "製作高成分奶油海綿蛋糕為降低麵粉的筋性，配方內部分麵粉最好用？", "options": ["高筋麵粉", "小麥澱粉", "全麥粉", "玉米粉"], "answer": 1}, {"no": "68", "q": "乳化油在下列哪一項產品較不合適添加？", "options": ["奶油蛋糕", "海綿蛋糕", "戚風蛋糕", "小西餅"], "answer": 2}, {"no": "69", "q": "蛋糕所用的發粉應為？", "options": ["單重反應發粉", "雙重反應發粉", "小蘇打", "阿摩尼亞"], "answer": 1}, {"no": "70", "q": "欲增加小西餅鬆酥的性質可酌量增加？", "options": ["水", "蛋", "油", "鹽"], "answer": 2}];
+let order=[],index=0,score=0,locked=false;
+const $=id=>document.getElementById(id);
+function shuffle(a){const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x}
+function start(){order=shuffle(QUESTIONS);index=0;score=0;$("quiz").style.display="block";$("result").style.display="none";render()}
+function render(){locked=false;const item=order[index];$("qno").textContent="第"+item.no+"題";$("question").textContent=item.q;$("score").textContent=score;$("fill").style.width=(index/order.length*100)+"%";$("feedback").className="fb";$("feedback").textContent="";$("next").disabled=true;$("next").textContent=index===order.length-1?"查看成績":"下一題";$("options").innerHTML="";item.shuffled=shuffle(item.options.map((text,i)=>({text,i})));item.shuffled.forEach((o,i)=>{const b=document.createElement("button");b.type="button";b.className="opt";b.textContent=String.fromCharCode(65+i)+"．"+o.text;b.onclick=()=>choose(o.i,b,item);$("options").appendChild(b)})}
+function choose(originalIndex,btn,item){if(locked)return;locked=true;const buttons=[...document.querySelectorAll(".opt")];buttons.forEach(b=>b.disabled=true);const correctPos=item.shuffled.findIndex(o=>o.i===item.answer);if(originalIndex===item.answer){score++;btn.classList.add("correct");$("feedback").className="fb show ok";$("feedback").innerHTML="<b>答對！</b>"}else{btn.classList.add("wrong");buttons[correctPos].classList.add("correct");$("feedback").className="fb show bad";$("feedback").innerHTML="<b>答錯。</b><br>正確答案："+String.fromCharCode(65+correctPos)+"．"+item.options[item.answer]}$("score").textContent=score;$("next").disabled=false}
+$("next").onclick=()=>{if(!locked)return;if(index===order.length-1){$("quiz").style.display="none";$("result").style.display="block";$("finalScore").textContent=score+" / "+order.length;$("finalRate").textContent="正確率 "+Math.round(score/order.length*100)+"％"}else{index++;render();scrollTo({top:0,behavior:"smooth"})}};
+$("restart").onclick=start;start();
+</script>
+</body></html>
