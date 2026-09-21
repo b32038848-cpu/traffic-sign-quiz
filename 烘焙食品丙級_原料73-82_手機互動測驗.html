@@ -1,0 +1,40 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>烘焙食品丙級｜原料73～82手機互動測驗</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f4f6;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}.wrap{max-width:720px;margin:auto}
+header{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;padding:13px 16px;z-index:10}h1{font-size:19px;margin:0 0 4px}.sub{font-size:13px;color:#666}
+main{padding:14px 12px 80px}.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.qnum{font-weight:800;color:#666;margin-bottom:8px}.question{font-size:21px;font-weight:800;line-height:1.55;margin-bottom:18px}
+.option{display:block;width:100%;text-align:left;background:#fff;border:1px solid #d7d7d7;border-radius:12px;padding:14px;margin:10px 0;font-size:17px;line-height:1.45;cursor:pointer}
+.option:disabled{cursor:default}.correct{border:2px solid #17834d!important;background:#edf8f1!important}.wrong{border:2px solid #c73939!important;background:#fff0f0!important}
+.feedback{display:none;border-radius:12px;padding:14px;margin-top:14px;line-height:1.6}.feedback.correct{background:#edf8f1}.feedback.wrong{background:#fff0f0}
+.next,.retry{display:none;width:100%;border:0;border-radius:12px;padding:14px;font-size:17px;color:#fff;background:#222;margin-top:14px;cursor:pointer}.retry{display:block;background:#555}
+.score{font-size:36px;font-weight:900;margin:8px 0}.wrong-list{margin-top:18px}.wrong-item{border:1px solid #ddd;border-radius:12px;padding:14px;margin:10px 0;line-height:1.6}.wrong-q{font-weight:800}
+</style></head><body>
+<header><div class="wrap"><h1>烘焙食品丙級｜原料 73～82</h1><div class="sub" id="progress"></div></div></header>
+<main class="wrap"><section id="quiz" class="card"></section><section id="result" class="card" style="display:none"></section></main>
+<script>
+const QUESTIONS=[{"n": 73, "q": "欲生產良好的烘焙產品下列條件何者不是？", "opts": ["好的原料", "純熟的技術", "好的設備", "好的裝潢"], "ans": 3}, {"n": 74, "q": "夾心餅乾之夾心用油脂，通常須要數個月之保存、流通因此宜使用？", "opts": ["花生油", "沙拉油", "葵花油", "椰子油"], "ans": 3}, {"n": 75, "q": "烘焙用油脂的融點愈高，其口溶性？", "opts": ["愈好", "愈差", "無關", "差不多"], "ans": 1}, {"n": 76, "q": "食品衛生管理法規定烘焙油脂中合成抗氧化劑的總量不得超過？", "opts": ["50ppm", "200ppm", "400ppm", "0.1％"], "ans": 1}, {"n": 77, "q": "麵粉之蛋白質組成成分中缺乏？因此必須添加奶粉。", "opts": ["丙苯胺酸", "離胺酸", "麩胺酸", "半胱胺酸"], "ans": 1}, {"n": 78, "q": "不是派餡用來做膠凍原料有？", "opts": ["玉米澱粉", "動物膠", "雞蛋", "果膠"], "ans": 3}, {"n": 79, "q": "製作蛋糕道納司所使用之膨脹劑是？", "opts": ["酵母", "發粉（B.P）", "油脂", "小蘇打（B.S）"], "ans": 1}, {"n": 80, "q": "製作蛋白霜飾所需要之主原料是？", "opts": ["蛋黃", "全蛋", "蛋白和糖", "蛋黃和糖"], "ans": 2}, {"n": 81, "q": "一個中型雞蛋去殼後約重？", "opts": ["50公克", "70公克", "80公克", "100公克"], "ans": 0}, {"n": 82, "q": "麵粉中的蛋白質每增加1％，則吸水量約增加？", "opts": ["2％", "4％", "6％", "不變"], "ans": 0}],labels=["①","②","③","④"];let cur=0,score=0,answered=false,wrong=[];
+const quiz=document.getElementById("quiz"),result=document.getElementById("result"),progress=document.getElementById("progress");
+function esc(s){return String(s).replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[c]))}
+function render(){
+ answered=false;const q=QUESTIONS[cur];progress.textContent=`第 ${cur+1}／${QUESTIONS.length} 題`;
+ quiz.style.display="block";result.style.display="none";
+ quiz.innerHTML=`<div class="qnum">原題第 ${q.n} 題</div><div class="question">${esc(q.q)}</div>
+ <div id="opts">${q.opts.map((o,i)=>`<button class="option" data-i="${i}">${labels[i]} ${esc(o)}</button>`).join("")}</div>
+ <div id="fb" class="feedback"></div><button id="next" class="next">${cur===QUESTIONS.length-1?"查看成績":"下一題 →"}</button>`;
+ document.querySelectorAll(".option").forEach(b=>b.onclick=()=>answer(+b.dataset.i));document.getElementById("next").onclick=next;
+}
+function answer(ch){
+ if(answered)return;answered=true;const q=QUESTIONS[cur],bs=[...document.querySelectorAll(".option")],fb=document.getElementById("fb");bs.forEach(b=>b.disabled=true);
+ if(ch===q.ans){score++;bs[ch].classList.add("correct");fb.className="feedback correct";fb.innerHTML=`<strong>答對！</strong><br>正確答案：${labels[q.ans]} ${esc(q.opts[q.ans])}`}
+ else{bs[ch].classList.add("wrong");bs[q.ans].classList.add("correct");wrong.push({n:q.n,q:q.q,a:q.opts[q.ans]});fb.className="feedback wrong";fb.innerHTML=`<strong>答錯。</strong><br>正確答案：${labels[q.ans]} ${esc(q.opts[q.ans])}`}
+ fb.style.display="block";document.getElementById("next").style.display="block";
+}
+function next(){if(!answered)return;if(cur===QUESTIONS.length-1)showResult();else{cur++;scrollTo({top:0,behavior:"smooth"});render()}}
+function showResult(){
+ quiz.style.display="none";result.style.display="block";progress.textContent="測驗完成";let wh="";
+ if(!wrong.length)wh="<p><strong>10 題全部答對。</strong></p>";else wh=`<div class="wrong-list"><h3>答錯題目（${wrong.length}題）</h3>${wrong.map((x,i)=>`<div class="wrong-item"><div class="wrong-q">${i+1}．原題第 ${x.n} 題：${esc(x.q)}</div><div><strong>正確答案：</strong>${esc(x.a)}</div></div>`).join("")}</div>`;
+ result.innerHTML=`<div>測驗完成</div><div class="score">${score}／10</div><div>答對率：${Math.round(score/10*100)}%</div>${wh}<button class="retry" onclick="restart()">重新測驗</button>`;
+}
+function restart(){cur=0;score=0;wrong=[];scrollTo({top:0,behavior:"smooth"});render()}render();
+</script></body></html>
