@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>烘焙食品丙級｜原料1～70 線上測驗</title>
+<title>烘焙食品丙級｜原料1～70 正式測驗</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f5f6f8;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif;color:#222}
@@ -25,7 +25,7 @@ button{border:0;border-radius:10px;padding:12px 16px;font-size:16px;cursor:point
 .actions button{flex:1}
 #result{display:none}
 .score{font-size:28px;font-weight:800;margin:8px 0}
-.review{border-top:1px solid #eee;padding-top:10px;margin-top:10px}
+.review{border-top:1px solid #eee;padding-top:10px;margin-top:10px;text-align:left;line-height:1.65}
 .correct{font-weight:700}
 </style>
 </head>
@@ -36,7 +36,6 @@ button{border:0;border-radius:10px;padding:12px 16px;font-size:16px;cursor:point
 <div id="result" class="card"></div>
 </main>
 <div class="actions"><div class="wrap">
-<button class="secondary" onclick="resetQuiz()">重新作答</button>
 <button class="primary" onclick="submitQuiz()">交卷計分</button>
 </div></div>
 <script>
@@ -58,18 +57,45 @@ function updateProgress(){
 }
 function submitQuiz(){
   let score=0, answered=0;
-  const reviews=[];
+  const wrongReviews=[];
   questions.forEach(x=>{
     const picked=document.querySelector(`input[name="q${x.n}"]:checked`);
     if(picked) answered++;
     const ok=picked && picked.value===x.ans[0];
-    if(ok) score++;
-    reviews.push(`<div class="review"><b>第 ${x.n} 題</b>：${ok?'✓ 答對':'✗ 答錯／未作答'}<br>正確答案：<span class="correct">${x.ans}</span></div>`);
+    if(ok) {
+      score++;
+    } else {
+      const studentAnswer = picked ? picked.value + '（已作答）' : '未作答';
+      wrongReviews.push(`<div class="review"><b>第 ${x.n} 題</b>：${picked ? '✗ 答錯' : '✗ 未作答'}<br>你的答案：${studentAnswer}<br>正確答案：<span class="correct">${x.ans}</span></div>`);
+    }
   });
   result.style.display='block';
-  result.innerHTML=`<div class="score">${score} / 70</div><div>答題數：${answered} / 70</div>${reviews.join('')}`;
+  const wrongTitle = wrongReviews.length
+    ? `<h3 style="text-align:left;margin:20px 0 8px">錯誤題目與正確答案（${wrongReviews.length} 題）</h3>${wrongReviews.join('')}`
+    : `<div class="correct" style="margin-top:18px">全部答對，沒有錯誤題目。</div>`;
+  result.innerHTML=`
+    <div>測驗完成</div>
+    <div class="score">${score} / 70</div>
+    <div>答題數：${answered} / 70</div>
+    ${wrongTitle}
+    <div class="teacher-box">
+      <button class="teacher-btn" onclick="unlockRetest()">教師解鎖重測</button>
+      <div class="lock-note">分數會停留在此頁；經教師檢查後輸入密碼才能重新測驗。</div>
+    </div>
+  `;
   window.scrollTo({top:0,behavior:'smooth'});
 }
+function unlockRetest(){
+  const password = prompt('請輸入教師重測密碼：');
+  if (password === '0217') {
+    if (confirm('密碼正確。確定要清除本次成績並重新測驗嗎？')) {
+      resetQuiz();
+    }
+  } else if (password !== null) {
+    alert('密碼錯誤，無法重新測驗。');
+  }
+}
+
 function resetQuiz(){
   if(confirm('確定要清除目前答案並重新開始嗎？')){render(); result.style.display='none'; result.innerHTML=''; window.scrollTo({top:0,behavior:'smooth'});}
 }
