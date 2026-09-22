@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>烘焙食品丙級｜原料71-90正式手機試題</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f4f6;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+.wrap{max-width:760px;margin:auto}header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #ddd;padding:12px 16px}
+h1{font-size:19px;margin:0 0 4px}.sub{font-size:13px;color:#666}main{padding:14px 12px 80px}
+.card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.06)}.notice{line-height:1.7;background:#f7f7f7;border-radius:12px;padding:14px;margin-bottom:16px;font-size:15px}
+.qhead{display:flex;justify-content:space-between;color:#666;font-weight:700;font-size:14px;margin-bottom:10px}
+.question{font-size:21px;font-weight:800;line-height:1.55;margin-bottom:18px}
+.option{display:block;width:100%;text-align:left;background:#fff;border:1px solid #d6d6d6;border-radius:12px;padding:14px;margin:10px 0;font-size:17px;line-height:1.5;cursor:pointer}
+.option.selected{border:2px solid #222;background:#f4f4f4}
+.nav{display:flex;gap:10px;margin-top:18px}.btn{border:0;border-radius:12px;padding:14px 16px;font-size:17px;cursor:pointer}
+.prev{background:#eee;color:#222;flex:1}.next{background:#222;color:#fff;flex:1}.submit{background:#7a2e2e;color:#fff;width:100%;margin-top:18px}
+.btn:disabled{opacity:.45;cursor:not-allowed}.progressbar{height:8px;background:#e8e8e8;border-radius:99px;overflow:hidden;margin:10px 0 18px}
+.progressfill{height:100%;background:#222}.score{font-size:40px;font-weight:900;margin:8px 0}
+.wrong-item{border:1px solid #ddd;border-radius:12px;padding:14px;margin:10px 0;line-height:1.65}.wrong-q{font-weight:800}
+.teacher-box{margin-top:22px;padding-top:18px;border-top:1px solid #ddd}.teacher-row{display:flex;gap:8px}
+.teacher-row input{flex:1;min-width:0;border:1px solid #ccc;border-radius:10px;padding:13px;font-size:16px}
+.unlock{background:#555;color:#fff}.msg{margin-top:10px;font-size:14px}.err{color:#a32727}.small{font-size:13px;color:#777;line-height:1.5;margin-top:10px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>烘焙食品丙級｜原料 71～90 正式手機試題</h1><div class="sub" id="status">尚未開始</div></div></header>
+<main class="wrap">
+<section id="start" class="card">
+<h2>原料 71～90 測驗</h2>
+<div class="notice">共 20 題。請完成全部題目後再交卷。可使用上一題／下一題修改答案。<br>
+交卷後顯示<strong>分數、答對率、全部錯誤題目＋正確答案</strong>。<br>
+<strong>學生不能自行重新測驗，必須由老師輸入密碼 0217 才能解鎖。</strong></div>
+<button class="btn next" id="startBtn" style="width:100%">開始測驗</button>
+<div class="small">本頁會嘗試阻止未完成測驗時離開，但瀏覽器無法保證完全禁止關閉分頁或切換網站。</div>
+</section>
+<section id="quiz" class="card hidden"></section>
+<section id="result" class="card hidden"></section>
+</main>
+<script>
+const QUESTIONS=[{"n":71,"q":"依 CNS 所謂全麥麵包，其全麥麵粉的用量應為？","opts":["20％","30％","40％","50％以上"],"ans":0},{"n":72,"q":"使用蒸發奶水代替鮮奶時，應照鮮奶用量？","opts":["等量使用","1/3 蒸發奶水加 2/3 水","2/3 蒸發奶水加 1/3 水","1/2 蒸發奶水加 1/2 水"],"ans":3},{"n":73,"q":"欲生產良好的烘焙產品下列條件何者不是？","opts":["好的原料","純熟的技術","好的設備","好的裝潢"],"ans":3},{"n":74,"q":"夾心餅乾之夾心用油脂，通常需要數個月之保存、流通，因此宜使用？","opts":["花生油","沙拉油","葵花油","椰子油"],"ans":3},{"n":75,"q":"烘焙用油脂的融點愈高，其口溶性？","opts":["愈好","愈差","無關","差不多"],"ans":1},{"n":76,"q":"食品衛生管理法規定烘焙油脂中合成抗氧化劑的總量不得超過？","opts":["50 ppm","200 ppm","400 ppm","0.1％"],"ans":1},{"n":77,"q":"麵粉之蛋白質組成成分中缺乏？","opts":["丙苯胺酸","離胺酸","麩胺酸","半胱胺酸"],"ans":1},{"n":78,"q":"不是派餡用來做膠凍原料有？","opts":["玉米澱粉","動物膠","雞蛋","果膠"],"ans":3},{"n":79,"q":"製作蛋糕道納司所使用之膨脹劑是？","opts":["酵母","發粉（B.P）","油脂","小蘇打（B.S）"],"ans":1},{"n":80,"q":"製作蛋白霜飾所需要之主原料是？","opts":["蛋黃","全蛋","蛋白和糖","蛋黃和糖"],"ans":2},{"n":81,"q":"一個中型雞蛋去殼後約重？","opts":["40公克","50公克","60公克","70公克"],"ans":1},{"n":82,"q":"麵粉中的蛋白質每增加1％，則吸水量約增加？","opts":["1％","2％","3％","4％"],"ans":1},{"n":83,"q":"製作轉化糖漿使用何種糖原料？","opts":["砂糖","麥芽糖","葡萄糖","果糖"],"ans":0},{"n":84,"q":"烘焙用乾酪（Cheese）原料，其主要的組成成分為？","opts":["脂肪","蛋白質","醣類","水分"],"ans":1},{"n":85,"q":"烘焙產品使用何者糖，在其烤焙時較易產生梅納反應？","opts":["砂糖","麥芽糖","果糖","乳糖"],"ans":2},{"n":86,"q":"下列何種油脂含有反式脂肪酸？","opts":["豬油","牛油","橄欖油","花生油"],"ans":1},{"n":87,"q":"下列材料中何者不屬於膨脹劑？","opts":["小蘇打","發粉","酵母","可可粉"],"ans":3},{"n":88,"q":"下列何種小麥適合製作海綿蛋糕？","opts":["硬質小麥","軟質小麥","杜蘭小麥","高筋小麥"],"ans":1},{"n":89,"q":"下列何種性質不是為小麥分類的依據？","opts":["麥粒硬度","麥粒顏色","麥粒蛋白質含量","破損澱粉"],"ans":3},{"n":90,"q":"小麥胚乳的主要色素為？","opts":["葉綠素","花青素","葉黃素","胡蘿蔔素"],"ans":3}];
+const LABELS=["①","②","③","④"];
+const PASSWORD="0217";
+const KEY="baking71_90_formal_v2";
+let state={started:false,current:0,answers:{},finished:false,score:0,wrong:[]};
+const $=id=>document.getElementById(id);
+
+function esc(s){return String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function load(){try{return JSON.parse(localStorage.getItem(KEY));}catch(e){return null;}}
+function statusText(){return state.started ? `第 ${state.current+1}／20 題｜已作答 ${Object.keys(state.answers).length}／20` : "尚未開始";}
+
+function renderQuestion(){
+ const q=QUESTIONS[state.current]; $("status").textContent=statusText();
+ $("start").classList.add("hidden");$("result").classList.add("hidden");$("quiz").classList.remove("hidden");
+ const selected=state.answers[state.current];
+ $("quiz").innerHTML=`
+ <div class="qhead"><span>原題第 ${q.n} 題</span><span>${state.current+1} / 20</span></div>
+ <div class="progressbar"><div class="progressfill" style="width:${(state.current+1)/20*100}%"></div></div>
+ <div class="question">${esc(q.q)}</div>
+ <div id="opts">${q.opts.map((o,i)=>`<button class="option ${selected===i?"selected":""}" data-i="${i}">${LABELS[i]} ${esc(o)}</button>`).join("")}</div>
+ <div class="nav"><button class="btn prev" id="prev" ${state.current===0?"disabled":""}>← 上一題</button>
+ <button class="btn next" id="next">${state.current===19?"檢查作答":"下一題 →"}</button></div>
+ <button class="btn submit" id="submit" style="display:none">交卷</button>
+ <div class="small">目前可修改答案；完成第20題後才能交卷。</div>`;
+ document.querySelectorAll(".option").forEach(b=>b.onclick=()=>{state.answers[state.current]=Number(b.dataset.i);save();renderQuestion();});
+ $("prev").onclick=()=>{if(state.current>0){state.current--;save();renderQuestion();window.scrollTo(0,0);}};
+ $("next").onclick=()=>{
+   if(state.current<19){state.current++;save();renderQuestion();window.scrollTo(0,0);}
+   else if(Object.keys(state.answers).length===20){$("submit").style.display="block";}
+   else{const miss=[];QUESTIONS.forEach((q,i)=>{if(state.answers[i]===undefined)miss.push(q.n);});alert("尚有未作答題目："+miss.join("、")+"，請完成後再交卷。");}
+ };
+ $("submit").onclick=finish;
+}
+function finish(){
+ if(Object.keys(state.answers).length!==20){alert("尚未完成全部20題。");return;}
+ let score=0,wrong=[];QUESTIONS.forEach((q,i)=>{if(state.answers[i]===q.ans)score++;else wrong.push({n:q.n,q:q.q,a:q.opts[q.ans]});});
+ state.finished=true;state.score=score;state.wrong=wrong;save();showResult();
+}
+function showResult(){
+ $("status").textContent="測驗完成｜成績已保留";$("start").classList.add("hidden");$("quiz").classList.add("hidden");$("result").classList.remove("hidden");
+ let list=state.wrong.length===0?"<p><strong>20 題全部答對！</strong></p>":`<h3>錯誤題目整理（${state.wrong.length} 題）</h3>${state.wrong.map((x,i)=>`<div class="wrong-item"><div class="wrong-q">${i+1}．原題第 ${x.n} 題：${esc(x.q)}</div><div><strong>正確答案：</strong>${esc(x.a)}</div></div>`).join("")}`;
+ $("result").innerHTML=`<h2>測驗完成</h2><div class="score">${state.score}／20</div><div>答對率：${Math.round(state.score/20*100)}%</div>${list}
+ <div class="teacher-box"><h3>老師解鎖重測</h3><div class="small">學生沒有重新測驗按鈕。</div><div class="teacher-row"><input id="pw" type="password" inputmode="numeric" maxlength="4" placeholder="輸入老師密碼"><button class="btn unlock" id="unlock">解鎖</button></div><div id="msg" class="msg"></div></div>`;
+ $("unlock").onclick=unlock;$("pw").onkeydown=e=>{if(e.key==="Enter")unlock();};
+}
+function unlock(){
+ const msg=$("msg");if($("pw").value.trim()!==PASSWORD){msg.className="msg err";msg.textContent="密碼錯誤，無法重新測驗。";return;}
+ localStorage.removeItem(KEY);state={started:true,current:0,answers:{},finished:false,score:0,wrong:[]};save();renderQuestion();
+}
+$("startBtn").onclick=()=>{state={started:true,current:0,answers:{},finished:false,score:0,wrong:[]};save();renderQuestion();};
+window.addEventListener("beforeunload",e=>{if(state.started&&!state.finished){e.preventDefault();e.returnValue="";}});
+document.addEventListener("contextmenu",e=>e.preventDefault());
+function init(){const s=load();if(s&&s.finished){state=s;showResult();}else if(s&&s.started){state=s;renderQuestion();}}
+init();
+</script>
+</body></html>
