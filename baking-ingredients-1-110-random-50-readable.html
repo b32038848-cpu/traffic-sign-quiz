@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<title>烘焙食品丙級｜原料1-110 隨機50題正式測驗</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#f3f4f6;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+body{user-select:text;-webkit-user-select:text}
+.wrap{max-width:760px;margin:auto}
+header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #ddd;padding:12px 16px}
+h1{font-size:19px;margin:0 0 4px}.sub{font-size:13px;color:#666}
+main{padding:14px 12px 90px}
+.card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.start-title{font-size:24px;font-weight:900;margin-bottom:12px}
+.notice{background:#f7f7f7;border-radius:12px;padding:14px;line-height:1.7;margin-bottom:16px}
+.qhead{display:flex;justify-content:space-between;gap:10px;color:#666;font-size:14px;font-weight:700;margin-bottom:10px}
+.progress{height:8px;background:#e7e7e7;border-radius:99px;overflow:hidden;margin:10px 0 18px}
+.fill{height:100%;background:#222}
+.question{font-size:21px;font-weight:800;line-height:1.55;margin-bottom:12px;user-select:text;-webkit-user-select:text}
+.option{display:block;width:100%;text-align:left;background:#fff;border:1px solid #d6d6d6;border-radius:12px;padding:14px;margin:10px 0;font-size:17px;line-height:1.5;cursor:pointer;user-select:text;-webkit-user-select:text;touch-action:manipulation}
+.option.selected{border:2px solid #222;background:#f4f4f4}
+.nav{display:flex;gap:10px;margin-top:18px}
+.btn{border:0;border-radius:12px;padding:14px 16px;font-size:17px;cursor:pointer}
+.prev{background:#eee;color:#222;flex:1}.next{background:#222;color:#fff;flex:1}
+.submit{background:#6b2e2e;color:#fff;width:100%;margin-top:16px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.score{font-size:40px;font-weight:900;margin:8px 0}
+.wrong-list{margin-top:18px}.wrong-item{border:1px solid #ddd;border-radius:12px;padding:14px;margin:10px 0;line-height:1.65}
+.wrong-q{font-weight:800}
+.small{font-size:13px;color:#777;line-height:1.6;margin-top:10px}.speak{background:#eee;color:#222;width:100%;margin:0 0 14px}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>烘焙食品丙級｜原料 1～110 隨機 50 題</h1>
+<div class="sub" id="status">尚未開始</div>
+</div></header>
+<main class="wrap">
+<section id="start" class="card">
+<div class="start-title">原料 1～110 隨機 50 題測驗</div>
+<div class="notice">
+題庫共有 <strong>110 題</strong>，本次測驗會從中<strong>隨機抽出 50 題</strong>，每題不重複。<br>
+一次只呈現一題；作答過程不顯示答案。<br>
+可以使用上一題／下一題修改答案；完成全部 50 題後才能交卷。<br>
+交卷後顯示<strong>總分、答對率、全部錯誤題目與正確答案</strong>。<br>
+<strong>學生完成本次測驗後不能自行重新測驗。</strong>
+</div>
+<button class="btn next" id="startBtn" style="width:100%">開始測驗</button>
+<div class="small">重新整理會保留目前作答進度；交卷後結果鎖定。</div>
+</section>
+<section id="quiz" class="card hidden"></section>
+<section id="result" class="card hidden"></section>
+</main>
+<script>
+const QUESTIONS=[{"n":1,"q":"下列材料中，甜度最低的是？","opts":["果糖","砂糖","麥芽糖","乳糖"],"ans":3},{"n":2,"q":"台灣目前使用的白油，每桶重量約為？","opts":["5公斤","10公斤","16公斤","30公斤"],"ans":2},{"n":3,"q":"奶粉的重量2.2磅相當於公制單位的？","opts":["半公斤","1公斤","1.5公斤","4.4公斤"],"ans":1},{"n":4,"q":"一般天使蛋糕的主要原料為？","opts":["太白粉","蛋白","乳酪","鮮奶油"],"ans":1},{"n":5,"q":"派皮用的麵粉應以那種麵粉為宜？","opts":["低筋粉","中筋粉","高筋粉","太白粉"],"ans":1},{"n":6,"q":"塔塔粉是屬？","opts":["中性鹽","酸性鹽","鹼性鹽","低鹼性鹽"],"ans":1},{"n":7,"q":"不需要使用酵母的烘焙產品是？","opts":["包子","饅頭","麵包","重奶油蛋糕"],"ans":3},{"n":8,"q":"蛋黃中含量最多的成分？","opts":["水","油脂","蛋白質","灰分"],"ans":0},{"n":9,"q":"蛋白成分除了水以外含量最多的是？","opts":["油脂","葡萄糖","灰分","蛋白質"],"ans":3},{"n":10,"q":"一般最適合於麵包製作的水是？","opts":["軟水","蒸餾水","鹼水","中硬度水"],"ans":3},{"n":11,"q":"麵包配方中糖含量（依烘焙百分比）佔20％以上的是？","opts":["土司麵包","法國麵包","甜麵包","全麥麵包"],"ans":2},{"n":12,"q":"一般以中種法製作麵包，中種麵糰的原料不含？","opts":["鹽","酵母","麵粉","水"],"ans":0},{"n":13,"q":"以下那一種原料不屬於化學膨大劑？","opts":["發粉","小蘇打","酵母","阿摩尼亞（碳酸氫銨）"],"ans":2},{"n":14,"q":"無水奶油是來自於下列那種原料？","opts":["牛肉","豬肉","牛奶","植物油"],"ans":2},{"n":15,"q":"油脂麵粉與水先煮沸糊化之產品是？","opts":["油條","奶油空心餅","甜麵包","小西餅"],"ans":1},{"n":16,"q":"下列烘焙用原料較不常使用的是？","opts":["新鮮奶油","全脂奶粉","脫脂奶粉","煉乳"],"ans":3},{"n":17,"q":"下列那種油脂約含有10％的氣體（氮氣）？","opts":["清香油","瑪琪琳","雪白乳化油","奶油"],"ans":2},{"n":18,"q":"沒有分析檢驗的情況下，下列何者不是由外觀判斷油炸油的劣化？","opts":["顏色加深","黏度增加","有蟹泡並提前冒煙","酸價為1.0"],"ans":3},{"n":19,"q":"麵包配方中何種材料添加愈多發酵愈快？","opts":["油脂","蛋黃","酵母","細砂糖"],"ans":2},{"n":20,"q":"國產麵粉每袋的重量以何種最多？","opts":["22磅","30磅","22公斤","30公斤"],"ans":2},{"n":21,"q":"海綿蛋糕配方主要原料為？","opts":["細砂糖、麵粉、鹽、牛奶","麵粉、沙拉油、水","麵粉、細砂糖、發粉","麵粉、細砂糖、蛋"],"ans":3},{"n":22,"q":"下列何種材料可提高小西餅產品的脆性？","opts":["鹽","水","糖","蛋"],"ans":2},{"n":23,"q":"若用快速酵母粉取代新鮮酵母時，快速酵母粉的用量應為新鮮酵母的？","opts":["等量","1/3","1/2","2倍"],"ans":1},{"n":24,"q":"製作某種麵包，使用新鮮酵母4％，今因某種原因需改用快速即發酵母粉，用量應為？","opts":["4％","2％","1.6％","1.33％"],"ans":3},{"n":25,"q":"配方內使用60％鮮奶製作麵包，比用4％的脫脂奶粉作麵包，其實際奶粉固形量？","opts":["較少","相同","較多","大同小異"],"ans":2},{"n":26,"q":"下列何種原料不是製作奶油布丁派餡之凝凍原料？","opts":["蛋","動物膠","玉米澱粉","奶油水"],"ans":3},{"n":27,"q":"蛋白在烘焙原料中屬於那一種性質？","opts":["柔性原料","韌性原料","酸性原料","中性原料"],"ans":1},{"n":28,"q":"蛋白的含水量為？","opts":["50％","75％","88％","95％"],"ans":2},{"n":29,"q":"巧克力融化加熱方式，最好使用？","opts":["直火加熱","隔水加熱","烤爐加熱","自然融化"],"ans":1},{"n":30,"q":"蛋黃成分中所含的油脂具有？","opts":["乳化作用","起泡作用","安定作用","膨大作用"],"ans":0},{"n":31,"q":"製作蛋糕時，奶粉應屬於？","opts":["柔性材料","鹼性材料","韌性材料","芳香材料"],"ans":2},{"n":32,"q":"奶水中含固形物（奶粉）量為？","opts":["4％","8％","12％","16％"],"ans":2},{"n":33,"q":"做蘇打餅乾應注意油脂的？","opts":["安定性好、不易酸敗","打發性好","乳化效果好","可塑性好"],"ans":0},{"n":34,"q":"蒸發奶水含固形物為？","opts":["40％","35％","30％","26％"],"ans":3},{"n":35,"q":"麵包配方使用2％的細砂糖如將糖量增加至4％，則發酵時間會？","opts":["縮短很多","縮短很少","延長","不變"],"ans":3},{"n":36,"q":"麵包配方中正常用糖量如從5％增加為10％，則烤好後的麵包最明顯的不同是？","opts":["表皮顏色變淺","表皮變薄而軟","表皮顏色加深","表皮變粗糙"],"ans":2},{"n":37,"q":"做麵包時配方中油脂量高，可使麵包表皮？","opts":["顏色深","厚","柔軟","硬"],"ans":2},{"n":38,"q":"蛋黃之水分含量為？","opts":["30～34％","35～39％","40～44％","50～55％"],"ans":3},{"n":39,"q":"一般奶油或瑪琪琳含水量約為？","opts":["6～10％","11～13％","14～22％","24～30％"],"ans":2},{"n":40,"q":"乳化劑在蛋糕中的功能是？","opts":["使蛋糕風味佳","使蛋糕顏色加深","融和配方內水和油使組織細膩","縮短攪拌時間減少人工"],"ans":2},{"n":41,"q":"麵粉中添加活性麵筋粉每增加1％時，則麵粉之吸水量約可提高？","opts":["1％","1.5％","2％","2.5％"],"ans":1},{"n":42,"q":"新鮮酵母(compressed yeast)水分含量約為？","opts":["45～50％","55～60％","65～70％","80～85％"],"ans":2},{"n":43,"q":"一般烘焙人員所稱的「重曹」(baking soda)是指？","opts":["發粉","蘇打粉","酵母","酵素"],"ans":1},{"n":44,"q":"沙拉油必須密封保存，是因為？","opts":["遇空氣易於變色","含不飽和脂肪酸易受氧化酸敗","易揮發","易感染其他不良味道"],"ans":1},{"n":45,"q":"雞蛋中水分含量？","opts":["70％","75％","80％","85％"],"ans":1},{"n":46,"q":"乳化劑在麵包中的功能？","opts":["增加麵包風味","使麵包柔軟不易老化","防止麵包發黴","促進酵母活力"],"ans":1},{"n":47,"q":"全蛋的固形物為？","opts":["10％","15％","25％","35％"],"ans":2},{"n":48,"q":"麵包的組織鬆軟好吃，主要是在製作的過程中加入了？","opts":["酵母","發粉","小蘇打","阿摩尼亞（碳酸氫銨等）"],"ans":0},{"n":49,"q":"要使麵包長時間保持柔軟，可在配方內添加？","opts":["膨大劑","麥芽酵素","乳化劑","丙酸鈣"],"ans":2},{"n":50,"q":"控制發酵最有效的原料是？","opts":["食鹽","糖","改良劑","奶粉"],"ans":0},{"n":51,"q":"稀釋奶油霜飾最適當的原料是？","opts":["沙拉油","水","蛋","稀糖漿"],"ans":3},{"n":52,"q":"一般油炸用油發煙點應在？","opts":["150～160℃","160～170℃","170～180℃","200℃以上"],"ans":3},{"n":53,"q":"為使小西餅達到鬆脆與擴展的目的，配方內可多使用？","opts":["細砂糖","糖粉","糖漿","麥芽糖"],"ans":0},{"n":54,"q":"製作水果蛋糕應選用？","opts":["新鮮水果","罐頭水果","蜜餞水果","脫水水果"],"ans":2},{"n":55,"q":"一般西點派皮或蛋糕用的奶酥底，配方內油脂應用？","opts":["無水奶油或精製豬油","瑪琪琳","含水奶油","沙拉油"],"ans":0},{"n":56,"q":"做蘋果派餡的膠凍原料，通常採用？","opts":["玉米澱粉","動物膠","洋菜粉","甘藷粉"],"ans":0},{"n":57,"q":"食品工廠用的油炸用油最好選用？","opts":["沙拉油","氫化油","黃豆油","奶油"],"ans":1},{"n":58,"q":"麵包可使用的防腐劑為？","opts":["丙酸鈣","去水醋酸","硼酸","苯甲酸"],"ans":0},{"n":59,"q":"蛋糕可使用的防腐劑為？","opts":["苯甲酸","丙酸鈉","對羥苯甲酸丁酯","異抗壞血酸"],"ans":1},{"n":60,"q":"新鮮酵母貯存的最佳溫度為？","opts":["-10～0℃","2～10℃","11～20℃","21～27℃"],"ans":1},{"n":61,"q":"製作麩皮或裸麥麵包，其主要原料的麵粉為？","opts":["高筋麵粉","洗筋粉","粉心粉","低筋麵粉"],"ans":0},{"n":62,"q":"下列那一種油脂其烤酥性最大？","opts":["純奶油","人造奶油","豬油","雪白油"],"ans":2},{"n":63,"q":"製作天使蛋糕時塔塔粉與鹽的用量總和為？","opts":["0.1％","1％","5％","10％"],"ans":1},{"n":64,"q":"下列那一種糖的甜度最高？","opts":["果糖","轉化糖漿","砂糖","葡萄糖"],"ans":0},{"n":65,"q":"製做丹麥麵包或鬆餅，其裹入用油脂應採用？","opts":["豬油","雪白奶油","白油（烤酥油）","瑪琪琳"],"ans":3},{"n":66,"q":"麵粉如因貯存太久筋性受損，在做麵包時可酌量在配方內？","opts":["增加鹽的用量","減少糖的用量","使用脫脂奶粉","增加乳化劑"],"ans":2},{"n":67,"q":"製作高成分奶油海綿蛋糕為降低麵粉的筋性，配方內部分麵粉最好用？","opts":["全脂奶粉","太白粉","小麥澱粉","乳清粉"],"ans":2},{"n":68,"q":"乳化油在下列那一項產品較不合適添加？","opts":["戚風蛋糕","麵包","海綿蛋糕","奶油霜飾"],"ans":0},{"n":69,"q":"蛋糕所用的發粉應為？","opts":["快性發粉","次快性發粉","雙重反應發粉","慢性發粉"],"ans":2},{"n":70,"q":"欲增加小西餅鬆酥的性質可酌量增加？","opts":["水","油","糖","高筋麵粉"],"ans":1},{"n":71,"q":"依 CNS 所謂全麥麵包，其全麥麵粉的用量應為？","opts":["20％","30％","40％","50％以上"],"ans":0},{"n":72,"q":"使用蒸發奶水代替鮮奶時，應照鮮奶用量？","opts":["等量使用","1/3 蒸發奶水加 2/3 水","2/3 蒸發奶水加 1/3 水","1/2 蒸發奶水加 1/2 水"],"ans":3},{"n":73,"q":"欲生產良好的烘焙產品下列條件何者不是？","opts":["好的原料","純熟的技術","好的設備","好的裝潢"],"ans":3},{"n":74,"q":"夾心餅乾之夾心用油脂，通常需要數個月之保存、流通，因此宜使用？","opts":["花生油","沙拉油","葵花油","椰子油"],"ans":3},{"n":75,"q":"烘焙用油脂的融點愈高，其口溶性？","opts":["愈好","愈差","無關","差不多"],"ans":1},{"n":76,"q":"食品衛生管理法規定烘焙油脂中合成抗氧化劑的總量不得超過？","opts":["50 ppm","200 ppm","400 ppm","0.1％"],"ans":1},{"n":77,"q":"麵粉之蛋白質組成成分中缺乏？","opts":["丙苯胺酸","離胺酸","麩胺酸","半胱胺酸"],"ans":1},{"n":78,"q":"不是派餡用來做膠凍原料有？","opts":["玉米澱粉","動物膠","雞蛋","果膠"],"ans":3},{"n":79,"q":"製作蛋糕道納司所使用之膨脹劑是？","opts":["酵母","發粉（B.P）","油脂","小蘇打（B.S）"],"ans":1},{"n":80,"q":"製作蛋白霜飾所需要之主原料是？","opts":["蛋黃","全蛋","蛋白和糖","蛋黃和糖"],"ans":2},{"n":81,"q":"一個中型雞蛋去殼後約重？","opts":["40公克","50公克","60公克","70公克"],"ans":1},{"n":82,"q":"麵粉中的蛋白質每增加1％，則吸水量約增加？","opts":["1％","2％","3％","4％"],"ans":1},{"n":83,"q":"製作轉化糖漿使用何種糖原料？","opts":["砂糖","麥芽糖","葡萄糖","果糖"],"ans":0},{"n":84,"q":"烘焙用乾酪（Cheese）原料，其主要的組成成分為？","opts":["脂肪","蛋白質","醣類","水分"],"ans":1},{"n":85,"q":"烘焙產品使用何者糖，在其烤焙時較易產生梅納反應？","opts":["砂糖","麥芽糖","果糖","乳糖"],"ans":2},{"n":86,"q":"下列何種油脂含有反式脂肪酸？","opts":["豬油","牛油","橄欖油","花生油"],"ans":1},{"n":87,"q":"下列材料中何者不屬於膨脹劑？","opts":["小蘇打","發粉","酵母","可可粉"],"ans":3},{"n":88,"q":"下列何種小麥適合製作海綿蛋糕？","opts":["硬質小麥","軟質小麥","杜蘭小麥","高筋小麥"],"ans":1},{"n":89,"q":"下列何種性質不是為小麥分類的依據？","opts":["麥粒硬度","麥粒顏色","麥粒蛋白質含量","破損澱粉"],"ans":3},{"n":90,"q":"小麥胚乳的主要色素為？","opts":["葉綠素","花青素","葉黃素","胡蘿蔔素"],"ans":3},{"n":91,"q":"小麥胚芽中富含油脂，其主要之脂肪酸為？","opts":["亞麻仁油酸","棕櫚酸","硬脂酸","月桂酸"],"ans":0},{"n":92,"q":"小麥製粉時，與其出粉率成正比者為？","opts":["灰分含量","麩皮含量","水分含量","蛋白質含量"],"ans":0},{"n":93,"q":"麵粉中添加維生素 C 作為改良劑之主要效用為？","opts":["增加甜味","熟成作用","降低水分","增加油脂含量"],"ans":1},{"n":94,"q":"蛋糕用麵粉一般由何種麥所磨製？","opts":["軟質冬麥","硬質春麥","杜蘭小麥","裸麥"],"ans":0},{"n":95,"q":"食品用水溶於油（W／O）之乳化劑，其親水親油平衡值（HLB）之範圍介於？","opts":["3.5～6","7～9","10～14","15～18"],"ans":0},{"n":96,"q":"食品用油溶於水（O／W）之乳化劑，其親水親油平衡值（HLB）之範圍介於？","opts":["1～4","3.5～6","8～18","19～25"],"ans":2},{"n":97,"q":"製作轉化糖漿時，以下列何種酸水解得到之品質最佳？","opts":["鹽酸","醋酸","酒石酸","檸檬酸"],"ans":2},{"n":98,"q":"雞蛋蛋白的脂肪含量為？","opts":["0％","5％","10％","15％"],"ans":0},{"n":99,"q":"下列何者為小麥製粉主要的目的？","opts":["增加麵粉的甜味","使麩皮、胚芽與胚乳部分分離","提高麵粉中的油脂含量","使所有成分完全混合"],"ans":1},{"n":100,"q":"胚乳約佔整個小麥穀粒的？","opts":["70％","76％","83％","90％"],"ans":2},{"n":101,"q":"使用脫脂奶粉代替奶水時，脫脂奶粉對水混合的比例應為？","opts":["5：95","10：90","15：85","20：80"],"ans":1},{"n":102,"q":"裝飾用鮮奶油加入牛奶攪拌時，牛奶溫度必須保持在多少以下，以避免油水分離？","opts":["5℃","10℃","15℃","20℃"],"ans":1},{"n":103,"q":"發粉的定義是由小蘇打及酸性鹽混合攪拌而成的一種膨大劑，所產生的二氧化碳量不能低於發粉重量的？","opts":["8％","10％","12％","15％"],"ans":2},{"n":104,"q":"在常溫時不釋出氣體，須於烤焙時才釋出二氧化碳氣體，為？","opts":["快性反應發粉","次快性反應發粉","雙重反應發粉","慢性反應發粉"],"ans":3},{"n":105,"q":"製作蛋糕時，為有效地控制釋出均勻且有規則的氣體，常使用？","opts":["快性發粉","慢性發粉","雙重反應發粉","小蘇打"],"ans":2},{"n":106,"q":"椰子粉的脂肪含量約為？","opts":["20％","40％","60％","80％"],"ans":2},{"n":107,"q":"製作棉花糖時，加入下列何種具有打發起泡特性之膠凍原料？","opts":["果膠","洋菜粉","動物膠","玉米澱粉"],"ans":2},{"n":108,"q":"下列何種膠凍原料需添加適當比例的糖與酸，才能形成膠體？","opts":["動物膠","果膠","洋菜粉","明膠粉"],"ans":1},{"n":109,"q":"製作轉化糖漿，以下列何者為原料，加水溶解再加入稀酸、加熱使之轉化的液體糖？","opts":["砂糖","麥芽糖","葡萄糖","果糖"],"ans":0},{"n":110,"q":"製作海綿蛋糕添加乳化起泡劑目的為？","opts":["增加麵糊的安定性","增加麵糊的甜度","降低麵粉筋性","增加蛋糕含水量"],"ans":0}];
+const LABELS=["①","②","③","④"];
+const STORAGE_KEY="baking_ingredients_1_110_random50_no_retake_v2";
+let state={started:false,finished:false,order:[],current:0,answers:{},score:0,wrong:[]};
+const $=id=>document.getElementById(id);
+function esc(s){return String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+function shuffle(a){const x=a.slice();for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];}return x;}
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}
+function load(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null;}}
+function startExam(){state={started:true,finished:false,order:shuffle(QUESTIONS.map((_,i)=>i)).slice(0,50),current:0,answers:{},score:0,wrong:[]};save();render();}
+function render(){
+ const q=QUESTIONS[state.order[state.current]],selected=state.answers[state.current];
+ $("start").classList.add("hidden");$("result").classList.add("hidden");$("quiz").classList.remove("hidden");
+ $("status").textContent=`第 ${state.current+1}／50 題｜已作答 ${Object.keys(state.answers).length}／50`;
+ $("quiz").innerHTML=`<div class="qhead"><span>原題第 ${q.n} 題</span><span>${state.current+1}／50</span></div><div class="progress"><div class="fill" style="width:${(state.current+1)/50*100}%"></div></div><div class="question">${esc(q.q)}</div><button class="btn speak" id="speakBtn">🔊 朗讀本題</button><div>${q.opts.map((o,i)=>`<div class="option ${selected===i?"selected":""}" role="button" tabindex="0" data-i="${i}">${LABELS[i]} ${esc(o)}</div>`).join("")}</div><div class="nav"><button class="btn prev" id="prev" ${state.current===0?'disabled':''}>← 上一題</button><button class="btn next" id="next">${state.current===49?'檢查作答':'下一題 →'}</button></div><button class="btn submit hidden" id="submit">交卷</button><div class="small">答案可以修改；完成全部 50 題後才能交卷。</div>`;
+ document.querySelectorAll('.option').forEach(btn=>{
+  const choose=()=>{state.answers[state.current]=Number(btn.dataset.i);save();render();};
+  btn.addEventListener('click',choose);
+  btn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose();}});
+ });
+ $('speakBtn').onclick=()=>{
+  if('speechSynthesis' in window){
+    window.speechSynthesis.cancel();
+    const qText=`題目：${q.q}。${q.opts.map((o,i)=>`選項${LABELS[i]}${o}`).join('。')}。`;
+    const u=new SpeechSynthesisUtterance(qText);
+    u.lang='zh-TW';
+    u.rate=0.9;
+    window.speechSynthesis.speak(u);
+  } else {
+    alert('此瀏覽器不支援內建朗讀功能，請使用手機的螢幕朗讀／朗讀選取功能。');
+  }
+ };
+ $("prev").onclick=()=>{if(state.current>0){state.current--;save();render();window.scrollTo(0,0);}};
+ $("next").onclick=()=>{if(state.answers[state.current]===undefined){alert('請先作答本題。');return;}if(state.current<49){state.current++;save();render();window.scrollTo(0,0);}else{if(Object.keys(state.answers).length===50){$('submit').classList.remove('hidden');alert('50 題已全部作答，請按「交卷」。');}else{alert('尚有未作答題目，請完成後再交卷。');}}};
+ $("submit").onclick=finish;
+}
+function finish(){if(Object.keys(state.answers).length!==50){alert('尚未完成全部 50 題，不能交卷。');return;}let score=0,wrong=[];state.order.forEach((qi,i)=>{const q=QUESTIONS[qi];if(state.answers[i]===q.ans)score++;else wrong.push({n:q.n,q:q.q,answer:q.opts[q.ans]});});state.score=score;state.wrong=wrong;state.finished=true;save();showResult();}
+function showResult(){$("start").classList.add('hidden');$("quiz").classList.add('hidden');$("result").classList.remove('hidden');$("status").textContent='測驗完成｜結果已鎖定';const wrongHtml=state.wrong.length===0?"<div class='notice'><strong>50 題全部答對！</strong></div>":`<div class="wrong-list"><h3>錯誤題目整理（共 ${state.wrong.length} 題）</h3>${state.wrong.map((x,i)=>`<div class="wrong-item"><div class="wrong-q">${i+1}．原題第 ${x.n} 題：${esc(x.q)}</div><div><strong>正確答案：</strong>${esc(x.answer)}</div></div>`).join('')}</div>`;$("result").innerHTML=`<div class="start-title">測驗完成</div><div class="score">${state.score}／50</div><div>答對率：${Math.round(state.score/50*100)}%</div>${wrongHtml}<div class="notice" style="margin-top:18px"><strong>本次測驗已完成，學生不能自行重新測驗。</strong></div>`;}
+$("startBtn").onclick=startExam;
+const saved=load();
+if(saved&&saved.finished){state=saved;showResult();}else if(saved&&saved.started){state=saved;render();}
+</script>
+</body>
+</html>
