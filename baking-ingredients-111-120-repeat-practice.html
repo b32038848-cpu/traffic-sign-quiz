@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>烘焙食品丙級｜原料111～120 重複練習</title>
+<style>
+  :root{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;color:#222;background:#f4f6f8}
+  *{box-sizing:border-box}
+  body{margin:0;background:#f4f6f8;user-select:text;-webkit-user-select:text}
+  .wrap{max-width:720px;margin:0 auto;padding:16px}
+  .card{background:#fff;border-radius:18px;box-shadow:0 3px 14px rgba(0,0,0,.08);padding:20px}
+  h1{font-size:24px;line-height:1.35;margin:0 0 8px;text-align:center}
+  .sub{text-align:center;color:#666;margin-bottom:14px;font-size:15px}
+  .progress{height:10px;background:#e9ecef;border-radius:99px;overflow:hidden;margin:12px 0 18px}
+  .bar{height:100%;width:0%;background:#333;transition:width .2s}
+  .qnum{font-weight:700;color:#555;margin-bottom:10px}
+  .question{font-size:20px;line-height:1.7;margin-bottom:14px}
+  .option{display:block;width:100%;text-align:left;background:#fff;border:2px solid #d9dee3;border-radius:12px;padding:13px 14px;margin:10px 0;font-size:18px;line-height:1.5;cursor:pointer;color:#222}
+  .option:hover{background:#f7f7f7}
+  .option.correct{border-color:#198754;background:#eaf7ef}
+  .option.wrong{border-color:#dc3545;background:#fff0f1}
+  .option:disabled{cursor:default;opacity:1}
+  .feedback{min-height:48px;padding:12px 14px;border-radius:12px;margin-top:14px;font-size:17px;line-height:1.5;background:#f7f7f7}
+  .feedback.ok{background:#eaf7ef}
+  .feedback.no{background:#fff0f1}
+  .answer{font-weight:700}
+  .controls{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  button.control{flex:1;min-width:140px;border:0;border-radius:12px;padding:13px 14px;font-size:17px;cursor:pointer;background:#222;color:#fff}
+  button.control.secondary{background:#e9ecef;color:#222}
+  button.control:disabled{opacity:.45;cursor:not-allowed}
+  .result{text-align:center;font-size:20px;line-height:1.7}
+  .score{font-size:32px;font-weight:800;margin:8px 0}
+  .tip{font-size:14px;color:#666;margin-top:12px;line-height:1.6}
+  @media(max-width:480px){
+    .wrap{padding:10px}.card{padding:16px;border-radius:15px}h1{font-size:22px}.question{font-size:19px}.option{font-size:17px;padding:12px}.control{font-size:16px!important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>烘焙食品丙級｜原料 111～120</h1>
+    <div class="sub">手機重複練習版｜每題立即判斷，可無限次重新練習</div>
+    <div id="app"></div>
+  </div>
+</div>
+<script>
+const bank = [
+ {n:111,q:'小麥之橫斷面呈粉質狀者為何？',o:['高筋麵粉','中筋麵粉','粉心麵粉','低筋麵粉'],a:3,ans:'低筋麵粉'},
+ {n:112,q:'小麥之橫斷面呈玻璃質狀者為何？',o:['高筋麵粉','中筋麵粉','粉心麵粉','低筋麵粉'],a:0,ans:'高筋麵粉'},
+ {n:113,q:'麵粉蛋白質是屬於部分不完全蛋白質，因為其胺基酸內缺少了一種必需胺基酸為？',o:['甲硫胺酸','胱胺酸','半胱胺酸','離胺酸'],a:3,ans:'離胺酸（Lysine）'},
+ {n:114,q:'下列何種胺基酸內含有硫氫根（－SH），並具有還原特性，以影響麵糰之性質？',o:['麩胺酸','甘胺酸','半胱胺酸','離胺酸'],a:2,ans:'半胱胺酸（Cysteine）'},
+ {n:115,q:'小麥胚芽中含有下列何種物質，其含有硫氫根（－SH），會減少麵筋彈性，使麵糰發粘？',o:['維生素E','礦物質','油脂','麩胱甘'],a:3,ans:'麩胱甘（Glutathione）'},
+ {n:116,q:'可以得到麵粉之吸水量、攪拌時間及攪拌耐力之儀器設備為？',o:['麵粉酵素活性測定儀（Amylograph）','連續溫度黏度測定儀（Viscosgraph）','麵糰拉力特性測定儀（Extensograph）','麵糰攪拌特性測定儀（Farinograph）'],a:3,ans:'麵糰攪拌特性測定儀（Farinograph）'},
+ {n:117,q:'測定低筋粉或軟麥麵粉中膠性粘度之儀器設備為？',o:['麵粉沉降係數測定儀（Falling Number）','連續溫度黏度測定儀（Viscosgraph）','麵糰拉力特性測定儀（Extensograph）','麵糰攪拌特性測定儀（Farinograph）'],a:1,ans:'連續溫度黏度測定儀（Viscosgraph）'},
+ {n:118,q:'測定麵筋之伸張力及伸張阻力等品質之儀器設備為？',o:['麵粉酵素活性測定儀（Amylograph）','連續溫度黏度測定儀（Viscosgraph）','麵糰拉力特性測定儀（Extensograph）','麵糰攪拌特性測定儀（Farinograph）'],a:2,ans:'麵糰拉力特性測定儀（Extensograph）'},
+ {n:119,q:'測定麵粉中之液化酵素的儀器設備為？',o:['麵粉酵素活性測定儀（Amylograph）','連續溫度黏度測定儀（Viscosgraph）','麵糰拉力特性測定儀（Extensograph）','麵糰攪拌特性測定儀（Farinograph）'],a:0,ans:'麵粉酵素活性測定儀（Amylograph）'},
+ {n:120,q:'D.E.值（葡萄糖當量）30～50之澱粉糖漿，其組成成分為？',o:['蔗糖','果糖','葡萄糖','糊精、麥芽糖及葡萄糖之混合物'],a:3,ans:'糊精、麥芽糖及葡萄糖之混合物'}
+];
+let order=[]; let idx=0; let score=0; let answered=false;
+function shuffle(arr){
+  const x=[...arr];
+  for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];}
+  return x;
+}
+function start(){order=shuffle(bank.map((_,i)=>i));idx=0;score=0;answered=false;renderQ();}
+function renderQ(){
+  const app=document.getElementById('app'); const q=bank[order[idx]]; const pct=(idx/bank.length)*100;
+  app.innerHTML=`
+    <div class="qnum">第 ${idx+1}／${bank.length} 題　（題庫題號 ${q.n}）</div>
+    <div class="progress"><div class="bar" style="width:${pct}%"></div></div>
+    <div class="question">${q.q}</div>
+    <button class="control secondary" style="width:100%;margin-bottom:8px" onclick="speakCurrent()">🔊 朗讀本題</button>
+    <div id="opts"></div>
+    <div id="feedback" class="feedback" aria-live="polite">請選擇答案。</div>
+    <div class="controls">
+      <button id="nextBtn" class="control" onclick="nextQ()" disabled>${idx===bank.length-1?'看結果':'下一題'}</button>
+      <button class="control secondary" onclick="start()">重新練習</button>
+    </div>
+    <div class="tip">答對或答錯後會立即顯示正確答案。重新練習會重新打亂 111～120 題順序。</div>`;
+  const opts=document.getElementById('opts');
+  q.o.forEach((t,i)=>{
+    const b=document.createElement('button'); b.className='option'; b.type='button'; b.textContent=`${String.fromCharCode(65+i)}. ${t}`;
+    b.onclick=()=>choose(i); opts.appendChild(b);
+  });
+}
+function choose(sel){
+  if(answered)return; answered=true; const q=bank[order[idx]]; const buttons=[...document.querySelectorAll('.option')];
+  buttons.forEach((b,i)=>{b.disabled=true;if(i===q.a)b.classList.add('correct');if(i===sel && sel!==q.a)b.classList.add('wrong');});
+  const fb=document.getElementById('feedback');
+  if(sel===q.a){score++;fb.className='feedback ok';fb.innerHTML='✓ 答對！<span class="answer">答案：'+q.ans+'</span>';}
+  else{fb.className='feedback no';fb.innerHTML='✗ 答錯。<span class="answer">正確答案：'+q.ans+'</span>';}
+  document.getElementById('nextBtn').disabled=false;
+}
+function nextQ(){
+  if(!answered)return;
+  if(idx===bank.length-1){showResult();return;}
+  idx++;answered=false;renderQ();
+}
+function showResult(){
+  const app=document.getElementById('app'); const pct=Math.round(score/bank.length*100);
+  app.innerHTML=`<div class="result"><div>本次完成</div><div class="score">${score}／${bank.length}</div><div>正確率 ${pct}%</div><div class="controls"><button class="control" onclick="start()">再練一次</button></div><div class="tip">可以無限次重複練習，系統每次都會重新打亂題目順序。</div></div>`;
+}
+function speakCurrent(){
+  if(!('speechSynthesis' in window)){alert('此手機瀏覽器不支援朗讀功能。');return;}
+  speechSynthesis.cancel(); const q=bank[order[idx]]; let text=`第${q.n}題。${q.q}。`;
+  q.o.forEach((t,i)=>{text+=`選項${String.fromCharCode(65+i)}。${t}。`;});
+  const u=new SpeechSynthesisUtterance(text);u.lang='zh-TW';u.rate=.85;u.pitch=1;speechSynthesis.speak(u);
+}
+start();
+</script>
+</body>
+</html>
