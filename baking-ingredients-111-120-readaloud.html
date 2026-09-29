@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>烘焙食品丙級｜原料111～120｜題目與答案報讀版</title>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    padding:16px;
+    font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif;
+    background:#f5f5f5;
+    color:#222;
+    line-height:1.7;
+    user-select:text;
+    -webkit-user-select:text;
+  }
+  .wrap{max-width:760px;margin:0 auto}
+  h1{font-size:1.35rem;margin:0 0 6px;text-align:center}
+  .sub{text-align:center;color:#666;font-size:.95rem;margin-bottom:14px}
+  .controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+  button{
+    border:0;border-radius:10px;padding:10px 14px;font-size:1rem;cursor:pointer;
+    background:#222;color:#fff;
+  }
+  button.secondary{background:#666}
+  .card{
+    background:#fff;border-radius:14px;padding:16px;margin:12px 0;
+    box-shadow:0 2px 8px rgba(0,0,0,.08)
+  }
+  .num{font-weight:700;font-size:1.1rem;margin-bottom:8px}
+  .question{font-size:1.08rem;margin-bottom:10px;}
+  .answer{
+    border-top:1px solid #ddd;padding-top:10px;font-weight:700;
+  }
+  .speak{margin-top:12px;font-size:.95rem;background:#444}
+  .hint{text-align:center;color:#777;font-size:.85rem;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>烘焙食品丙級｜工作項目02：原料之選用</h1>
+  <div class="sub">第111～120題｜題目＋答案報讀版</div>
+
+  <div class="controls">
+    <button onclick="speakAll()">🔊 全部朗讀</button>
+    <button class="secondary" onclick="stopSpeak()">⏹ 停止朗讀</button>
+  </div>
+
+  <div id="list"></div>
+  <div class="hint">手機可直接選取文字，也可按每題的「朗讀本題」。</div>
+</div>
+
+<script>
+const data = [
+  [111, '小麥之橫斷面呈粉質狀者為何？', '低筋麵粉'],
+  [112, '小麥之橫斷面呈玻璃質狀者為何？', '高筋麵粉'],
+  [113, '麵粉蛋白質是屬於部分不完全蛋白質，因為其胺基酸內缺少了一種必需胺基酸為？', '離胺酸（Lysine）'],
+  [114, '下列何種胺基酸內含有硫氫根（－SH），並具有還原特性，以影響麵糰之性質？', '半胱胺酸（Cysteine）'],
+  [115, '小麥胚芽中含有下列何種物質，其含有硫氫根（－SH），會減少麵筋彈性，使麵糰發粘？', '麩胱甘（Glutathione）'],
+  [116, '可以得到麵粉之吸水量、攪拌時間及攪拌耐力之儀器設備為？', '麵糰攪拌特性測定儀（Farinograph）'],
+  [117, '測定低筋粉或軟麥麵粉中膠性粘度之儀器設備為？', '連續溫度黏度測定儀（Viscosgraph）'],
+  [118, '測定麵筋之伸張力及伸張阻力等品質之儀器設備為？', '麵糰拉力特性測定儀（Extensograph）'],
+  [119, '測定麵粉中之液化酵素的儀器設備為？', '麵粉酵素活性測定儀（Amylograph）'],
+  [120, 'D.E.值（葡萄糖當量）30～50之澱粉糖漿，其組成成分為？', '糊精、麥芽糖及葡萄糖之混合物']
+];
+
+const list = document.getElementById('list');
+
+data.forEach(([n,q,a]) => {
+  const card = document.createElement('section');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="num">第 ${n} 題</div>
+    <div class="question">${q}</div>
+    <div class="answer">答案：${a}</div>
+    <button class="speak" type="button">🔊 朗讀本題</button>
+  `;
+  card.querySelector('.speak').addEventListener('click', () => speakText(`第${n}題。${q}答案是：${a}。`));
+  list.appendChild(card);
+});
+
+function speakText(text){
+  stopSpeak();
+  if (!('speechSynthesis' in window)) {
+    alert('此瀏覽器不支援語音朗讀功能，請改用手機 Chrome 或 Safari。');
+    return;
+  }
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-TW';
+  u.rate = 0.85;
+  u.pitch = 1;
+  window.speechSynthesis.speak(u);
+}
+
+function speakAll(){
+  stopSpeak();
+  if (!('speechSynthesis' in window)) {
+    alert('此瀏覽器不支援語音朗讀功能，請改用手機 Chrome 或 Safari。');
+    return;
+  }
+  const text = data.map(([n,q,a]) => `第${n}題。${q}答案是：${a}。`).join('　');
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-TW';
+  u.rate = 0.82;
+  u.pitch = 1;
+  window.speechSynthesis.speak(u);
+}
+
+function stopSpeak(){
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+}
+</script>
+</body>
+</html>
