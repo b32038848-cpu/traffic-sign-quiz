@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<title>烘焙食品丙級｜原料121～130 題目＋答案報讀版</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#f3f4f6;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+body{user-select:text;-webkit-user-select:text}.wrap{max-width:760px;margin:auto}header{background:#fff;border-bottom:1px solid #ddd;padding:14px 16px;position:sticky;top:0;z-index:10}
+h1{font-size:19px;margin:0 0 4px}.sub{font-size:13px;color:#666}main{padding:14px 12px 40px}.card{background:#fff;border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.qno{font-size:15px;font-weight:800;color:#666;margin-bottom:7px}.question{font-size:20px;font-weight:800;line-height:1.6;margin-bottom:12px}.answer{font-size:18px;font-weight:800;line-height:1.6;margin:12px 0}
+.btn{border:0;border-radius:12px;padding:13px 15px;font-size:16px;cursor:pointer}.speak{background:#eee;width:100%;margin-top:2px}.all{background:#222;color:#fff;width:100%;margin-bottom:14px}.stop{background:#fff;border:1px solid #bbb;width:100%;margin-top:8px}
+.copy{font-size:14px;color:#777;line-height:1.9;border-top:1px dashed #ddd;margin-top:14px;padding-top:10px}
+</style></head><body><header><div class="wrap"><h1>烘焙食品丙級｜原料121～130</h1><div class="sub">題目＋答案報讀版</div></div></header><main class="wrap">
+<section class="card"><button class="btn all" id="allBtn">🔊 全部朗讀</button><button class="btn stop" id="stopBtn">⏹ 停止朗讀</button></section>
+<div id="list"></div>
+</main>
+<script>
+const DATA = [{"n": 121, "q": "以澱粉為原料經完全水解 D.E.值（葡萄糖當量）為 100 之糖漿產品，其組成成分為？", "a": "葡萄糖"}, {"n": 122, "q": "下列何種糖吸濕性最小？", "a": "砂糖"}, {"n": 123, "q": "有關糖對麵包品質之影響，下列何者有誤？", "a": "可防止麵包變硬"}, {"n": 124, "q": "下列何種糖，酵母發酵產生二氧化碳及酒精之速率最慢？", "a": "麥芽糖"}, {"n": 125, "q": "新鮮雞蛋其 pH 值約為？", "a": "7.6"}, {"n": 126, "q": "雞蛋內含有下列何種酵素，可以殺死多種微生物，增長貯存時間？", "a": "溶菌酵素"}, {"n": 127, "q": "製造乾燥蛋白粉時，為避免於乾燥時產生變色反應，必須去除蛋白內之？", "a": "葡萄糖"}, {"n": 128, "q": "蛋經貯藏後蛋白會釋出下列何種氣體，使其 pH 值升高？", "a": "二氧化碳"}, {"n": 129, "q": "有關碳酸氫鈉，下列敘述何者錯誤？", "a": "是一種酸性鹽"}, {"n": 130, "q": "有關發粉，下列敘述何者錯誤？", "a": "以碳酸鈉為主原料"}];
+const list = document.getElementById('list');
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+list.innerHTML = DATA.map((x,i)=>`<section class="card"><div class="qno">第 ${x.n} 題</div><div class="question">${esc(x.q)}</div><div class="answer">答案：${esc(x.a)}</div><button class="btn speak" data-i="${i}">🔊 朗讀本題</button><div class="copy">學生抄寫：____________________________________________</div></section>`).join('');
+function speakText(text){speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='zh-TW'; u.rate=0.9; u.pitch=1; speechSynthesis.speak(u);}
+document.querySelectorAll('.speak').forEach(b=>b.addEventListener('click',()=>{const x=DATA[+b.dataset.i]; speakText(`第${x.n}題。${x.q}答案：${x.a}`);}));
+document.getElementById('allBtn').addEventListener('click',()=>{speechSynthesis.cancel(); let i=0; function next(){if(i>=DATA.length)return; const x=DATA[i++]; const u=new SpeechSynthesisUtterance(`第${x.n}題。${x.q}答案：${x.a}`); u.lang='zh-TW';u.rate=0.9;u.onend=next;speechSynthesis.speak(u);} next();});
+document.getElementById('stopBtn').addEventListener('click',()=>speechSynthesis.cancel());
+</script></body></html>
