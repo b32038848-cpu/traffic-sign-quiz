@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>機車駕照｜正確觀念與態度｜禁止不當行為｜80-113</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f5f8;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",Arial,sans-serif;color:#172033}
+.wrap{max-width:760px;margin:0 auto;padding:18px 14px 40px}
+.card{background:#fff;border-radius:22px;box-shadow:0 6px 24px rgba(0,0,0,.07);padding:22px}
+h1{font-size:26px;margin:0 0 6px;font-weight:800}
+.sub{color:#61708a;font-size:17px;margin-bottom:14px}
+.progress{height:10px;background:#e7ebf1;border-radius:99px;overflow:hidden;margin:10px 0 20px}
+.bar{height:100%;width:0;background:#2864e6}
+.qno{font-size:18px;font-weight:800;color:#2864e6;margin:4px 0 12px}
+.q{font-size:23px;line-height:1.55;font-weight:750;margin:0 0 18px;white-space:pre-wrap}
+.options{display:grid;gap:12px}
+.opt{width:100%;text-align:left;border:1px solid #cfd7e3;border-radius:18px;background:#fff;padding:17px 18px;font-size:19px;line-height:1.45;cursor:pointer}
+.opt:disabled{cursor:default}
+.opt.correct{border:2px solid #16934b;background:#eefaf3}
+.opt.wrong{border:2px solid #d23b3b;background:#fff0f0}
+.fb{display:none;margin-top:14px;border-radius:14px;padding:13px 15px;font-size:18px;font-weight:750}
+.fb.show{display:block}
+.fb.ok{background:#eaf8ef;color:#16743c}
+.fb.bad{background:#fff0f0;color:#a12020}
+.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}
+button.next{border:0;border-radius:15px;padding:14px 22px;font-size:18px;font-weight:800;background:#9bb5ef;color:#fff;cursor:pointer}
+button.next.ready{background:#2864e6}
+#quiz{display:none}
+#result{display:none}
+.result-score{font-size:36px;font-weight:900;margin:8px 0}
+.result-rate{font-size:22px;color:#536176}
+.wrong-list{margin-top:18px}
+.wrong-item{border-top:1px solid #e3e7ee;padding:14px 0;font-size:17px;line-height:1.5}
+.next-stage{display:inline-block;margin-top:18px;text-decoration:none;background:#2864e6;color:#fff;border-radius:14px;padding:14px 18px;font-size:18px;font-weight:800}
+.note{margin-top:12px;color:#647086;font-size:14px}
+.imgbox{display:none;text-align:center;margin:0 0 18px}
+.imgbox img{max-width:min(260px,72vw);max-height:260px;border-radius:10px;display:inline-block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>機車駕照｜正確觀念與態度｜禁止不當行為</h1>
+    <div class="sub">第80～113題｜手機練習</div>
+    <div class="progress"><div id="bar" class="bar"></div></div>
+
+    <section id="quiz">
+      <div id="qno" class="qno"></div>
+      <div id="imgbox" class="imgbox"></div>
+      <div id="q" class="q"></div>
+      <div id="options" class="options"></div>
+      <div id="fb" class="fb"></div>
+      <div class="actions"><button id="next" class="next" disabled>下一題</button></div>
+    </section>
+
+    <section id="result">
+      <h2>本階段完成</h2>
+      <div class="result-score" id="score"></div>
+      <div class="result-rate" id="rate"></div>
+      <div class="wrong-list" id="wrongList"></div>
+      
+      <a class="next-stage" href="motorcycle-attitude-114-146.html">進入下一階段：第114～146題</a>
+    
+      <div class="note">本測驗以交通部公路局「機車駕照筆試題庫 115.1」第 80～113 題為題源。</div>
+    </section>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [{"no": 80, "q": "在行車中途，精神疲勞，稍有睡意，你應該怎麼辦？", "opts": ["繼續駕駛", "擦抹萬金油及藥物，助長精神照常行駛", "到最近安全處所停車，下車稍作休息，消除疲勞再駕駛"], "ans": 3, "img": null}, {"no": 81, "q": "酒後駕車，對駕駛人會產生「視覺之隧道效應」，駕駛者猶如在隧道中行車，前有亮光但四周漆黑，故酒後駕車：", "opts": ["視野不變", "視野變廣", "視野變窄"], "ans": 3, "img": null}, {"no": 82, "q": "行駛於公路時，亂拋擲物品、煙蒂或火種：", "opts": ["是極不道德的危險行為", "只要我高興有什麼不可以", "避免車子髒亂，應該丟棄"], "ans": 1, "img": null}, {"no": 83, "q": "機車駕駛人以後輪著地、蛇行駕駛因而肇事者，應：", "opts": ["僅勸導之", "罰鍰並沒入車輛", "罰鍰並吊銷其駕駛執照"], "ans": 3, "img": null}, {"no": 84, "q": "酒精濃度超過規定標準，駕車肇事致人重傷或死亡者，經吊銷駕駛執照後，依規定：", "opts": ["終身不得考領駕駛執照，且無重新考領之機會", "終身不得考領駕駛執照，但符合特定條件得重新考領", "3 年後得重新考領駕駛執照"], "ans": 1, "img": null}, {"no": 85, "q": "駕駛人在道路上以蛇行或僅以後輪著地等危險方式駕車因而肇事者，應處：", "opts": ["罰鍰並吊銷駕照", "吊扣駕照", "罰鍰"], "ans": 1, "img": null}, {"no": 86, "q": "機車駕駛人行駛於道路時，以手持方式使用行動電話、電腦或其他相類功能裝置進行撥接、通話、數據通訊或其他有礙駕駛安全之行為者，將受何種處分？", "opts": ["處罰鍰", "僅施以道安講習", "勸導"], "ans": 1, "img": null}, {"no": 87, "q": "機車駕駛人患病影響安全駕駛、或飲用酒類後其吐氣所含酒精濃度達每公升 0.15 毫克者：", "opts": ["不得開車", "照常可以駕駛", "開車時不可太快"], "ans": 1, "img": null}, {"no": 88, "q": "機車所有人，明知駕駛人有酒後駕車之情形而不予禁止，除處以罰鍰外，並應吊扣其機車牌照：", "opts": ["3 個月", "1 年", "2 年"], "ans": 3, "img": null}, {"no": 89, "q": "駕駛人駕駛汽車經測試檢定，其吐氣所含酒精濃度不得達每公升：", "opts": ["0.15 毫克", "0.25 毫克", "0.55 毫克"], "ans": 1, "img": null}, {"no": 90, "q": "酒精、麻醉劑及興奮劑中毒者，可否參加駕駛執照考驗？", "opts": ["可以", "不可以", "須先通過直線平衡測試才可以"], "ans": 2, "img": null}, {"no": 91, "q": "任意以迫近、驟然變換車道或其他不當方式，迫使他車讓道等危險方式駕車因而肇事者，應處：", "opts": ["罰鍰", "吊扣駕照", "罰鍰並吊銷駕照"], "ans": 3, "img": null}, {"no": 92, "q": "非遇突發狀況，在行駛途中任意驟然減速、煞車或於車道中暫停等危險方式駕車因而肇事者，應處：", "opts": ["罰鍰", "吊扣駕照", "罰鍰並吊銷駕照"], "ans": 3, "img": null}, {"no": 93, "q": "駕駛人駕駛汽車行經警察機關設有告示執行酒測或毒品檢定之處所，不依指示停車接受稽查，或拒絕接受該項測試之檢定者：", "opts": ["處罰鍰，並當場移置保管該汽車", "吊銷該駕駛執照及施以道路交通安全講習", "以上皆是"], "ans": 3, "img": null}, {"no": 94, "q": "騎乘機車遭舉發違規酒駕，於何種違規樣態將處駕駛人新臺幣 9 萬元罰鍰、吊銷駕照 3 年及施以道路交通安全講習？", "opts": ["於 10 年內第 2 次再次遭舉發違規酒駕", "不依指示停車接受酒測稽查或拒絕酒測", "以上皆是"], "ans": 1, "img": null}, {"no": 95, "q": "騎乘機車遭舉發違規酒駕，於幾年內再次遭舉發違規酒駕，將處罰鍰 9 萬元、吊銷駕照 3 年，及施以道安講習之處分？", "opts": ["5 年", "10 年", "12 年"], "ans": 2, "img": null}, {"no": 96, "q": "機車駕駛人於下列何種情況下，可以使用行動電話、電腦或其他相類功能裝置進行撥接、通話、數據通訊？", "opts": ["行進中", "等待紅燈的時候", "將機車停靠於路邊"], "ans": 3, "img": null}, {"no": 97, "q": "機車駕駛人於 10 年內，經測試檢定酒後駕車第 2 次，當場移置保管該機車及吊銷其駕駛執照 3 年，並處罰鍰新臺幣：", "opts": ["6 萬元", "9 萬元", "12 萬元"], "ans": 2, "img": null}, {"no": 98, "q": "駕駛人任意以迫近、驟然變換車道或其他不當方式，迫使他車讓道者，除罰鍰外，並當場禁止其駕駛及吊扣該汽車牌照：", "opts": ["3 個月", "6 個月", "12 個月"], "ans": 2, "img": null}, {"no": 99, "q": "有關機車號牌規定下列何者不正確？", "opts": ["應正面懸掛於車輛後端之明顯適當位置", "不得變造損毀、塗抹或粘貼其他材料、加裝邊框或霓虹燈、裝置旋轉架", "可裁剪或扭曲懸掛"], "ans": 3, "img": null}, {"no": 100, "q": "於身心障礙專用停車位違規停車者：", "opts": ["罰鍰", "吊扣牌照", "勸導"], "ans": 1, "img": null}, {"no": 101, "q": "駕駛人不在未劃分標線道路之中央右側駕車者，應處：", "opts": ["吊扣駕駛執照", "罰鍰", "吊扣行車執照"], "ans": 2, "img": null}, {"no": 102, "q": "汽車駕駛人於道路上併排停車，依規定應處罰鍰新臺幣：", "opts": ["1,200 元以上 2,400 元以下", "2,400 元以上 3,600 元以下", "1,800 元以上 3,000 元以下"], "ans": 3, "img": null}, {"no": 103, "q": "汽機車駕駛人經酒精濃度測試檢定超過標準值，第 1 次違規除罰鍰、當場移置保管該汽機車外，並吊扣駕駛執照：", "opts": ["3 個月", "6 個月", "1~2 年"], "ans": 3, "img": null}, {"no": 104, "q": "機車所有人已領有號牌而不懸掛或不依指定位置懸掛者，應處罰：", "opts": ["罰鍰並吊扣牌照", "罰鍰並吊銷牌照", "罰鍰並禁止其行駛及吊銷牌照"], "ans": 3, "img": null}, {"no": 105, "q": "牌照借供他車使用或使用他車牌照行駛者，除罰鍰外，並應：", "opts": ["吊扣牌照", "吊銷牌照", "沒入車輛"], "ans": 2, "img": null}, {"no": 106, "q": "機車所有人明知駕駛人酒精濃度超過規定標準，仍不予禁止其駕駛該機車，應處罰鍰新臺幣：", "opts": ["15,000 元以上 90,000 元以下", "30,000 元以上 120,000 元以下", "6,000 元以上 12,000 元以下"], "ans": 1, "img": null}, {"no": 107, "q": "四輪以上車輛駕駛人於 10 年內，經測試檢定酒後駕車第 2 次，當場移置保管該汽車及吊銷其駕駛執照 3 年，並處罰鍰新臺幣：", "opts": ["6 萬元", "9 萬元", "12 萬元"], "ans": 3, "img": null}, {"no": 108, "q": "駕駛人若拒絕接受酒精濃度測試檢定者，除處罰鍰新臺幣 180,000 元，並：", "opts": ["吊銷其駕駛執照", "吊扣其駕駛執照", "吊扣其行車執照"], "ans": 1, "img": null}, {"no": 109, "q": "酒精濃度超過規定標準駕車之違規人，於 10 年內違反酒後駕車之規定 2 次以上者，除處罰鍰，及當場移置保管該機車，並應：", "opts": ["吊扣其行車執照", "吊銷其駕駛執照", "吊扣其駕駛執照"], "ans": 2, "img": null}, {"no": 110, "q": "駕駛人在快車道上依規定行駛，因行人或慢車不依規定，擅自進入快車道，而致人受傷或死亡，依法應負刑事責任者：", "opts": ["一樣不變", "減輕其刑", "加重其刑"], "ans": 2, "img": null}, {"no": 111, "q": "駕駛人無照駕駛或酒醉駕車因而致人受傷或死亡，依法應負刑事責任者，加重其刑至：", "opts": ["三分之一", "二分之一", "一倍"], "ans": 2, "img": null}, {"no": 112, "q": "拼裝車輛未經核准領用牌證行駛或報廢車仍行駛道路者，除禁止其行駛外，其車輛：", "opts": ["沒入之並罰鍰", "公告拍賣之", "繳清罰鍰後始得領回"], "ans": 1, "img": null}, {"no": 113, "q": "下列何種違規行為得對車輛所有人逕行舉發處罰？", "opts": ["無照駕駛", "酒醉駕車", "違規停車而駕駛人不在場"], "ans": 3, "img": null}];
+const order = [...QUESTIONS].sort(() => Math.random() - 0.5);
+let idx = 0;
+let score = 0;
+let answered = false;
+const wrong = [];
+
+const $ = id => document.getElementById(id);
+function shuffle(arr) {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+function render() {
+  const item = order[idx];
+  answered = false;
+  $("qno").textContent = `第${item.no}題`;
+  $("q").textContent = item.q;
+  $("bar").style.width = `${(idx / order.length) * 100}%`;
+  $("fb").className = "fb";
+  $("fb").textContent = "";
+  $("next").disabled = true;
+  $("next").className = "next";
+
+  const imgbox = $("imgbox");
+  imgbox.innerHTML = "";
+  if (item.img) {
+    const img = document.createElement("img");
+    img.src = item.img;
+    img.alt = `第${item.no}題圖示`;
+    imgbox.appendChild(img);
+    imgbox.style.display = "block";
+  } else {
+    imgbox.style.display = "none";
+  }
+
+  const opts = shuffle(item.opts.map((text, i) => ({text, orig:i+1})));
+  const box = $("options");
+  box.innerHTML = "";
+  opts.forEach((o, i) => {
+    const b = document.createElement("button");
+    b.className = "opt";
+    b.type = "button";
+    b.textContent = `${String.fromCharCode(65+i)}．${o.text}`;
+    b.onclick = () => choose(o, b, item, opts);
+    box.appendChild(b);
+  });
+}
+
+function choose(o, btn, item, opts) {
+  if (answered) return;
+  answered = true;
+  document.querySelectorAll(".opt").forEach(x => x.disabled = true);
+  const buttons = [...document.querySelectorAll(".opt")];
+  const correctPos = opts.findIndex(x => x.orig === item.ans);
+  if (o.orig === item.ans) {
+    score++;
+    btn.classList.add("correct");
+    $("fb").className = "fb show ok";
+    $("fb").textContent = "答對！";
+  } else {
+    btn.classList.add("wrong");
+    buttons[correctPos].classList.add("correct");
+    $("fb").className = "fb show bad";
+    $("fb").textContent = `答錯。正確答案：${String.fromCharCode(65+correctPos)}．${item.opts[item.ans-1]}`;
+    wrong.push({no:item.no, q:item.q, answer:item.opts[item.ans-1]});
+  }
+  $("next").disabled = false;
+  $("next").className = "next ready";
+}
+
+$("next").onclick = () => {
+  if (!answered) return;
+  if (idx < order.length - 1) {
+    idx++;
+    render();
+  } else {
+    $("bar").style.width = "100%";
+    $("quiz").style.display = "none";
+    $("result").style.display = "block";
+    $("score").textContent = `答對 ${score} / ${order.length} 題`;
+    $("rate").textContent = `正確率：${Math.round(score/order.length*100)}%`;
+    const list = $("wrongList");
+    if (wrong.length === 0) {
+      list.innerHTML = "<div class='wrong-item'>全部答對，沒有錯題。</div>";
+    } else {
+      list.innerHTML = "<h3>錯誤題目與正確答案</h3>" + wrong.map(w =>
+        `<div class="wrong-item"><strong>第${w.no}題</strong><br>${w.q}<br><b>正確答案：${w.answer}</b></div>`
+      ).join("");
+    }
+  }
+};
+$("quiz").style.display = "block";
+render();
+</script>
+</body>
+</html>
