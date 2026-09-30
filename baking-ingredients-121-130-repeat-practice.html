@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<title>烘焙食品丙級｜原料121～130｜重複練習</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#f3f4f6;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+body{user-select:text;-webkit-user-select:text}
+.wrap{max-width:760px;margin:auto;padding:12px 12px 70px}
+header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #ddd;padding:12px 16px}
+h1{font-size:20px;margin:0 0 4px;line-height:1.4}.sub{font-size:13px;color:#666}
+.card{background:#fff;border-radius:16px;padding:18px;margin:12px 0;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.start-title{font-size:23px;font-weight:900;line-height:1.4;margin-bottom:10px}
+.notice{background:#f7f7f7;border-radius:12px;padding:14px;line-height:1.7;margin:12px 0}
+.qhead{display:flex;justify-content:space-between;gap:10px;color:#666;font-size:14px;font-weight:800;margin-bottom:10px}
+.progress{height:8px;background:#e7e7e7;border-radius:99px;overflow:hidden;margin:10px 0 18px}
+.fill{height:100%;background:#222;width:0}
+.question{font-size:21px;font-weight:800;line-height:1.55;margin-bottom:14px;user-select:text;-webkit-user-select:text}
+.option{display:block;width:100%;text-align:left;background:#fff;border:1px solid #d6d6d6;border-radius:12px;padding:14px;margin:10px 0;font-size:18px;line-height:1.5;cursor:pointer;touch-action:manipulation;user-select:text;-webkit-user-select:text}
+.option.correct{border:2px solid #198754;background:#eaf7ef}
+.option.wrong{border:2px solid #dc3545;background:#fff0f1}
+.option:disabled{opacity:1;cursor:default}
+.btn{border:0;border-radius:12px;padding:13px 16px;font-size:17px;cursor:pointer}
+.btn.full{width:100%}.primary{background:#222;color:#fff}.secondary{background:#eee;color:#222}.speak{background:#eee;color:#222;width:100%;margin:0 0 10px}.stop{background:#555;color:#fff;width:100%}
+.nav{display:flex;gap:10px;margin-top:18px}.nav .btn{flex:1}
+.feedback{min-height:52px;padding:13px 14px;border-radius:12px;margin-top:14px;font-size:17px;line-height:1.6;background:#f7f7f7}
+.feedback.ok{background:#eaf7ef}.feedback.no{background:#fff0f1}.answer{font-weight:900}
+.result{text-align:center}.score{font-size:42px;font-weight:900;margin:6px 0}
+.small{font-size:13px;color:#777;line-height:1.6;margin-top:12px}
+.hidden{display:none!important}
+@media(max-width:480px){.wrap{padding:10px 10px 55px}.card{padding:16px;border-radius:15px}.question{font-size:19px}.option{font-size:17px;padding:12px}}
+</style>
+</head>
+<body>
+<header><div class="wrap" style="padding:0"><h1>烘焙食品丙級｜原料121～130</h1><div class="sub" id="status">重複練習版｜可無限次練習｜含手機報讀</div></div></header>
+<main class="wrap">
+<section id="start" class="card">
+  <div class="start-title">121～130 重複練習</div>
+  <div class="notice">
+    共 <strong>10 題</strong>，每次練習會<strong>重新打亂題目順序</strong>。<br>
+    作答後立即顯示對錯與正確答案。<br>
+    可以按「🔊 朗讀本題」聽題目與四個選項。<br>
+    完成後可直接按「重新練習」，不限次數。
+  </div>
+  <button class="btn primary full" id="startBtn">開始練習</button>
+</section>
+
+<section id="quiz" class="card hidden"></section>
+
+<section id="result" class="card hidden result"></section>
+</main>
+<script>
+const BANK=[
+ {n:121,q:'以澱粉為原料經完全水解 D.E.值（葡萄糖當量）為100之糖漿產品，其組成成分為？',o:['蔗糖','果糖','葡萄糖','澱粉及葡萄糖之混合物'],a:2},
+ {n:122,q:'下列何種糖吸濕性最小？',o:['砂糖','果糖','蜂蜜','轉化糖'],a:0},
+ {n:123,q:'有關糖對麵包品質之影響，下列何者有誤？',o:['可防止麵包變硬','是一種柔性材料','烤焙時著色快','增加風味'],a:0},
+ {n:124,q:'下列何種糖，酵母發酵產生二氧化碳及酒精之速率最慢？',o:['砂糖','果糖','葡萄糖','麥芽糖'],a:3},
+ {n:125,q:'新鮮雞蛋其 pH 值約為？',o:['5.2','6.5','7.6','9.0'],a:2},
+ {n:126,q:'雞蛋內含有下列何種酵素，可以殺死多種微生物，增長貯存時間？',o:['蛋白質分解酵素','脂肪分解酵素','澱粉分解酵素','溶菌酵素'],a:3},
+ {n:127,q:'製造乾燥蛋白粉時，為避免於乾燥時產生變色反應，必須去除蛋白內之？',o:['葡萄糖','脂肪','蛋白質','礦物質'],a:0},
+ {n:128,q:'蛋經貯藏後蛋白會釋出下列何種氣體，使其 pH 值升高？',o:['氫氣','氮氣','組織胺','二氧化碳'],a:3},
+ {n:129,q:'有關碳酸氫鈉，下列敘述何者錯誤？',o:['是一種化學膨大劑','亦稱小蘇打','其化學分子式為 NaHCO₃','是一種酸性鹽'],a:3},
+ {n:130,q:'有關發粉，下列敘述何者錯誤？',o:['以碳酸鈉為主原料','由各種不同的酸性鹽混合而成','加澱粉或麵粉為填充劑','俗稱為泡打粉或發泡粉'],a:0}
+];
+const LABELS=['A','B','C','D'];
+let order=[],idx=0,score=0,answered=false;
+const $=id=>document.getElementById(id);
+function shuffle(a){const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x}
+function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function stopSpeak(){if('speechSynthesis' in window) speechSynthesis.cancel()}
+function speak(text,rate=.88){
+  stopSpeak();
+  if(!('speechSynthesis' in window)){alert('此瀏覽器不支援語音朗讀，請改用手機 Chrome 或 Safari。');return}
+  const u=new SpeechSynthesisUtterance(text);u.lang='zh-TW';u.rate=rate;u.pitch=1;speechSynthesis.speak(u)
+}
+function speakCurrent(){const q=BANK[order[idx]];speak(`第${q.n}題。${q.q}。選項A，${q.o[0]}。選項B，${q.o[1]}。選項C，${q.o[2]}。選項D，${q.o[3]}。`)}
+function start(){
+  stopSpeak();order=shuffle(BANK.map((_,i)=>i));idx=0;score=0;answered=false;
+  $('start').classList.add('hidden');$('result').classList.add('hidden');$('quiz').classList.remove('hidden');render()
+}
+function render(){
+ const q=BANK[order[idx]];
+ $('status').textContent=`第 ${idx+1}／${BANK.length} 題｜目前得分 ${score}`;
+ $('quiz').innerHTML=`
+ <div class="qhead"><span>題庫第 ${q.n} 題</span><span>${idx+1}／${BANK.length}</span></div>
+ <div class="progress"><div class="fill" style="width:${((idx)/BANK.length)*100}%"></div></div>
+ <div class="question">${esc(q.q)}</div>
+ <button class="btn speak" type="button" id="speakBtn">🔊 朗讀本題（題目＋選項）</button>
+ <button class="btn stop" type="button" id="stopBtn">⏹ 停止朗讀</button>
+ <div id="opts"></div>
+ <div id="feedback" class="feedback">請選擇答案。</div>
+ <div class="nav"><button class="btn primary" id="nextBtn" disabled>${idx===BANK.length-1?'看成績':'下一題 →'}</button><button class="btn secondary" id="restartBtn">重新練習</button></div>
+ <div class="small">答題後會立即顯示正確答案。選項前的 A～D 只用於作答，不會在朗讀的答案中額外念出選項編號。</div>`;
+ const opts=$('opts');
+ q.o.forEach((text,i)=>{const b=document.createElement('button');b.type='button';b.className='option';b.innerHTML=`<strong>${LABELS[i]}.</strong> ${esc(text)}`;b.addEventListener('click',()=>choose(i));opts.appendChild(b)});
+ $('speakBtn').onclick=speakCurrent;$('stopBtn').onclick=stopSpeak;$('restartBtn').onclick=start;$('nextBtn').onclick=next;
+}
+function choose(sel){
+ if(answered)return;answered=true;const q=BANK[order[idx]];const bs=[...document.querySelectorAll('.option')];
+ bs.forEach((b,i)=>{b.disabled=true;if(i===q.a)b.classList.add('correct');if(i===sel && sel!==q.a)b.classList.add('wrong')});
+ const fb=$('feedback');
+ if(sel===q.a){score++;fb.className='feedback ok';fb.innerHTML=`✓ 答對！<span class="answer">答案：${esc(q.o[q.a])}</span>`}
+ else{fb.className='feedback no';fb.innerHTML=`✗ 答錯。<span class="answer">正確答案：${esc(q.o[q.a])}</span>`}
+ $('status').textContent=`第 ${idx+1}／${BANK.length} 題｜目前得分 ${score}`;$('nextBtn').disabled=false;
+}
+function next(){if(!answered)return;if(idx===BANK.length-1){showResult();return}idx++;answered=false;render()}
+function showResult(){stopSpeak();$('quiz').classList.add('hidden');$('result').classList.remove('hidden');$('status').textContent='本次練習完成';$('result').innerHTML=`<h2>本次練習完成</h2><div class="score">${score}／${BANK.length}</div><p>答對率：${Math.round(score/BANK.length*100)}%</p><button class="btn primary full" id="again">🔄 再練一次</button><div class="small">重新練習會重新打亂121～130題目順序。</div>`;$('again').onclick=start}
+$('startBtn').onclick=start;
+</script>
+</body>
+</html>
