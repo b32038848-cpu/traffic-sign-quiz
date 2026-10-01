@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>烘焙食品丙級｜原料131～140 題目＋答案報讀版</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f4f6;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif;user-select:text;-webkit-user-select:text}
+.wrap{max-width:760px;margin:auto;padding:16px}
+header{background:#fff;border-bottom:1px solid #ddd;position:sticky;top:0;z-index:10}
+h1{font-size:20px;margin:0 0 4px}.sub{font-size:13px;color:#666}
+.card{background:#fff;border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.qno{font-size:15px;font-weight:900;color:#666;margin-bottom:8px}.question{font-size:21px;font-weight:800;line-height:1.6;margin-bottom:12px}.answer{font-size:19px;font-weight:800;line-height:1.6;margin-bottom:12px}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:13px 16px;font-size:17px;margin:8px 0;cursor:pointer}.speak{background:#eee}.stop{background:#222;color:#fff}
+.write{font-size:14px;color:#777;border-top:1px dashed #ddd;padding-top:10px;margin-top:10px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>烘焙食品丙級｜原料131～140</h1><div class="sub">題目＋答案報讀版｜答案不顯示選項數字</div></div></header>
+<main class="wrap">
+<div class="card"><button class="btn speak" id="all">🔊 全部朗讀</button><button class="btn stop" id="stop">⏹ 停止朗讀</button></div>
+<div id="list"></div>
+</main>
+<script>
+const items=[
+[131,'下列何者為慢性發粉之主要成分？','酸性焦磷酸鹽'],
+[132,'小西餅在烘焙過程中，下列何者不是扮演膨脹的因素？','水'],
+[133,'下列何者製作時需要添加酵母發酵？','蘇打餅乾'],
+[134,'油炸用食用油之總極性化合物（total polar compounds）含量達百分之多少以上時，不得再予使用，應全部更換新油？','25％'],
+[135,'製作食用豆漿，那一個不是正常步驟？','生豆漿不必再加熱'],
+[136,'全豆豆漿含有的成份中那一項是錯的？','乳糖'],
+[137,'豆漿的鈣含量和牛奶比較，是？','低'],
+[138,'乳糖不耐症的人喝那種飲料不會產生副作用？','豆漿'],
+[139,'市售椰奶包裝及脂肪含量那一項是錯的？','罐裝，脂肪含量比較低'],
+[140,'下列對椰奶或椰漿（Coconut Milk）及椰子鮮奶油（Coconut Cream）敘述何者為非？','椰漿，水和椰肉的比例約在1：4']
+];
+const list=document.getElementById('list');
+function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function speakText(text){
+  if(!('speechSynthesis' in window)){alert('此瀏覽器不支援語音朗讀，請使用手機 Chrome 或 Safari。');return;}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);u.lang='zh-TW';u.rate=0.88;u.pitch=1;speechSynthesis.speak(u);
+}
+list.innerHTML=items.map(([n,q,a])=>`<section class="card"><div class="qno">第 ${n} 題</div><div class="question">${esc(q)}</div><div class="answer">答案：${esc(a)}</div><button class="btn speak" data-speak="第${n}題。${q}答案：${a}">🔊 朗讀本題</button></section>`).join('');
+list.querySelectorAll('[data-speak]').forEach(b=>b.addEventListener('click',()=>speakText(b.dataset.speak)));
+document.getElementById('all').addEventListener('click',()=>speakText(items.map(([n,q,a])=>`第${n}題。${q}答案：${a}`).join('。')));
+document.getElementById('stop').addEventListener('click',()=>speechSynthesis.cancel());
+</script>
+</body></html>
