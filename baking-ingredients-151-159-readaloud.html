@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>烘焙食品丙級｜原料151～159 題目＋答案報讀版</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f4f6;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif;user-select:text;-webkit-user-select:text}
+.wrap{max-width:760px;margin:auto;padding:16px}
+header{background:#fff;border-bottom:1px solid #ddd;position:sticky;top:0;z-index:10}
+h1{font-size:20px;margin:0 0 4px}.sub{font-size:13px;color:#666}
+.card{background:#fff;border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.qno{font-size:15px;font-weight:900;color:#666;margin-bottom:8px}.question{font-size:21px;font-weight:800;line-height:1.6;margin-bottom:12px}.answer{font-size:19px;font-weight:800;line-height:1.6;margin-bottom:12px}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:13px 16px;font-size:17px;margin:8px 0;cursor:pointer}.speak{background:#eee}.stop{background:#222;color:#fff}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>烘焙食品丙級｜原料151～159</h1><div class="sub">題目＋答案報讀版｜答案不顯示選項數字</div></div></header>
+<main class="wrap">
+<div class="card"><button class="btn speak" id="all">🔊 全部朗讀</button><button class="btn stop" id="stop">⏹ 停止朗讀</button></div>
+<div id="list"></div>
+</main>
+<script>
+const items=[
+[151,'製作全素義大利蛋白霜可用那一項原料取代蛋白打發？','鷹嘴豆汁'],
+[152,'製作全素布丁餡不可用那一項原料取代牛奶？','鮮奶油'],
+[153,'全素的烘焙產品不可含有動物性成分，下列那一項原料不可使用？','動物膠'],
+[154,'製作全素調味餅乾下列那一項原料不可使用？','乳酪粉'],
+[155,'製作全素餅乾不可使用下列那一項原料？','奶粉'],
+[156,'優格中含有下列那一項原料全素者不可使用？','動物膠'],
+[157,'製作全素的慕斯蛋糕，不可使用下列那一項原料？','動物膠'],
+[158,'果凍中含有下列那一項凝膠原料，全素者不可食用？','動物膠'],
+[159,'製作鳳梨酥中下列那一項原料，不可用為製作全素之烘焙產品','奶油']
+];
+const list=document.getElementById('list');
+function esc(s){return String(s).replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function speakText(text){
+ if(!('speechSynthesis' in window)){alert('此瀏覽器不支援語音朗讀，請使用手機 Chrome 或 Safari。');return;}
+ speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(text);u.lang='zh-TW';u.rate=.88;u.pitch=1;speechSynthesis.speak(u);
+}
+list.innerHTML=items.map(([n,q,a])=>`<section class="card"><div class="qno">第 ${n} 題</div><div class="question">${esc(q)}</div><div class="answer">答案：${esc(a)}</div><button class="btn speak" data-speak="第${n}題。${q}答案：${a}">🔊 朗讀本題</button></section>`).join('');
+list.querySelectorAll('[data-speak]').forEach(b=>b.addEventListener('click',()=>speakText(b.dataset.speak)));
+document.getElementById('all').addEventListener('click',()=>speakText(items.map(([n,q,a])=>`第${n}題。${q}答案：${a}`).join('。')));
+document.getElementById('stop').addEventListener('click',()=>speechSynthesis.cancel());
+</script>
+</body></html>
