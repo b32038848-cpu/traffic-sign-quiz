@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>烘焙食品丙級｜原料之選用 1～50 線上測驗</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #ddd}
+.wrap{max-width:780px;margin:auto;padding:16px}
+h1{font-size:22px;margin:0 0 6px;font-weight:900}.sub{color:#666;font-size:14px;line-height:1.5}
+.card{background:#fff;border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.notice{line-height:1.7;background:#fff}
+.qno{font-size:15px;color:#666;font-weight:800;margin-bottom:8px}.question{font-size:20px;font-weight:800;line-height:1.65;margin-bottom:14px}
+.option{display:block;width:100%;text-align:left;border:1px solid #d9dde3;background:#fff;border-radius:12px;padding:13px 14px;margin:9px 0;font-size:17px;line-height:1.5;cursor:pointer}
+.option:hover{background:#f7f8fa}.option.selected{border:2px solid #222;background:#f0f0f0}
+.option input{display:none}
+.progress{height:10px;background:#e8eaee;border-radius:99px;overflow:hidden;margin:12px 0}.bar{height:100%;width:0;background:#333;transition:width .2s}
+button.action{width:100%;border:0;border-radius:12px;padding:14px 16px;font-size:17px;font-weight:800;cursor:pointer;margin-top:10px;background:#222;color:#fff}
+button.secondary{background:#eee;color:#222}
+.hidden{display:none!important}.center{text-align:center}.score{font-size:44px;font-weight:900;margin:10px 0}.message{font-size:22px;font-weight:900;line-height:1.5;margin-bottom:10px}.small{font-size:14px;color:#666}
+.wrong{border-left:5px solid #333;padding-left:12px;margin:14px 0;line-height:1.65}.ans{font-weight:900}
+.nav{display:flex;gap:8px;flex-wrap:wrap}.pill{background:#eee;border-radius:999px;padding:7px 10px;font-size:13px}
+.footer{text-align:center;color:#777;font-size:13px;padding:20px 0 30px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>烘焙食品丙級｜工作項目02：原料之選用</h1>
+<div class="sub">1～50 線上測驗練習｜可重複測驗｜題目與選項每次重新排列</div>
+</div></header>
+<main class="wrap">
+<section id="start" class="card notice">
+<strong>測驗方式</strong><br>
+共 50 題，每題 2 分，滿分 100 分。作答完成後按「交卷並查看成績」。<br>
+可無限次重新測驗，每次題目與選項會重新排列。<br>
+<br>
+<strong>成績評語：</strong><br>
+100 分：你超級棒!!<br>
+90～99 分：不錯喔! 繼續努力！<br>
+70～89 分：不錯，加油<br>
+69 分以下：你需要多讀點書
+<button class="action" id="startBtn">開始 1～50 題測驗</button>
+</section>
+
+<section id="quiz" class="hidden">
+<div class="card">
+<div class="nav"><span class="pill" id="counter">第 1／50 題</span><span class="pill" id="answered">已作答 0／50</span></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+</div>
+<div id="questions"></div>
+<div class="card">
+<button class="action" id="submitBtn">交卷並查看成績</button>
+<button class="action secondary" id="backBtn">返回開始頁</button>
+</div>
+</section>
+
+<section id="result" class="hidden">
+<div class="card center">
+<div class="small">本次成績</div>
+<div class="score" id="score"></div>
+<div class="message" id="message"></div>
+<div class="small" id="summary"></div>
+<button class="action" id="retryBtn">重新測驗</button>
+<button class="action secondary" id="homeBtn">回到開始頁</button>
+</div>
+<div class="card" id="wrongCard"></div>
+</section>
+<div class="footer">題目依據 077003A12「烘焙食品丙級－工作項目02：原料之選用」題庫整理。</div>
+</main>
+<script>
+const bank=[
+[1,'下列材料中，甜度最低的是？',['果糖','砂糖','麥芽糖','乳糖'],3],
+[2,'台灣目前使用的白油，每桶重量約為？',['5 公斤','10 公斤','16 公斤','30 公斤'],2],
+[3,'奶粉的重量 2.2 磅相當於公制單位的？',['半公斤','1 公斤','1.5 公斤','4.4 公斤'],1],
+[4,'一般天使蛋糕的主要原料為？',['太白粉','蛋白','乳酪','鮮奶油'],1],
+[5,'派皮用的麵粉應以那種麵粉為宜？',['低筋粉','中筋粉','高筋粉','太白粉'],1],
+[6,'塔塔粉是屬？',['中性鹽','酸性鹽','鹼性鹽','低鹼性鹽'],1],
+[7,'不需要使用酵母的烘焙產品是？',['包子','饅頭','麵包','重奶油蛋糕'],3],
+[8,'蛋黃中含量最多的成分？',['水','油脂','蛋白質','灰分'],0],
+[9,'蛋白成分除了水以外含量最多的是？',['油脂','葡萄糖','灰分','蛋白質'],3],
+[10,'一般最適合於麵包製作的水是？',['軟水','蒸餾水','鹼水','中硬度水'],3],
+[11,'麵包配方中糖含量（依烘焙百分比）佔20％以上的是？',['土司麵包','法國麵包','甜麵包','全麥麵包'],2],
+[12,'一般以中種法製作麵包，中種麵糰的原料不含？',['鹽','酵母','麵粉','水'],0],
+[13,'以下那一種原料不屬於化學膨大劑？',['發粉','小蘇打','酵母','阿摩尼亞（碳酸氫銨）'],2],
+[14,'無水奶油是來自於下列那種原料？',['牛肉','豬肉','牛奶','植物油'],2],
+[15,'油脂麵粉與水先煮沸糊化之產品是？',['油條','奶油空心餅','甜麵包','小西餅'],1],
+[16,'下列烘焙用原料較不常使用的是？',['新鮮奶油','全脂奶粉','脫脂奶粉','煉乳'],3],
+[17,'下列那種油脂約含有10％的氣體（氮氣）？',['清香油','瑪琪琳','雪白乳化油','奶油'],2],
+[18,'沒有分析檢驗的情況下，下列何者不是由外觀判斷油炸油的劣化？',['顏色加深','黏度增加','有蟹泡並提前冒煙','酸價為1.0'],3],
+[19,'麵包配方中何種材料添加愈多發酵愈快？',['油脂','蛋黃','酵母','細砂糖'],2],
+[20,'國產麵粉每袋的重量以何種最多？',['22磅','30磅','22公斤','30公斤'],2],
+[21,'海綿蛋糕配方主要原料為？',['細砂糖、麵粉、鹽、牛奶','麵粉、沙拉油、水','麵粉、細砂糖、發粉','麵粉、細砂糖、蛋'],3],
+[22,'下列何種材料可提高小西餅產品的脆性？',['鹽','水','糖','蛋'],2],
+[23,'若用快速酵母粉取代新鮮酵母時，快速酵母粉的用量應為新鮮酵母的？',['等量','1/3','1/2','2倍'],1],
+[24,'製作某種麵包，使用新鮮酵母4％，今因某種原因需改用快速即發酵母粉，用量應為？',['4％','2％','1.6％','1.33％'],3],
+[25,'配方內使用60％鮮奶製作麵包，比用4％的脫脂奶粉作麵包，其實際奶粉固形量？',['較少','相同','較多','大同小異'],2],
+[26,'下列何種原料不是製作奶油布丁派餡之凝凍原料？',['蛋','動物膠','玉米澱粉','奶油水'],3],
+[27,'蛋白在烘焙原料中屬於那一種性質？',['柔性原料','韌性原料','酸性原料','中性原料'],1],
+[28,'蛋白的含水量為？',['50％','75％','88％','95％'],2],
+[29,'巧克力融化加熱方式，最好使用？',['直火加熱','隔水加熱','烤爐加熱','自然融化'],1],
+[30,'蛋黃成分中所含的油脂具有？',['乳化作用','起泡作用','安定作用','膨大作用'],0],
+[31,'製作蛋糕時，奶粉應屬於？',['柔性材料','鹼性材料','韌性材料','芳香材料'],2],
+[32,'奶水中含固形物（奶粉）量為？',['4％','8％','12％','16％'],2],
+[33,'做蘇打餅乾應注意油脂的？',['安定性好、不易酸敗','打發性好','乳化效果好','可塑性好'],0],
+[34,'蒸發奶水含固形物為？',['40％','35％','30％','26％'],3],
+[35,'麵包配方使用2％的細砂糖如將糖量增加至4％，則發酵時間會？',['縮短很多','縮短很少','延長','不變'],3],
+[36,'麵包配方中正常用糖量如從5％增加為10％，則烤好後的麵包最明顯的不同是？',['表皮顏色變淺','表皮變薄而軟','表皮顏色加深','表皮變粗糙'],2],
+[37,'做麵包時配方中油脂量高，可使麵包表皮？',['顏色深','厚','柔軟','硬'],2],
+[38,'蛋黃之水分含量為？',['30～34％','35～39％','40～44％','50～55％'],3],
+[39,'一般奶油或瑪琪琳含水量約為？',['6～10％','11～13％','14～22％','24～30％'],2],
+[40,'乳化劑在蛋糕中的功能是？',['使蛋糕風味佳','使蛋糕顏色加深','融和配方內水和油使組織細膩','縮短攪拌時間減少人工'],2],
+[41,'麵粉中添加活性麵筋粉每增加1％時，則麵粉之吸水量約可提高？',['1％','1.5％','2％','2.5％'],1],
+[42,'新鮮酵母(compressed yeast)水分含量約為？',['45～50％','55～60％','65～70％','80～85％'],2],
+[43,'一般烘焙人員所稱的「重曹」(baking soda)是指？',['發粉','蘇打粉','酵母','酵素'],1],
+[44,'沙拉油必須密封保存，是因為？',['遇空氣易於變色','含不飽和脂肪酸易受氧化酸敗','易揮發','易感染其他不良味道'],1],
+[45,'雞蛋中水分含量？',['70％','75％','80％','85％'],1],
+[46,'乳化劑在麵包中的功能？',['增加麵包風味','使麵包柔軟不易老化','防止麵包發黴','促進酵母活力'],1],
+[47,'全蛋的固形物為？',['10％','15％','25％','35％'],2],
+[48,'麵包的組織鬆軟好吃，主要是在製作的過程中加入了？',['酵母','發粉','小蘇打','阿摩尼亞（碳酸氫銨等）'],0],
+[49,'要使麵包長時間保持柔軟，可在配方內添加？',['膨大劑','麥芽酵素','乳化劑','丙酸鈣'],2],
+[50,'控制發酵最有效的原料是？',['食鹽','糖','改良劑','奶粉'],0]
+];
+let state={order:[],answers:{},submitted:false};
+const $=id=>document.getElementById(id);
+function shuffle(arr){let a=arr.slice();for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function start(){
+ state={order:shuffle(bank.map(q=>q[0])),answers:{},submitted:false};
+ $('start').classList.add('hidden');$('result').classList.add('hidden');$('quiz').classList.remove('hidden');
+ render();window.scrollTo({top:0,behavior:'smooth'});
+}
+function render(){
+ const box=$('questions');box.innerHTML='';
+ state.order.forEach((num,idx)=>{
+   const q=bank.find(x=>x[0]===num);
+   const optionObjs=q[2].map((text,i)=>({text,orig:i}));
+   const opts=shuffle(optionObjs);
+   const card=document.createElement('div');card.className='card';
+   let html=`<div class="qno">第 ${q[0]} 題｜第 ${idx+1}／50 題</div><div class="question">${q[1]}</div>`;
+   opts.forEach((o,k)=>{html+=`<button class="option" data-q="${q[0]}" data-o="${o.orig}">${['A','B','C','D'][k]}．${o.text}</button>`});
+   card.innerHTML=html;box.appendChild(card);
+ });
+ box.querySelectorAll('.option').forEach(btn=>btn.addEventListener('click',()=>{
+   if(state.submitted)return;
+   const q=Number(btn.dataset.q),o=Number(btn.dataset.o);state.answers[q]=o;
+   btn.parentElement.querySelectorAll('.option').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');updateProgress();
+   const next=btn.parentElement.nextElementSibling;if(next) next.scrollIntoView({behavior:'smooth',block:'center'});
+ }));
+ updateProgress();
+}
+function updateProgress(){
+ const n=Object.keys(state.answers).length; $('answered').textContent=`已作答 ${n}／50`; $('bar').style.width=(n/50*100)+'%';
+}
+function submit(){
+ const n=Object.keys(state.answers).length;if(n<50){alert(`還有 ${50-n} 題尚未作答，請完成全部題目後再交卷。`);return}
+ state.submitted=true;let correct=0;const wrong=[];
+ bank.forEach(q=>{if(state.answers[q[0]]===q[3])correct++;else wrong.push(q)});
+ const score=correct*2;let msg='';
+ if(score===100)msg='你超級棒!!'; else if(score>=90)msg='不錯喔! 繼續努力！'; else if(score>=70)msg='不錯，加油'; else msg='你需要多讀點書';
+ $('quiz').classList.add('hidden');$('result').classList.remove('hidden');
+ $('score').textContent=score+' 分';$('message').textContent=msg;$('summary').textContent=`答對 ${correct} 題／50 題，答錯 ${wrong.length} 題`;
+ const wc=$('wrongCard');
+ if(!wrong.length){wc.innerHTML='<div class="center"><strong>全部答對！</strong><br>這次沒有錯題。</div>';return}
+ wc.innerHTML='<h2>錯題與正確答案</h2>'+wrong.map(q=>`<div class="wrong"><strong>第 ${q[0]} 題</strong><br>${q[1]}<br><span class="ans">正確答案：${q[2][q[3]]}</span></div>`).join('');
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+$('startBtn').onclick=start;$('retryBtn').onclick=start;$('submitBtn').onclick=submit;
+$('homeBtn').onclick=()=>{location.reload()};$('backBtn').onclick=()=>{if(confirm('返回開始頁會清除目前這次尚未交卷的作答，確定要離開嗎？'))location.reload()};
+</script>
+</body>
+</html>
