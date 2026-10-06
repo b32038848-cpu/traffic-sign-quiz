@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>烘焙食品丙級｜原料之選用 1～159 題庫</title>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#f5f6f8;--card:#fff;--text:#202124;--muted:#6b7280;--border:#e5e7eb;--btn:#111827;--soft:#eef0f3;--accent:#2563eb}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif;line-height:1.65}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.wrap{max-width:820px;margin:auto;padding:16px}
+h1{font-size:21px;line-height:1.35;margin:0 0 5px;font-weight:900}.sub{font-size:13px;color:var(--muted)}
+.page{display:none}.page.active{display:block}
+.home-card,.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;margin:14px 0;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.home-card h2{font-size:18px;margin:0 0 8px}
+.desc{font-size:14px;color:var(--muted);margin-bottom:12px}
+.grid{display:grid;grid-template-columns:1fr;gap:12px}
+.btn{width:100%;border:0;border-radius:14px;padding:13px 15px;font-size:16px;font-weight:800;cursor:pointer}
+.btn.primary{background:var(--btn);color:#fff}.btn.secondary{background:var(--soft);color:#111827}.btn.blue{background:var(--accent);color:#fff}
+.topbar{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.section-title{font-size:20px;font-weight:900;margin:8px 0}
+.card .no{font-size:14px;font-weight:900;color:var(--muted);margin-bottom:5px}
+.card .q{font-size:20px;font-weight:850;line-height:1.55;margin-bottom:10px}
+.card .a{font-size:18px;font-weight:800;line-height:1.55;padding:11px 12px;border-left:4px solid #9ca3af;background:#f8fafc;border-radius:8px;margin-bottom:10px}
+.card .speak{background:var(--soft)}
+.footer-note{font-size:13px;color:var(--muted);text-align:center;padding:20px 0 36px}
+.badge{display:inline-block;font-size:12px;background:#eef2ff;color:#3730a3;padding:3px 8px;border-radius:999px;margin-bottom:8px;font-weight:800}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>烘焙食品丙級｜工作項目02：原料之選用</h1><div class="sub">1～159 題庫｜題目＋答案＋中文朗讀｜不是計分考試</div></div></header>
+<main class="wrap">
+<section id="home" class="page active">
+  <div class="home-card"><div class="badge">完整題庫</div><h2>請選擇分題目</h2><div class="desc">每一區都是完整題庫，可以進去閱讀、朗讀；閱讀完可回到這裡，再進入其他區段。</div>
+    <div class="grid">
+      <button class="btn primary" data-go="sec1">第一題目｜1～50 題</button>
+      <button class="btn primary" data-go="sec2">第二題目｜51～100 題</button>
+      <button class="btn primary" data-go="sec3">第三題目｜101～159 題</button>
+    </div>
+  </div>
+</section>
+<section id="sec1" class="page">
+  <div class="home-card"><div class="section-title">第一題目｜1～50 題</div><div class="topbar"><button class="btn secondary" data-home>← 回到分題目選單</button><button class="btn blue" data-speak-section="1-50">🔊 全部朗讀</button></div><button class="btn secondary" data-stop>⏹ 停止朗讀</button></div>
+  <div id="list-sec1"></div>
+  <div class="footer-note">本區共 50 題｜可隨時回到分題目選單</div>
+</section><section id="sec2" class="page">
+  <div class="home-card"><div class="section-title">第二題目｜51～100 題</div><div class="topbar"><button class="btn secondary" data-home>← 回到分題目選單</button><button class="btn blue" data-speak-section="51-100">🔊 全部朗讀</button></div><button class="btn secondary" data-stop>⏹ 停止朗讀</button></div>
+  <div id="list-sec2"></div>
+  <div class="footer-note">本區共 50 題｜可隨時回到分題目選單</div>
+</section><section id="sec3" class="page">
+  <div class="home-card"><div class="section-title">第三題目｜101～159 題</div><div class="topbar"><button class="btn secondary" data-home>← 回到分題目選單</button><button class="btn blue" data-speak-section="101-159">🔊 全部朗讀</button></div><button class="btn secondary" data-stop>⏹ 停止朗讀</button></div>
+  <div id="list-sec3"></div>
+  <div class="footer-note">本區共 59 題｜可隨時回到分題目選單</div>
+</section>
+</main>
+<script>
+const items=[{n:1,q:"下列材料中，甜度最低的是？",a:"乳糖"},{n:2,q:"台灣目前使用的白油，每桶重量約為？",a:"16公斤"},{n:3,q:"奶粉的重量 2.2 磅相當於公制單位的？",a:"1公斤"},{n:4,q:"一般天使蛋糕的主要原料為？",a:"蛋白"},{n:5,q:"派皮用的麵粉應以那種麵粉為宜？",a:"中筋粉"},{n:6,q:"塔塔粉是屬？",a:"酸性鹽"},{n:7,q:"不需要使用酵母的烘焙產品是？",a:"重奶油蛋糕"},{n:8,q:"蛋黃中含量最多的成分？",a:"水"},{n:9,q:"蛋白成分除了水以外含量最多的是？",a:"蛋白質"},{n:10,q:"一般最適合於麵包製作的水是？",a:"中硬度水"},{n:11,q:"麵包配方中糖含量（依烘焙百分比）佔20％以上的是？",a:"甜麵包"},{n:12,q:"一般以中種法製作麵包，中種麵糰的原料不含？",a:"鹽"},{n:13,q:"以下那一種原料不屬於化學膨大劑？",a:"酵母"},{n:14,q:"無水奶油是來自於下列那種原料？",a:"牛奶"},{n:15,q:"油脂麵粉與水先煮沸糊化之產品是？",a:"奶油空心餅"},{n:16,q:"下列烘焙用原料較不常使用的是？",a:"煉乳"},{n:17,q:"下列那種油脂約含有10％的氣體（氮氣）？",a:"雪白乳化油"},{n:18,q:"沒有分析檢驗的情況下，下列何者不是由外觀判斷油炸油的劣化？",a:"酸價為1.0"},{n:19,q:"麵包配方中何種材料添加愈多發酵愈快？",a:"酵母"},{n:20,q:"國產麵粉每袋的重量以何種最多？",a:"22公斤"},{n:21,q:"海綿蛋糕配方主要原料為？",a:"麵粉、細砂糖、蛋"},{n:22,q:"下列何種材料可提高小西餅產品的脆性？",a:"糖"},{n:23,q:"若用快速酵母粉取代新鮮酵母時，快速酵母粉的用量應為新鮮酵母的？",a:"1/3"},{n:24,q:"製作某種麵包，使用新鮮酵母4％，今因某種原因需改用快速即發酵母粉，用量應為？",a:"1.33％"},{n:25,q:"配方內使用60％鮮奶製作麵包，比用4％的脫脂奶粉作麵包，其實際奶粉固形量？",a:"較多"},{n:26,q:"下列何種原料不是製作奶油布丁派餡之凝凍原料？",a:"奶油水"},{n:27,q:"蛋白在烘焙原料中屬於那一種性質？",a:"韌性原料"},{n:28,q:"蛋白的含水量為？",a:"88％"},{n:29,q:"巧克力融化加熱方式，最好使用？",a:"隔水加熱"},{n:30,q:"蛋黃成分中所含的油脂具有？",a:"乳化作用"},{n:31,q:"製作蛋糕時，奶粉應屬於？",a:"韌性材料"},{n:32,q:"奶水中含固形物（奶粉）量為？",a:"12％"},{n:33,q:"做蘇打餅乾應注意油脂的？",a:"安定性好、不易酸敗"},{n:34,q:"蒸發奶水含固形物為？",a:"26％"},{n:35,q:"麵包配方使用2％的細砂糖如將糖量增加至4％，則發酵時間會？",a:"不變"},{n:36,q:"麵包配方中正常用糖量如從5％增加為10％，則烤好後的麵包最明顯的不同是？",a:"表皮顏色加深"},{n:37,q:"做麵包時配方中油脂量高，可使麵包表皮？",a:"柔軟"},{n:38,q:"蛋黃之水分含量為？",a:"50～55％"},{n:39,q:"一般奶油或瑪琪琳含水量約為？",a:"14～22％"},{n:40,q:"乳化劑在蛋糕中的功能是？",a:"融和配方內水和油使組織細膩"},{n:41,q:"麵粉中添加活性麵筋粉每增加1％時，則麵粉之吸水量約可提高？",a:"1.5％"},{n:42,q:"新鮮酵母（compressed yeast）水分含量約為？",a:"65～70％"},{n:43,q:"一般烘焙人員所稱的「重曹」（baking soda）是指？",a:"蘇打粉"},{n:44,q:"沙拉油必須密封保存，是因為？",a:"含不飽和脂肪酸易受氧化酸敗"},{n:45,q:"雞蛋中水分含量？",a:"75％"},{n:46,q:"乳化劑在麵包中的功能？",a:"使麵包柔軟不易老化"},{n:47,q:"全蛋的固形物為？",a:"25％"},{n:48,q:"麵包的組織鬆軟好吃，主要是在製作的過程中加入了？",a:"酵母"},{n:49,q:"要使麵包長時間保持柔軟，可在配方內添加？",a:"乳化劑"},{n:50,q:"控制發酵最有效的原料是？",a:"食鹽"},{n:51,q:"稀釋奶油霜飾最適當的原料是？",a:"稀糖漿"},{n:52,q:"一般油炸用油發煙點應在？",a:"200℃以上"},{n:53,q:"為使小西餅達到鬆脆與擴展的目的，配方內可多使用？",a:"細砂糖"},{n:54,q:"製作水果蛋糕應選用？",a:"蜜餞水果"},{n:55,q:"一般西點派皮或蛋糕用的奶酥底，配方內油脂應用？",a:"無水奶油或精製豬油"},{n:56,q:"做蘋果派餡的膠凍原料，通常採用？",a:"玉米澱粉"},{n:57,q:"食品工廠用的油炸用油最好選用？",a:"氫化油"},{n:58,q:"麵包可使用的防腐劑為？",a:"丙酸鈣"},{n:59,q:"蛋糕可使用的防腐劑為？",a:"丙酸鈉"},{n:60,q:"新鮮酵母貯存的最佳溫度為？",a:"2～10℃"},{n:61,q:"製作麩皮或裸麥麵包，其主要原料的麵粉為？",a:"高筋麵粉"},{n:62,q:"下列那一種油脂其烤酥性最大？",a:"豬油"},{n:63,q:"製作天使蛋糕時塔塔粉與鹽的用量總和為？",a:"1％"},{n:64,q:"下列那一種糖的甜度最高？",a:"果糖"},{n:65,q:"製做丹麥麵包或鬆餅，其裹入用油脂應採用？",a:"瑪琪琳"},{n:66,q:"麵粉如因貯存太久筋性受損，在做麵包時可酌量在配方內？",a:"使用脫脂奶粉"},{n:67,q:"製作高成分奶油海綿蛋糕為降低麵粉的筋性，配方內部分麵粉最好用？",a:"小麥澱粉"},{n:68,q:"乳化油在下列那一項產品較不合適添加？",a:"戚風蛋糕"},{n:69,q:"蛋糕所用的發粉應為？",a:"雙重反應發粉"},{n:70,q:"欲增加小西餅鬆酥的性質可酌量增加？",a:"油"},{n:71,q:"依 CNS 所謂全麥麵包，其全麥麵粉的用量應為？",a:"20％"},{n:72,q:"使用蒸發奶水代替鮮奶時，應照鮮奶用量？",a:"1/2 蒸發奶水加 1/2 水"},{n:73,q:"欲生產良好的烘焙產品下列條件何者不是？",a:"好的裝潢"},{n:74,q:"夾心餅乾之夾心用油脂，通常需要數個月之保存、流通，因此宜使用？",a:"椰子油"},{n:75,q:"烘焙用油脂的融點愈高，其口溶性？",a:"愈差"},{n:76,q:"食品衛生管理法規定烘焙油脂中合成抗氧化劑的總量不得超過？",a:"200 ppm"},{n:77,q:"麵粉之蛋白質組成成分中缺乏？",a:"離胺酸"},{n:78,q:"不是派餡用來做膠凍原料有？",a:"果膠"},{n:79,q:"製作蛋糕道納司所使用之膨脹劑是？",a:"發粉（B.P）"},{n:80,q:"製作蛋白霜飾所需要之主原料是？",a:"蛋白和糖"},{n:81,q:"一個中型雞蛋去殼後約重？",a:"50公克"},{n:82,q:"麵粉中的蛋白質每增加1％，則吸水量約增加？",a:"2％"},{n:83,q:"製作轉化糖漿使用何種糖原料？",a:"砂糖"},{n:84,q:"烘焙用乾酪（Cheese）原料，其主要的組成成分為？",a:"蛋白質"},{n:85,q:"烘焙產品使用何者糖，在其烤焙時較易產生梅納反應？",a:"果糖"},{n:86,q:"下列何種油脂含有反式脂肪酸？",a:"牛油"},{n:87,q:"下列材料中何者不屬於膨脹劑？",a:"可可粉"},{n:88,q:"下列何種小麥適合製作海綿蛋糕？",a:"軟質小麥"},{n:89,q:"下列何種性質不是為小麥分類的依據？",a:"破損澱粉"},{n:90,q:"小麥胚乳的主要色素為？",a:"胡蘿蔔素"},{n:91,q:"胚乳約佔整個小麥穀粒的？",a:"83%"},{n:92,q:"小麥製粉主要目的？",a:"使麩皮、胚芽與胚乳部分分離"},{n:93,q:"小麥胚芽中富含油脂，其主要之脂肪酸為？",a:"亞麻仁油酸"},{n:94,q:"小麥製粉時，與其出粉率成正比者為？",a:"灰分含量"},{n:95,q:"麵粉中添加維生素C作為改良劑主要效用？",a:"熟成作用"},{n:96,q:"蛋糕用麵粉一般由何種麥所磨製？",a:"軟質冬麥"},{n:97,q:"W/O乳化劑 HLB 範圍？",a:"3.5～6"},{n:98,q:"O/W乳化劑 HLB 範圍？",a:"8～18"},{n:99,q:"製作轉化糖漿何種酸水解品質最佳？",a:"酒石酸"},{n:100,q:"雞蛋蛋白脂肪含量？",a:"0%"},{n:101,q:"使用脫脂奶粉代替奶水，脫脂奶粉對水比例？",a:"10：90"},{n:102,q:"裝飾用鮮奶油加入牛奶攪拌時，牛奶溫度須保持多少以下？",a:"10℃"},{n:103,q:"發粉定義：每100公克發粉所釋出之二氧化碳量不能低於發粉重量的？",a:"12%"},{n:104,q:"常溫不釋出氣體、烤焙時才釋出二氧化碳的是？",a:"慢性反應發粉"},{n:105,q:"製作蛋糕有效控制釋出均勻規則氣體的是？",a:"雙重反應發粉"},{n:106,q:"椰子粉脂肪含量約為？",a:"60%"},{n:107,q:"棉花糖加入具有打發起泡特性之膠凍原料為？",a:"動物膠"},{n:108,q:"膠凍原料需加適當糖與酸才能形成膠體的是？",a:"果膠"},{n:109,q:"製作轉化糖漿，加水溶解再稀酸加熱的原料是？",a:"砂糖"},{n:110,q:"海綿蛋糕添加乳化起泡劑的目的為？",a:"增加麵糊安定性"},{n:111,q:"小麥之橫斷面呈粉質狀者為何？",a:"低筋麵粉"},{n:112,q:"小麥之橫斷面呈玻璃質狀者為何？",a:"高筋麵粉"},{n:113,q:"麵粉蛋白質是屬於部分不完全蛋白質，因為其胺基酸內缺少了一種必需胺基酸為？",a:"離胺酸"},{n:114,q:"下列何種胺基酸內含有硫氫根（－SH），並具有還原特性，以影響麵糰之性質？",a:"半胱胺酸"},{n:115,q:"小麥胚芽中含有下列何種物質，其含有硫氫根（－SH），會減少麵筋彈性，使麵糰發粘？",a:"麩胱甘"},{n:116,q:"可以得到麵粉之吸水量、攪拌時間及攪拌耐力之儀器設備為？",a:"麵糰攪拌特性測定儀（Farinograph）"},{n:117,q:"測定低筋粉或軟麥麵粉中膠性粘度之儀器設備為？",a:"連續溫度黏度測定儀（Viscosgraph）"},{n:118,q:"測定麵筋之伸張力及伸張阻力等品質之儀器設備為？",a:"麵糰拉力特性測定儀（Extensograph）"},{n:119,q:"測定麵粉中之液化酵素的儀器設備為？",a:"麵粉酵素活性測定儀（Amylograph）"},{n:120,q:"D.E.值（葡萄糖當量）30～50之澱粉糖漿，其組成成分為？",a:"糊精、麥芽糖及葡萄糖之混合物"},{n:121,q:"以澱粉為原料經完全水解 D.E.值（葡萄糖當量）為100之糖漿產品，其組成成分為？",a:"葡萄糖"},{n:122,q:"下列何種糖吸濕性最小？",a:"砂糖"},{n:123,q:"有關糖對麵包品質之影響，下列何者有誤？",a:"可防止麵包變硬"},{n:124,q:"下列何種糖，酵母發酵產生二氧化碳及酒精之速率最慢？",a:"麥芽糖"},{n:125,q:"新鮮雞蛋其 pH 值約為？",a:"7.6"},{n:126,q:"雞蛋內含有下列何種酵素，可以殺死多種微生物，增長貯存時間？",a:"溶菌酵素"},{n:127,q:"製造乾燥蛋白粉時，為避免於乾燥時產生變色反應，必須去除蛋白內之？",a:"葡萄糖"},{n:128,q:"蛋經貯藏後蛋白會釋出下列何種氣體，使其 pH 值升高？",a:"二氧化碳"},{n:129,q:"有關碳酸氫鈉，下列敘述何者錯誤？",a:"是一種酸性鹽"},{n:130,q:"有關發粉，下列敘述何者錯誤？",a:"以碳酸鈉為主原料"},{n:131,q:"下列何者為慢性發粉之主要成分？",a:"酸性焦磷酸鹽"},{n:132,q:"小西餅在烘焙過程中，下列何者不是扮演膨脹的因素？",a:"水"},{n:133,q:"下列何者製作時需要添加酵母發酵？",a:"蘇打餅乾"},{n:134,q:"油炸用食用油之總極性化合物（total polar compounds）含量達百分之多少以上時，不得再予使用，應全部更換新油？",a:"25％"},{n:135,q:"製作食用豆漿，那一個不是正常步驟？",a:"生豆漿不必再加熱"},{n:136,q:"全豆豆漿含有的成份中那一項是錯的？",a:"乳糖"},{n:137,q:"豆漿的鈣含量和牛奶比較，是？",a:"低"},{n:138,q:"乳糖不耐症的人喝那種飲料不會產生副作用？",a:"豆漿"},{n:139,q:"市售椰奶包裝及脂肪含量那一項是錯的？",a:"罐裝，脂肪含量比較低"},{n:140,q:"下列對椰奶或椰漿（Coconut Milk）及椰子鮮奶油（Coconut Cream）敘述何者為非？",a:"椰漿，水和椰肉的比例約在1：4"},{n:141,q:"素食分類中，那一種不含奶蛋類？",a:"全素或純素"},{n:142,q:"下列對鷹嘴豆（Chickpea）敘述何者為非？",a:"鷹嘴豆水可以同比例代替雞蛋蛋白"},{n:143,q:"對全素（Vegan）敘述何者為非？",a:"這類素食者可以食用蜂蜜"},{n:144,q:"椰漿敘述何者為非？",a:"椰漿所含碳水化合物超過20％"},{n:145,q:"烘焙產品標示為全素產品，下列那一項原料不應該加入？",a:"乳清蛋白"},{n:146,q:"製作全素麵包不可加入牛奶，可使用下列那一項原料代替？",a:"豆漿"},{n:147,q:"製作全素巧克力產品，下列那一項原料不可加入？",a:"白巧克力"},{n:148,q:"攪拌全素麵包下列那一項原料不可取代牛奶？",a:"優格"},{n:149,q:"全素烘焙產品下列那一項原料不可使用？",a:"發酵奶油"},{n:150,q:"製作全素產品下列那一項原料可以取代奶粉？",a:"豆漿粉"},{n:151,q:"製作全素義大利蛋白霜可用那一項原料取代蛋白打發？",a:"鷹嘴豆汁"},{n:152,q:"製作全素布丁餡不可用那一項原料取代牛奶？",a:"鮮奶油"},{n:153,q:"全素的烘焙產品不可含有動物性成分，下列那一項原料不可使用？",a:"動物膠"},{n:154,q:"製作全素調味餅乾下列那一項原料不可使用？",a:"乳酪粉"},{n:155,q:"製作全素餅乾不可使用下列那一項原料？",a:"奶粉"},{n:156,q:"優格中含有下列那一項原料全素者不可使用？",a:"動物膠"},{n:157,q:"製作全素的慕斯蛋糕，不可使用下列那一項原料？",a:"動物膠"},{n:158,q:"果凍中含有下列那一項凝膠原料，全素者不可食用？",a:"動物膠"},{n:159,q:"製作鳳梨酥中下列那一項原料，不可用為製作全素之烘焙產品？",a:"奶油"}];
+const sections={sec1:[1,50],sec2:[51,100],sec3:[101,159]};
+function speak(text){
+  if(!('speechSynthesis' in window)){alert('此瀏覽器不支援語音朗讀，請使用手機 Chrome 或 Safari。');return;}
+  speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='zh-TW'; u.rate=.88; u.pitch=1; speechSynthesis.speak(u);
+}
+function stopSpeak(){ if('speechSynthesis' in window) speechSynthesis.cancel(); }
+function showPage(id){ stopSpeak(); document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
+function render(id,start,end){
+  const box=document.getElementById('list-'+id); if(box.dataset.ready) return; box.dataset.ready='1';
+  const data=items.filter(x=>x.n>=start && x.n<=end);
+  box.innerHTML=data.map(x=>`<article class="card"><div class="no">第 ${x.n} 題</div><div class="q">${x.q}</div><div class="a">答案：${x.a}</div><button class="btn speak" data-speak-one="${x.n}">🔊 朗讀本題</button></article>`).join('');
+  box.querySelectorAll('[data-speak-one]').forEach(b=>b.addEventListener('click',()=>{ const n=Number(b.dataset.speakOne); const x=items.find(i=>i.n===n); speak(`第${x.n}題。${x.q}。答案：${x.a}。`); }));
+}
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.go; const [s,e]=sections[id]; render(id,s,e); showPage(id);}));
+document.querySelectorAll('[data-home]').forEach(b=>b.addEventListener('click',()=>showPage('home')));
+document.querySelectorAll('[data-stop]').forEach(b=>b.addEventListener('click',stopSpeak));
+document.querySelectorAll('[data-speak-section]').forEach(b=>b.addEventListener('click',()=>{const [s,e]=b.dataset.speakSection.split('-').map(Number); const text=items.filter(x=>x.n>=s&&x.n<=e).map(x=>`第${x.n}題。${x.q}。答案：${x.a}。`).join(''); speak(text);}));
+</script>
+</body></html>
