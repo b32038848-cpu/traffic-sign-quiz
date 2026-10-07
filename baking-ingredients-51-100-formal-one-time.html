@@ -36,7 +36,7 @@ button.secondary{background:#eee;color:#222}
 <section id="start" class="card notice">
 <strong>練習方式</strong><br>
 本區依官方題號 51～100 整理；第 71 題為官方刪題，因此不列入練習，共 49 題。<br>
-本測驗只能作答一次，完成後即鎖定。需要重作時，請由教師輸入密碼 0217 解鎖。<br>完成後按「交卷並查看成績」。<br><br>
+本測驗只能作答一次，完成後即鎖定。需要重作時，請由教師輸入密碼解鎖。<br>完成後按「交卷並查看成績」。<br><br>
 <strong>成績評語：</strong><br>
 100 分：你超級棒!!<br>
 90～99 分：不錯喔! 繼續努力！<br>
@@ -179,13 +179,13 @@ function submit(){
  $('teacherPw').value='';window.scrollTo({top:0,behavior:'smooth'});
 }
 function unlock(){
- if($('teacherPw').value==='0217'){setLocked(false);localStorage.removeItem(STORAGE_KEY);start(true);}else alert('教師密碼錯誤。');
+ if($('teacherPw').value==='0109'){setLocked(false);localStorage.removeItem(STORAGE_KEY);start(true);}else alert('教師密碼錯誤。');
 }
-$('startBtn').onclick=()=>{if(isLocked()){alert('本測驗已完成並鎖定，請於成績頁輸入教師密碼 0217 後重作。');return}if(!resume())start(true)};
+$('startBtn').onclick=()=>{if(isLocked()){alert('本測驗已完成並鎖定，請於成績頁輸入教師密碼 後重作。');return}if(!resume())start(true)};
 $('submitBtn').onclick=submit;$('allSpeak').onclick=()=>{speak(state.order.map(q=>`第${q.n}題。${q.text}。`).join(''))};$('stopSpeak').onclick=stopSpeak;$('unlockBtn').onclick=unlock;
 $('homeBtn').onclick=()=>{stopSpeak();location.reload()};
 if(isLocked()){ $('startBtn').style.display='none'; $('startLock').classList.remove('hidden'); } else { resume(); }
-$('unlockStartBtn').onclick=()=>{if($('teacherPwStart').value==='0217'){setLocked(false);localStorage.removeItem(STORAGE_KEY);location.reload();}else alert('教師密碼錯誤。')};
+$('unlockStartBtn').onclick=()=>{if($('teacherPwStart').value==='0109'){setLocked(false);localStorage.removeItem(STORAGE_KEY);location.reload();}else alert('教師密碼錯誤。')};
 </script>
 </body>
 </html>
