@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>烘焙食品丙級｜原料之選用 51～100 正式測驗</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #ddd}
+.wrap{max-width:860px;margin:auto;padding:16px}
+h1{font-size:22px;margin:0 0 6px;font-weight:900}.sub{color:#666;font-size:14px;line-height:1.5}
+.card{background:#fff;border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.notice{line-height:1.75}.qno{font-size:15px;color:#666;font-weight:800;margin-bottom:8px}.question{font-size:20px;font-weight:800;line-height:1.65;margin-bottom:14px}
+.option{display:block;width:100%;text-align:left;border:1px solid #d9dde3;background:#fff;border-radius:12px;padding:13px 14px;margin:9px 0;font-size:17px;line-height:1.5;cursor:pointer}.option:hover{background:#f7f8fa}.option.selected{border:2px solid #222;background:#f0f0f0}.option input{margin-right:8px}
+button.action{width:100%;border:0;border-radius:12px;padding:14px 16px;font-size:17px;font-weight:800;cursor:pointer;margin-top:10px;background:#222;color:#fff}button.secondary{background:#eee;color:#222}
+.speakbar{display:flex;gap:8px;flex-wrap:wrap}.speakbtn,.question-speak{border:0;border-radius:10px;padding:10px 14px;font-size:15px;font-weight:800;cursor:pointer;background:#eee;color:#222}.question-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.hidden{display:none!important}.center{text-align:center}.score{font-size:44px;font-weight:900;margin:10px 0}.message{font-size:22px;font-weight:900;line-height:1.5;margin-bottom:10px}.small{font-size:14px;color:#666}.wrong{border-left:5px solid #333;padding-left:12px;margin:14px 0;line-height:1.65}.ans{font-weight:900}.nav{display:flex;gap:8px;flex-wrap:wrap}.pill{background:#eee;border-radius:999px;padding:7px 10px;font-size:13px}.lockBox{margin-top:12px;padding:12px;border-radius:12px;background:#f3f4f6;color:#555;font-size:14px;line-height:1.6}.unlockRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.unlockRow input{flex:1;min-width:160px;border:1px solid #ccd1d8;border-radius:12px;padding:12px;font-size:16px}.unlockRow .action{flex:1;min-width:180px}.footer{text-align:center;color:#777;font-size:13px;padding:20px 0 30px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>烘焙食品丙級｜工作項目02：原料之選用</h1>
+<div class="sub">51～100 正式線上測驗｜第71題為官方刪題，不列入｜只能作答一次｜可朗讀</div>
+</div></header>
+<main class="wrap">
+<section id="start" class="card notice">
+<strong>測驗說明</strong><br>
+本測驗依 077003A12 官方題庫（V115021312）之工作項目02「原料之選用」整理。第71題官方標示為刪題，因此本測驗實際作答49題。<br>
+每位學生僅有一次作答機會；完成交卷後即鎖定。若需重新作答，須由教師輸入密碼解鎖。<br>
+測驗中可使用「朗讀本題」或「全部朗讀」功能。<br><br>
+<strong>成績評語：</strong><br>
+100分：你超級棒!!<br>
+90～99分：不錯喔! 繼續努力！<br>
+70～89分：不錯，加油<br>
+69分以下：你需要多讀點書
+<button class="action" id="startBtn">開始 51～100 題測驗</button>
+<div id="startLock" class="lockBox hidden"><strong>本測驗已鎖定</strong><br>請輸入教師密碼後重新開放。<div class="unlockRow"><input id="teacherPwStart" type="password" inputmode="numeric" placeholder="教師密碼"><button class="action" id="unlockStartBtn">教師解鎖</button></div></div>
+</section>
+
+<section id="quiz" class="hidden">
+<div class="card"><div class="nav"><span class="pill" id="counter">共49題</span><span class="pill" id="answered">已作答0／49</span></div></div>
+<div class="card speakbar"><button class="speakbtn" id="allSpeak">🔊 全部朗讀</button><button class="speakbtn" id="stopSpeak">⏹ 停止朗讀</button></div>
+<div id="questions"></div>
+<div class="card"><button class="action" id="submitBtn">交卷並查看成績</button><button class="action secondary" id="backBtn">返回開始頁</button></div>
+</section>
+
+<section id="result" class="hidden">
+<div class="card center"><div class="small">本次成績</div><div class="score" id="score"></div><div class="message" id="message"></div><div class="small" id="summary"></div>
+<div class="lockBox">本測驗已完成並鎖定。如需重新作答，請由教師輸入密碼。</div>
+<div class="unlockRow"><input id="teacherPw" type="password" inputmode="numeric" placeholder="教師密碼"><button class="action" id="unlockBtn">教師解鎖重作</button></div>
+</div>
+<div class="card" id="wrongCard"></div>
+</section>
+<div class="footer">題目與選項依 077003A12 官方題庫 V115021312 核對；第71題官方標示為刪題。</div>
+</main>
+<script>
+const bank=[
+[51,'稀釋奶油霜飾最適當的原料是？',['沙拉油','水','蛋','稀糖漿'],3],
+[52,'一般油炸用油發煙點應在？',['150～160℃','160～170℃','170～180℃','200℃以上'],3],
+[53,'為使小西餅達到鬆脆與擴展的目的，配方內可多使用？',['細砂糖','糖粉','糖漿','麥芽糖'],0],
+[54,'製作水果蛋糕應選用？',['新鮮水果','罐頭水果','蜜餞水果','脫水水果'],2],
+[55,'一般西點派皮或蛋糕用的奶酥底，配方內油脂應用？',['無水奶油或精製豬油','瑪琪琳','含水奶油','沙拉油'],0],
+[56,'做蘋果派餡的膠凍原料，通常採用？',['玉米澱粉','動物膠','洋菜粉','甘藷粉'],0],
+[57,'食品工廠用的油炸用油最好選用？',['沙拉油','氫化油','黃豆油','奶油'],1],
+[58,'麵包可使用的防腐劑為？',['丙酸鈣','去水醋酸','硼酸','苯甲酸'],0],
+[59,'蛋糕可使用的防腐劑為？',['苯甲酸','丙酸鈉','對羥苯甲酸丁酯','異抗壞血酸'],1],
+[60,'新鮮酵母貯存的最佳溫度為？',['-10～0℃','2～10℃','11～20℃','21～27℃'],1],
+[61,'製作麩皮或裸麥麵包，其主要原料的麵粉為何？',['高筋麵粉','洗筋粉','粉心粉','低筋麵粉'],0],
+[62,'下列那一種油脂其烤酥性最大？',['純奶油','人造奶油','豬油','雪白油'],2],
+[63,'製作天使蛋糕時塔塔粉與鹽的用量總和為何？',['0.1％','1％','5％','10％'],1],
+[64,'下列那一種糖的甜度最高？',['果糖','轉化糖漿','砂糖','葡萄糖'],0],
+[65,'製做丹麥麵包或鬆餅，其裹入用油脂應採用？',['豬油','雪白奶油','白油（烤酥油）','瑪琪琳'],3],
+[66,'麵粉如因貯存太久筋性受損，在做麵包時可酌量在配方內？',['增加鹽的用量','減少糖的用量','使用脫脂奶粉','增加乳化劑'],2],
+[67,'製作高成分奶油海綿蛋糕為降低麵粉的筋性，配方內部分麵粉最好用？',['全脂奶粉','太白粉','小麥澱粉','乳清粉'],2],
+[68,'乳化油在下列那一項產品較不合適添加？',['戚風蛋糕','麵包','海綿蛋糕','奶油霜飾'],0],
+[69,'蛋糕所用的發粉應為？',['快性發粉','次快性發粉','雙重反應發粉','慢性發粉'],2],
+[70,'欲增加小西餅鬆酥的性質可酌量增加？',['水','油','糖','高筋麵粉'],1],
+[72,'使用蒸發奶水代替鮮奶時，應照鮮奶用量？',['等量使用','1/3 蒸發奶水加 2/3 水','2/3 蒸發奶水加 1/3 水','1/2 蒸發奶水加 1/2 水'],3],
+[73,'欲生產良好的烘焙產品下列條件何者不是？',['好的原料','純熟的技術','好的設備','好的裝潢'],3],
+[74,'夾心餅乾之夾心用油脂，通常須要數個月之保存、流通因此宜使用？',['花生油','沙拉油','葵花油','椰子油'],3],
+[75,'烘焙用油脂的融點愈高，其口溶性？',['愈好','愈差','無關','差不多'],1],
+[76,'食品衛生管理法規定烘焙油脂中合成抗氧化劑的總量不得超過？',['50ppm','200ppm','400ppm','0.1％'],1],
+[77,'麵粉之蛋白質組成成分中缺乏？',['丙苯胺酸','離胺酸','麩胺酸','半胱胺酸'],1],
+[78,'不是派餡用來做膠凍原料有？',['玉米澱粉','動物膠','雞蛋','果膠'],3],
+[79,'製作蛋糕道納司所使用之膨脹劑是？',['酵母','發粉(B.P)','油脂','小蘇打(B.S)'],1],
+[80,'製作蛋白霜飾所需要之主原料是？',['蛋黃','全蛋','蛋白和糖','蛋黃和糖'],2],
+[81,'一個中型雞蛋去殼後約重？',['50公克','70公克','80公克','100公克'],0],
+[82,'麵粉中的蛋白質每增加 1％，則吸水量約增加？',['2％','4％','6％','不變'],0],
+[83,'製作轉化糖漿使用何種糖原料？',['葡萄糖','砂糖','麥芽糖','乳糖'],1],
+[84,'烘焙用乾酪(Cheese)原料，其主要的組成成分為？',['灰粉','澱粉','蛋白質','醣'],2],
+[85,'烘焙產品使用何者糖，在其烤焙時較易產生梅納反應？',['果糖','砂糖','麥芽糖','乳糖'],0],
+[86,'下列何種油脂含有反式脂肪酸？',['麻油','花生油','牛油','完全氫化植物油'],2],
+[87,'下列材料中何者不屬於膨脹劑？',['發粉','阿摩尼亞','可可粉','小蘇打粉'],2],
+[88,'下列何種小麥適合製作海綿蛋糕？',['硬紅春麥','硬紅冬麥','軟質小麥','杜蘭小麥'],2],
+[89,'下列何種性質不是為小麥分類的依據？',['蛋白質','吸水量','麵筋品質','破損澱粉'],3],
+[90,'小麥胚乳的主要色素為？',['葉綠素','葉紅素','葉黃素','胡蘿蔔素'],3],
+[91,'胚乳約佔整個小麥穀粒的？',['75%','83%','92%','100%'],1],
+[92,'下列何者為小麥製粉主要的目的？',['熟成','漂白','使麩皮、胚芽與胚乳部分分離','增加彈性'],2],
+[93,'小麥胚芽中富含油脂，其主要之脂肪酸為？',['油酸','亞麻仁油酸','次亞麻仁油酸','花生四烯酸'],1],
+[94,'小麥製粉時，與其出粉率成正比者為？',['水分含量','灰分含量','蛋白質含量','醣含量'],1],
+[95,'麵粉中添加維生素 C 作為改良劑之主要效用為？',['熟成作用','漂白作用','熟成及漂白作用','殺菌作用'],0],
+[96,'蛋糕用麵粉一般由何種麥所磨製？',['硬紅春麥','硬紅冬麥','琥珀色硬質小麥','軟質冬麥'],3],
+[97,'食品用水溶於油（W／O)之乳化劑，其親水親油平衡值（HLB：Hydrophilic - Lipophilic Balance value）之範圍介於？',['3.5～6','8～18','20～25','26～30'],0],
+[98,'食品用油溶於水（O/W）之乳化劑，其親水親油平衡值（HLB：Hydrophilic - Lipophilic Balance value）之範圍介於？',['3.5～6','8～18','20～25','26～30'],1],
+[99,'製作海綿蛋糕添加乳化起泡劑目的為？',['使麵糊的比重上升','增加麵糊的安定性','於攪拌時拌入較少的空氣','使蛋糕體積變小'],1],
+[100,'製作轉化糖漿，以下列何者為原料，加水溶解再加入稀酸、加熱使之轉化的液體糖？',['乳糖','砂糖','麥芽糖','蜂蜜'],1]
+];
+
+const TOTAL=bank.length, STORAGE_KEY='baking_51_100_official_v3', LOCK_KEY=STORAGE_KEY+'_locked', PASSWORD='0109';
+let state={order:[],answers:{},submitted:false};
+const $=id=>document.getElementById(id);
+function shuffle(arr){return arr.map(v=>({v,r:Math.random()})).sort((a,b)=>a.r-b.r).map(x=>x.v)}
+function esc(s){return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')}
+function speak(text){if(!('speechSynthesis'in window)){alert('此瀏覽器不支援語音朗讀，請使用手機 Chrome 或 Safari。');return;} speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text);u.lang='zh-TW';u.rate=.88;u.pitch=1;speechSynthesis.speak(u)}
+function stopSpeak(){if('speechSynthesis'in window)speechSynthesis.cancel()}
+function locked(){return localStorage.getItem(LOCK_KEY)==='1'}
+function setLocked(v){if(v)localStorage.setItem(LOCK_KEY,'1');else localStorage.removeItem(LOCK_KEY)}
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
+function start(){stopSpeak();state={order:shuffle(bank).map(q=>({n:q[0],text:q[1],options:shuffle(q[2]),answer:q[2][q[3]]})),answers:{},submitted:false};save();render();$('start').classList.add('hidden');$('quiz').classList.remove('hidden');$('result').classList.add('hidden');window.scrollTo({top:0})}
+function restore(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(s&&s.order?.length===TOTAL&&!s.submitted){state=s;return true}}catch(e){} return false}
+function render(){
+ const box=$('questions'); box.innerHTML=state.order.map((q,i)=>`<section class="card"><div class="qno">第 ${q.n} 題（${i+1}/${TOTAL}）</div><div class="question">${esc(q.text)}</div><div class="options">${q.options.map((o,j)=>`<label class="option"><input type="radio" name="q${q.n}" value="${esc(o)}">${String.fromCharCode(65+j)}. ${esc(o)}</label>`).join('')}</div><div class="question-actions"><button type="button" class="question-speak" data-speak="${esc('第'+q.n+'題。'+q.text)}">🔊 朗讀本題</button></div></section>`).join('');
+ box.querySelectorAll('input[type=radio]').forEach(r=>r.addEventListener('change',e=>{const n=Number(e.target.name.slice(1));state.answers[n]=e.target.value;save();updateProgress();}));
+ box.querySelectorAll('[data-speak]').forEach(b=>b.addEventListener('click',()=>speak(b.dataset.speak))); restoreAnswers(); updateProgress();
+}
+function restoreAnswers(){for(const q of state.order){const v=state.answers[q.n];if(v){const el=document.querySelector(`input[name="q${q.n}"][value="${CSS.escape(v)}"]`);if(el){el.checked=true;el.closest('.option')?.classList.add('selected')}}}}
+function updateProgress(){$('answered').textContent=`已作答${Object.keys(state.answers).length}／${TOTAL}`}
+function result(){
+ stopSpeak(); let correct=0,wrong=[]; for(const q of state.order){const a=state.answers[q.n]; if(a===q.answer)correct++; else wrong.push({q,a:a||'未作答'});} const score=Math.round(correct/TOTAL*100); let msg=score===100?'你超級棒!!':score>=90?'不錯喔! 繼續努力！':score>=70?'不錯，加油':'你需要多讀點書';
+ $('score').textContent=score+' 分';$('message').textContent=msg;$('summary').textContent=`答對 ${correct} 題／${TOTAL} 題，答錯 ${wrong.length} 題`;
+ $('wrongCard').innerHTML=wrong.length?'<h2>錯題與正確答案</h2>'+wrong.map(w=>`<div class="wrong"><strong>第 ${w.q.n} 題</strong><br>${esc(w.q.text)}<br>你的答案：${esc(w.a)}<br><span class="ans">正確答案：${esc(w.q.answer)}</span></div>`).join(''):'<div class="center"><strong>全部答對！</strong></div>';
+ state.submitted=true;save();setLocked(true);$('quiz').classList.add('hidden');$('result').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});
+}
+function submit(){const unanswered=state.order.filter(q=>!state.answers[q.n]);if(unanswered.length){alert(`尚有 ${unanswered.length} 題未作答，請完成全部題目後再交卷。`);document.querySelector(`input[name="q${unanswered[0].n}"]`)?.closest('.card')?.scrollIntoView({behavior:'smooth',block:'center'});return;}result()}
+function unlock(id){if($(id).value===PASSWORD){setLocked(false);localStorage.removeItem(STORAGE_KEY);start()}else alert('教師密碼錯誤。')}
+$('startBtn').onclick=()=>{if(locked()){$('startBtn').classList.add('hidden');$('startLock').classList.remove('hidden');}else if(restore()){render();$('start').classList.add('hidden');$('quiz').classList.remove('hidden');}else start()};
+$('unlockStartBtn').onclick=()=>unlock('teacherPwStart');$('unlockBtn').onclick=()=>unlock('teacherPw');$('submitBtn').onclick=submit;$('backBtn').onclick=()=>{if(confirm('離開目前測驗將保留作答進度，不會重置此次作答。確定離開？')){$('quiz').classList.add('hidden');$('start').classList.remove('hidden');}};
+$('allSpeak').onclick=()=>{const text=state.order.map(q=>'第'+q.n+'題。'+q.text).join('');speak(text)};$('stopSpeak').onclick=stopSpeak;
+window.addEventListener('beforeunload',()=>save());
+if(locked()){$('startBtn').textContent='本測驗已鎖定';}
+</script>
+</body>
+</html>
