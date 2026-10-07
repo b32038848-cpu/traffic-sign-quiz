@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>115學年度第一學期第一次定期評量｜線上測驗</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif;line-height:1.6}
+header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #ddd}
+.wrap{max-width:860px;margin:auto;padding:16px}
+h1{font-size:22px;margin:0 0 4px}
+.sub{font-size:13px;color:#666}
+.card{background:#fff;border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.notice{line-height:1.75}
+.nav{display:flex;gap:8px;flex-wrap:wrap}
+.pill{background:#eee;border-radius:999px;padding:7px 10px;font-size:13px}
+.progress{height:10px;background:#e8eaee;border-radius:99px;overflow:hidden;margin:12px 0}
+.bar{height:100%;width:0;background:#222;transition:width .2s}
+.qno{font-size:15px;color:#666;font-weight:800;margin-bottom:8px}
+.question{font-size:20px;font-weight:800;line-height:1.65;margin-bottom:12px}
+.option{display:block;width:100%;text-align:left;border:1px solid #d9dde3;background:#fff;border-radius:12px;padding:13px 14px;margin:9px 0;font-size:17px;line-height:1.5;cursor:pointer}
+.option.selected{border:2px solid #222;background:#f0f0f0}
+.option input{margin-right:8px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+button.action,button.speak{border:0;border-radius:12px;padding:12px 15px;font-size:16px;font-weight:800;cursor:pointer;background:#222;color:#fff}
+button.secondary{background:#eee;color:#222}
+button.speak{background:#eee;color:#222;font-size:14px;padding:9px 12px}
+.hidden{display:none!important}
+.center{text-align:center}
+.score{font-size:44px;font-weight:900;margin:8px 0}
+.message{font-size:22px;font-weight:900;line-height:1.5}
+.wrong{border-left:5px solid #333;padding-left:12px;margin:14px 0;line-height:1.7}
+.ans{font-weight:900}
+.lock{background:#f3f4f6;padding:14px;border-radius:12px;margin-top:12px}
+.small{font-size:13px;color:#666}
+.warn{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:12px;margin-top:12px}
+input[type=password]{padding:12px;border:1px solid #ccd1d8;border-radius:12px;font-size:16px;flex:1;min-width:160px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>大甲高工 115 學年度第一學期 第一次定期評量</h1>
+<div class="sub">國語文｜餐一甲｜線上測驗</div>
+</div></header>
+
+<main class="wrap">
+<section id="start" class="card notice">
+<strong>測驗規則</strong><br>
+共 80 題，每題 1.25 分，滿分 100 分。<br>
+本測驗<strong>只能作答一次</strong>。開始後只要離開此網頁、切換分頁、切換到其他 App，系統就會立即結算目前成績並鎖定。<br>
+已作答題目才會計分；尚未作答的題目視為 0 分。<br>
+重新整理、關閉網頁或離開頁面，也會結算並鎖定；老師需使用解鎖密碼才能重新開放。<br>
+<div class="warn">
+<strong>重要：</strong>瀏覽器對「關閉分頁／離開網頁」的事件無法做到 100% 防漏，因此本系統同時使用 visibilitychange、pagehide、beforeunload 與 localStorage 鎖定；若遇到瀏覽器崩潰、強制關閉 App 或清除瀏覽器資料，仍可能無法記錄。
+</div>
+<div class="actions">
+<button class="action" id="startBtn">開始線上測驗</button>
+</div>
+<div id="lockedStart" class="lock hidden">
+<strong>本測驗已完成並鎖定。</strong><br>
+請教師輸入密碼重新開放。
+<div class="actions">
+<input id="pwStart" type="password" inputmode="numeric" placeholder="教師密碼">
+<button class="action" id="unlockStart">教師解鎖</button>
+</div>
+</div>
+</section>
+
+<section id="quiz" class="hidden">
+<div class="card">
+<div class="nav"><span class="pill" id="counter">第 1／80 題</span><span class="pill" id="answered">已作答 0／80</span></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="actions">
+<button class="speak" id="allSpeak">🔊 全部朗讀</button>
+<button class="speak" id="stopSpeak">⏹ 停止朗讀</button>
+</div>
+</div>
+<div id="questions"></div>
+<div class="card">
+<button class="action" id="submitBtn">交卷並查看成績</button>
+</div>
+</section>
+
+<section id="result" class="hidden">
+<div class="card center">
+<div class="small">本次成績</div>
+<div class="score" id="score"></div>
+<div class="message" id="message"></div>
+<div class="small" id="summary"></div>
+<div class="lock">
+<strong>本次測驗已鎖定。</strong><br>
+教師可輸入解鎖密碼重新開放。
+<div class="actions">
+<input id="pwResult" type="password" inputmode="numeric" placeholder="教師密碼">
+<button class="action" id="unlockResult">教師解鎖重作</button>
+</div>
+</div>
+</div>
+<div class="card" id="wrongCard"></div>
+</section>
+</main>
+
+<script>
+const BANK = [{"n": 1, "q": "下列材料中，甜度最低的是？", "opts": ["果糖", "砂糖", "麥芽糖", "乳糖"], "a": 3}, {"n": 2, "q": "一般天使蛋糕的主要原料為？", "opts": ["太白粉", "蛋白", "乳酪", "鮮奶油"], "a": 1}, {"n": 3, "q": "不需要使用酵母的烘焙產品是？", "opts": ["包子", "饅頭", "麵包", "重奶油蛋糕"], "a": 3}, {"n": 4, "q": "一般最適合於麵包製作的水是？", "opts": ["軟水", "蒸餾水", "鹼水", "中硬度水"], "a": 3}, {"n": 5, "q": "無水奶油是來自於下列那種原料？", "opts": ["牛肉", "豬肉", "牛奶", "植物油"], "a": 2}, {"n": 6, "q": "油脂麵粉與水先煮沸糊化之產品是？", "opts": ["油條", "奶油空心餅", "甜麵包", "小西餅"], "a": 1}, {"n": 7, "q": "下列烘焙用原料較不常使用的是？", "opts": ["新鮮奶油", "全脂奶粉", "脫脂奶粉", "煉乳"], "a": 3}, {"n": 8, "q": "沒有分析檢驗的情況下，下列何者不是由外觀判斷油炸油的劣化？", "opts": ["顏色加深", "黏度增加", "有蟹泡並提前冒煙", "酸價為1.0"], "a": 3}, {"n": 9, "q": "麵包配方中何種材料添加愈多發酵愈快？", "opts": ["油脂", "蛋黃", "酵母", "細砂糖"], "a": 2}, {"n": 10, "q": "國產麵粉每袋的重量以何種最多？", "opts": ["22磅", "30磅", "22公斤", "30公斤"], "a": 2}, {"n": 11, "q": "下列何種材料可提高小西餅產品的脆性？", "opts": ["鹽", "水", "糖", "蛋"], "a": 2}, {"n": 12, "q": "若用快速酵母粉取代新鮮酵母時，快速酵母粉的用量應為新鮮酵母的？", "opts": ["等量", "1/3", "1/2", "2倍"], "a": 1}, {"n": 13, "q": "製作某種麵包，使用新鮮酵母4％，今因某種原因需改用快速即發酵母粉，用量應為？", "opts": ["4％", "2％", "1.6％", "1.33％"], "a": 3}, {"n": 14, "q": "巧克力融化加熱方式，最好使用？", "opts": ["直火加熱", "隔水加熱", "烤爐加熱", "自然融化"], "a": 1}, {"n": 15, "q": "奶水中含固形物（奶粉）量為？", "opts": ["4％", "8％", "12％", "16％"], "a": 2}, {"n": 16, "q": "做蘇打餅乾應注意油脂的？", "opts": ["安定性好、不易酸敗", "打發性好", "乳化效果好", "可塑性好"], "a": 0}, {"n": 17, "q": "蒸發奶水含固形物為？", "opts": ["40％", "35％", "30％", "26％"], "a": 3}, {"n": 18, "q": "麵包配方中正常用糖量如從5％增加為10％，則烤好後的麵包最明顯的不同是？", "opts": ["表皮顏色變淺", "表皮變薄而軟", "表皮顏色加深", "表皮變粗糙"], "a": 2}, {"n": 19, "q": "乳化劑在蛋糕中的功能是？", "opts": ["使蛋糕風味佳", "使蛋糕顏色加深", "融和配方內水和油使組織細膩", "縮短攪拌時間減少人工"], "a": 2}, {"n": 20, "q": "麵粉中添加活性麵筋粉每增加1％時，則麵粉之吸水量約可提高？", "opts": ["1％", "1.5％", "2％", "2.5％"], "a": 1}, {"n": 21, "q": "乳化劑在麵包中的功能？", "opts": ["增加麵包風味", "使麵包柔軟不易老化", "防止麵包發黴", "促進酵母活力"], "a": 1}, {"n": 22, "q": "全蛋的固形物為？", "opts": ["10％", "15％", "25％", "35％"], "a": 2}, {"n": 23, "q": "麵包的組織鬆軟好吃，主要是在製作的過程中加入了？", "opts": ["酵母", "發粉", "小蘇打", "阿摩尼亞（碳酸氫銨等）"], "a": 0}, {"n": 24, "q": "要使麵包長時間保持柔軟，可在配方內添加？", "opts": ["膨大劑", "麥芽酵素", "乳化劑", "丙酸鈣"], "a": 2}, {"n": 25, "q": "控制發酵最有效的原料是？", "opts": ["食鹽", "糖", "改良劑", "奶粉"], "a": 0}, {"n": 26, "q": "稀釋奶油霜飾最適當的原料是？", "opts": ["沙拉油", "水", "蛋", "稀糖漿"], "a": 3}, {"n": 27, "q": "為使小西餅達到鬆脆與擴展的目的，配方內可多使用？", "opts": ["細砂糖", "糖粉", "糖漿", "麥芽糖"], "a": 0}, {"n": 28, "q": "製作水果蛋糕應選用？", "opts": ["新鮮水果", "罐頭水果", "蜜餞水果", "脫水水果"], "a": 2}, {"n": 29, "q": "做蘋果派餡的膠凍原料，通常採用？", "opts": ["玉米澱粉", "動物膠", "洋菜粉", "甘藷粉"], "a": 0}, {"n": 30, "q": "蛋糕可使用的防腐劑為？", "opts": ["苯甲酸", "丙酸鈉", "對羥苯甲酸丁酯", "異抗壞血酸"], "a": 1}, {"n": 31, "q": "製作麩皮或裸麥麵包，其主要原料的麵粉為？", "opts": ["高筋麵粉", "洗筋粉", "粉心粉", "低筋麵粉"], "a": 0}, {"n": 32, "q": "下列那一種油脂其烤酥性最大？", "opts": ["純奶油", "人造奶油", "豬油", "雪白油"], "a": 2}, {"n": 33, "q": "下列那一種糖的甜度最高？", "opts": ["果糖", "轉化糖漿", "砂糖", "葡萄糖"], "a": 0}, {"n": 34, "q": "麵粉如因貯存太久筋性受損，在做麵包時可酌量在配方內？", "opts": ["增加鹽的用量", "減少糖的用量", "使用脫脂奶粉", "增加乳化劑"], "a": 2}, {"n": 35, "q": "乳化油在下列那一項產品較不合適添加？", "opts": ["戚風蛋糕", "麵包", "海綿蛋糕", "奶油霜飾"], "a": 0}, {"n": 36, "q": "欲增加小西餅鬆酥的性質可酌量增加？", "opts": ["水", "油", "糖", "高筋麵粉"], "a": 1}, {"n": 37, "q": "使用蒸發奶水代替鮮奶時，應照鮮奶用量？", "opts": ["等量使用", "1/3蒸發奶水加2/3水", "2/3蒸發奶水加1/3水", "1/2蒸發奶水加1/2水"], "a": 3}, {"n": 38, "q": "夾心餅乾之夾心用油脂，通常須要數個月之保存、流通因此宜使用？", "opts": ["花生油", "沙拉油", "葵花油", "椰子油"], "a": 3}, {"n": 39, "q": "烘焙用油脂的融點愈高，其口溶性？", "opts": ["愈好", "愈差", "無關", "差不多"], "a": 1}, {"n": 40, "q": "麵粉之蛋白質組成成分中缺乏哪一項，因此必須添加奶粉？", "opts": ["丙苯胺酸", "離胺酸", "麩胺酸", "半胱胺酸"], "a": 1}, {"n": 41, "q": "不是派餡用來做膠凍原料有？", "opts": ["玉米澱粉", "動物膠", "雞蛋", "果膠"], "a": 3}, {"n": 42, "q": "製作蛋糕道納司所使用之膨脹劑是？", "opts": ["酵母", "發粉(B.P)", "油脂", "小蘇打(B.S)"], "a": 1}, {"n": 43, "q": "製作蛋白霜飾所需要之主原料是？", "opts": ["蛋黃", "全蛋", "蛋白和糖", "蛋黃和糖"], "a": 2}, {"n": 44, "q": "一個中型雞蛋去殼後約重？", "opts": ["50公克", "70公克", "80公克", "100公克"], "a": 0}, {"n": 45, "q": "麵粉中的蛋白質每增加1％，則吸水量約增加？", "opts": ["2％", "4％", "6％", "不變"], "a": 0}, {"n": 46, "q": "製作轉化糖漿使用何種糖原料？", "opts": ["葡萄糖", "砂糖", "麥芽糖", "乳糖"], "a": 1}, {"n": 47, "q": "烘焙用乾酪(Cheese)原料，其主要的組成成分為？", "opts": ["灰粉", "澱粉", "蛋白質", "醣"], "a": 2}, {"n": 48, "q": "下列材料中何者不屬於膨脹劑？", "opts": ["發粉", "阿摩尼亞", "可可粉", "小蘇打粉"], "a": 2}, {"n": 49, "q": "小麥胚芽中富含油脂，其主要之脂肪酸為？", "opts": ["油酸", "亞麻仁油酸", "次亞麻仁油酸", "花生四烯酸"], "a": 1}, {"n": 50, "q": "小麥製粉時，與其出粉率成正比者為？", "opts": ["水分含量", "灰分含量", "蛋白質含量", "醣含量"], "a": 1}, {"n": 51, "q": "麵粉中添加維生素C作為改良劑之主要效用為？", "opts": ["熟成作用", "漂白作用", "熟成及漂白作用", "殺菌作用"], "a": 0}, {"n": 52, "q": "製作海綿蛋糕添加乳化起泡劑目的為？", "opts": ["使麵糊的比重上升", "增加麵糊的安定性", "於攪拌時拌入較少的空氣", "使蛋糕體積變小"], "a": 1}, {"n": 53, "q": "使用脫脂奶粉代替奶水時，脫脂奶粉對水混合的比例應為？", "opts": ["1：99", "10：90", "20：80", "30：70"], "a": 1}, {"n": 54, "q": "發粉的定義是由小蘇打及酸性鹽混合攪拌而成的一種膨大劑，所產生的二氧化碳量不能低於發粉重量的？", "opts": ["4％", "8％", "12％", "16％"], "a": 2}, {"n": 55, "q": "在常溫時不釋出氣體，須於烤焙時才釋出二氧化碳氣體，為？", "opts": ["快性反應發粉", "慢性反應發粉", "雙重反應發粉", "多重反應發粉"], "a": 1}, {"n": 56, "q": "椰子粉的脂肪含量約為？", "opts": ["30％", "40％", "50％", "60％"], "a": 3}, {"n": 57, "q": "製作棉花糖時，加入下列何種具有打發起泡特性之膠凍原料？", "opts": ["洋菜", "果膠", "阿拉伯膠", "動物膠"], "a": 3}, {"n": 58, "q": "小麥之橫斷面呈粉質狀者為何？", "opts": ["高筋麵粉", "中筋麵粉", "粉心麵粉", "低筋麵粉"], "a": 3}, {"n": 59, "q": "小麥胚芽中含有下列何種物質，其含有硫氫根（-SH），會減少麵筋彈性，使麵糰發粘？", "opts": ["維生素E", "礦物質", "油脂", "麩胱甘肽"], "a": 3}, {"n": 60, "q": "測定低筋粉或軟麥麵粉中膠性粘度之儀器設備為？", "opts": ["麵粉沉降係數測定儀(Falling Number)", "連續溫度黏度測定儀(Viscosgraph)", "麵糰拉力特性測定儀(Extensograph)", "麵糰攪拌特性測定儀(Farinograph)"], "a": 1}, {"n": 61, "q": "測定麵筋之伸張力及伸張阻力等品質之儀器設備為？", "opts": ["麵粉酵素活性測定儀(Amylograph)", "連續溫度黏度測定儀(Viscosgraph)", "麵糰拉力特性測定儀(Extensograph)", "麵糰攪拌特性測定儀(Farinograph)"], "a": 2}, {"n": 62, "q": "下列何種糖吸濕性最小？", "opts": ["砂糖", "果糖", "蜂蜜", "轉化糖"], "a": 0}, {"n": 63, "q": "有關糖對麵包品質之影響，下列何者有誤？", "opts": ["可防止麵包變硬", "是一種柔性材料", "烤焙時著色快", "增加風味"], "a": 0}, {"n": 64, "q": "下列何種糖，酵母發酵產生二氧化碳及酒精之速率最慢？", "opts": ["砂糖", "果糖", "葡萄糖", "麥芽糖"], "a": 3}, {"n": 65, "q": "雞蛋內含有下列何種酵素，可以殺死多種微生物，增長貯存時間？", "opts": ["蛋白質分解酵素", "脂肪分解酵素", "澱粉分解酵素", "溶菌酵素"], "a": 3}, {"n": 66, "q": "蛋經貯藏後蛋白會釋出下列何種氣體，使其pH值升高？", "opts": ["氫氣", "氮氣", "組織胺", "二氧化碳"], "a": 3}, {"n": 67, "q": "油炸用食用油之總極性化合物（total polar compounds）含量達百分之多少以上時，不得再予使用，應全部更換新油", "opts": ["25", "30", "40", "45"], "a": 0}, {"n": 68, "q": "製作食用豆漿，那一個不是正常步驟？", "opts": ["水中浸泡約3至8個小時", "將黃豆磨碎", "用紗布分離豆渣", "生豆漿不必再加熱"], "a": 3}, {"n": 69, "q": "市售椰奶包裝及脂肪含量那一項是錯的？", "opts": ["鋁箔紙盒裝，脂肪含量比較低", "罐裝，脂肪含量比較低", "罐裝，脂肪含量比較高", "包裝不一樣脂肪含量都一樣"], "a": 1}, {"n": 70, "q": "素食分類中，那一種不含奶蛋類？", "opts": ["奶蛋素", "全素或純素", "植物五辛素", "蛋素"], "a": 1}, {"n": 71, "q": "對全素(Vegan)敘述何者為非？", "opts": ["英國的《經濟學人》報導中全球大趨勢指出2019年是全素之年", "這類素食者的飲食跟植物五辛素很像但不吃蛋、奶", "這類素食者不只不食用動物食品，也不使用動物製品", "這類素食者可以食用蜂蜜"], "a": 3}, {"n": 72, "q": "製作全素巧克力產品，下列那一項原料不可加入？", "opts": ["可可粉", "白巧克力", "可可脂", "可可膏"], "a": 1}, {"n": 73, "q": "攪拌全素麵包下列那一項原料不可取代牛奶？", "opts": ["燕麥奶", "豆漿", "黑豆奶", "優格"], "a": 3}, {"n": 74, "q": "製作全素產品下列那一項原料可以取代奶粉？", "opts": ["米穀粉", "豆漿粉", "玉米粉", "蓬萊米粉"], "a": 1}, {"n": 75, "q": "製作全素布丁餡不可用那一項原料取代牛奶？", "opts": ["豆漿粉", "鮮奶油", "豆漿", "燕麥奶"], "a": 1}, {"n": 76, "q": "全素的烘焙產品不可含有動物性成分，下列那一項原料不可使用？", "opts": ["杏桃果膠", "果凍粉", "動物膠", "果膠粉"], "a": 2}, {"n": 77, "q": "製作全素調味餅乾下列那一項原料不可使用？", "opts": ["胡椒鹽", "薑黃粉", "辣椒粉", "乳酪粉"], "a": 3}, {"n": 78, "q": "製作全素餅乾不可使用下列那一項原料？", "opts": ["奶粉", "豆漿粉", "椰漿", "鷹嘴豆汁"], "a": 0}, {"n": 79, "q": "優格中含有下列那一項原料全素者不可使用？", "opts": ["果膠", "動物膠", "檸檬酸", "洋菜"], "a": 1}, {"n": 80, "q": "製作鳳梨酥中下列那一項原料，不可用為製作全素之烘焙產品", "opts": ["奶油", "冬瓜", "鳳梨", "砂"], "a": 0}];
+const TOTAL = BANK.length;
+const POINTS = 1.25;
+const PASSWORD = "0109";
+const LOCK_KEY = "dajia_midterm_11501_locked_v1";
+const DATA_KEY = "dajia_midterm_11501_state_v1";
+
+let state = {
+  started:false,
+  finished:false,
+  order:[],
+  answers:{},
+  autoSubmitted:false
+};
+
+const $ = id => document.getElementById(id);
+
+function shuffle(arr){
+  return arr.map(v=>({v, r:Math.random()})).sort((a,b)=>a.r-b.r).map(x=>x.v);
+}
+
+function esc(s){
+  return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+}
+
+function speak(text){
+  if(!('speechSynthesis' in window)){
+    alert('此瀏覽器不支援語音朗讀，請使用手機 Chrome 或 Safari。');
+    return;
+  }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-TW';
+  u.rate = 0.88;
+  u.pitch = 1;
+  speechSynthesis.speak(u);
+}
+
+function stopSpeak(){
+  if('speechSynthesis' in window) speechSynthesis.cancel();
+}
+
+function isLocked(){
+  return localStorage.getItem(LOCK_KEY)==='1';
+}
+
+function setLocked(v){
+  if(v) localStorage.setItem(LOCK_KEY,'1');
+  else localStorage.removeItem(LOCK_KEY);
+}
+
+function saveState(){
+  localStorage.setItem(DATA_KEY, JSON.stringify({
+    started:state.started,
+    finished:state.finished,
+    order:state.order,
+    answers:state.answers,
+    autoSubmitted:state.autoSubmitted
+  }));
+}
+
+function loadState(){
+  try{ return JSON.parse(localStorage.getItem(DATA_KEY)||'null'); }
+  catch(e){ return null; }
+}
+
+function resetState(){
+  state={started:false,finished:false,order:[],answers:{},autoSubmitted:false};
+}
+
+function startTest(){
+  if(isLocked()){
+    $('startBtn').classList.add('hidden');
+    $('lockedStart').classList.remove('hidden');
+    return;
+  }
+  stopSpeak();
+  state={
+    started:true,
+    finished:false,
+    order:shuffle(BANK).map(q=>({
+      n:q.n,
+      q:q.q,
+      options:shuffle(q.opts),
+      answer:q.opts[q.a]
+    })),
+    answers:{},
+    autoSubmitted:false
+  };
+  saveState();
+  $('start').classList.add('hidden');
+  $('result').classList.add('hidden');
+  $('quiz').classList.remove('hidden');
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function resumeTest(){
+  const saved = loadState();
+  if(saved && saved.started && !saved.finished && Array.isArray(saved.order) && saved.order.length===TOTAL && !isLocked()){
+    state = saved;
+    $('start').classList.add('hidden');
+    $('result').classList.add('hidden');
+    $('quiz').classList.remove('hidden');
+    render();
+    restoreAnswers();
+    return true;
+  }
+  return false;
+}
+
+function render(){
+  $('questions').innerHTML = state.order.map((q,i)=>{
+    const letters=['A','B','C','D'];
+    const text = `第${q.n}題。${q.q}`;
+    return `<section class="card">
+      <div class="qno">第 ${q.n} 題（${i+1}／${TOTAL}）</div>
+      <div class="question">${esc(q.q)}</div>
+      <div>${q.options.map((o,j)=>`<label class="option"><input type="radio" name="q${q.n}" value="${esc(o)}"> ${letters[j]}．${esc(o)}</label>`).join('')}</div>
+      <div class="actions"><button class="speak" data-text="${esc(text)}">🔊 朗讀本題</button></div>
+    </section>`;
+  }).join('');
+
+  document.querySelectorAll('.option').forEach(label=>{
+    label.addEventListener('click',()=>{
+      const input=label.querySelector('input');
+      input.checked=true;
+      label.parentElement.querySelectorAll('.option').forEach(x=>x.classList.remove('selected'));
+      label.classList.add('selected');
+      state.answers[input.name.replace('q','')] = input.value;
+      saveState();
+      updateProgress();
+    });
+  });
+
+  document.querySelectorAll('.speak').forEach(btn=>{
+    btn.addEventListener('click',()=>speak(btn.dataset.text));
+  });
+
+  updateProgress();
+}
+
+function restoreAnswers(){
+  Object.entries(state.answers||{}).forEach(([n,val])=>{
+    const input=document.querySelector(`input[name="q${n}"][value="${CSS.escape(val)}"]`);
+    if(input){
+      input.checked=true;
+      input.closest('.option')?.classList.add('selected');
+    }
+  });
+  updateProgress();
+}
+
+function updateProgress(){
+  const n = Object.keys(state.answers||{}).length;
+  $('answered').textContent = `已作答 ${n}／${TOTAL}`;
+  $('counter').textContent = `第 ${Math.min(n+1,TOTAL)}／${TOTAL} 題`;
+  $('bar').style.width=(n/TOTAL*100)+'%';
+}
+
+function scoreNow(reason){
+  if(!state.started || state.finished) return;
+  state.autoSubmitted = reason==='leave';
+  finalize();
+}
+
+function finalize(){
+  stopSpeak();
+  state.finished=true;
+  setLocked(true);
+  saveState();
+
+  let correct=0;
+  const wrong=[];
+  state.order.forEach(q=>{
+    const ans=state.answers[q.n];
+    if(ans===q.answer) correct++;
+    else wrong.push({q, ans:ans||'未作答'});
+  });
+  const score=+(correct*POINTS).toFixed(2);
+
+  let msg='';
+  if(score===100) msg='你超級棒!!';
+  else if(score>=90) msg='不錯喔! 繼續努力！';
+  else if(score>=70) msg='不錯，加油';
+  else msg='你需要多讀點書';
+
+  $('quiz').classList.add('hidden');
+  $('result').classList.remove('hidden');
+  $('score').textContent=`${score} 分`;
+  $('message').textContent=msg;
+  $('summary').textContent=`答對 ${correct} 題／${TOTAL} 題，答錯 ${TOTAL-correct} 題` + (state.autoSubmitted ? '（因離開網頁而提前結算）' : '');
+
+  if(!wrong.length){
+    $('wrongCard').innerHTML='<div class="center"><strong>全部答對！</strong></div>';
+  }else{
+    $('wrongCard').innerHTML='<h2>錯題與正確答案</h2>'+wrong.map(w=>`
+      <div class="wrong">
+        <strong>第 ${w.q.n} 題</strong><br>
+        ${esc(w.q.q)}<br>
+        你的答案：${esc(w.ans)}<br>
+        <span class="ans">正確答案：${esc(w.q.answer)}</span>
+      </div>
+    `).join('');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function unlock(passwordInput){
+  if(passwordInput===PASSWORD){
+    setLocked(false);
+    localStorage.removeItem(DATA_KEY);
+    resetState();
+    $('result').classList.add('hidden');
+    $('quiz').classList.add('hidden');
+    $('start').classList.remove('hidden');
+    $('startBtn').classList.remove('hidden');
+    $('lockedStart').classList.add('hidden');
+    $('pwResult').value='';
+    $('pwStart').value='';
+    alert('教師解鎖成功，可以重新開始測驗。');
+  }else{
+    alert('教師密碼錯誤。');
+  }
+}
+
+$('startBtn').onclick=startTest;
+$('submitBtn').onclick=()=>finalize();
+$('allSpeak').onclick=()=>speak(state.order.map(q=>`第${q.n}題。${q.q}`).join(' '));
+$('stopSpeak').onclick=stopSpeak;
+$('unlockStart').onclick=()=>unlock($('pwStart').value);
+$('unlockResult').onclick=()=>unlock($('pwResult').value);
+
+// 若曾經已鎖定，入口直接顯示鎖定狀態
+if(isLocked()){
+  $('startBtn').classList.add('hidden');
+  $('lockedStart').classList.remove('hidden');
+} else {
+  resumeTest();
+}
+
+// 離開頁面／切換分頁／切換 App：立即結算並鎖定
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='hidden') scoreNow('leave');
+});
+window.addEventListener('pagehide',()=>scoreNow('leave'));
+window.addEventListener('beforeunload',()=>scoreNow('leave'));
+</script>
+</body>
+</html>
