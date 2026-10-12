@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#243247"><title>10/12 烘焙練習測驗</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;color:#172033;background:#f3f5f8}
+*{box-sizing:border-box}body{margin:0}header{background:#243247;color:white;padding:18px 16px}
+header h1{font-size:1.25rem;margin:0 0 5px}header p{margin:0;font-size:.9rem;color:#dbe4f0}
+main{max-width:720px;margin:0 auto;padding:14px}.card{background:#fff;border-radius:14px;padding:18px;margin:0 0 14px;box-shadow:0 2px 9px #17203312}
+label{display:block;font-weight:600;margin:12px 0 6px}input[type=text],input[type=password]{width:100%;padding:12px;border:1px solid #cbd2dc;border-radius:9px;font-size:16px}
+button{border:0;border-radius:10px;padding:12px 16px;font-size:1rem;font-weight:650;cursor:pointer}
+.primary{background:#243247;color:white}.secondary{background:#e7ebf1;color:#172033}.danger{background:#9d2c2c;color:white}
+button:disabled{opacity:.45}.row{display:flex;gap:9px;align-items:center;justify-content:space-between;margin-top:18px}
+.progress{height:7px;background:#e4e8ef;border-radius:99px;overflow:hidden;margin:12px 0}.bar{height:100%;background:#446da8;width:0}
+.meta{display:flex;justify-content:space-between;color:#586579;font-size:.9rem;gap:8px}
+.question{font-size:1.1rem;font-weight:700;line-height:1.7;margin:14px 0}
+.speech-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.option{display:flex;gap:10px;align-items:flex-start;border:1px solid #d8dee8;border-radius:10px;padding:13px;margin:9px 0;line-height:1.55}
+.option:has(input:checked){border-color:#446da8;background:#eef4ff}.option input{margin-top:5px;transform:scale(1.15)}
+.note{font-size:.88rem;color:#5a6678;line-height:1.6}.hidden{display:none!important}.score{font-size:2rem;font-weight:800}
+#warning{color:#9d2c2c;font-weight:650}.review-item{padding:12px 0;border-bottom:1px solid #e5e8ee;line-height:1.6}
+</style></head><body>
+<header><h1>10/12 烘焙練習測驗</h1><p>單選題 80 題｜每題 1.25 分｜滿分 100 分</p></header>
+<main>
+<section id="intro" class="card">
+<h2>練習模式</h2>
+<p>共 80 題，答完可查看成績與錯題統整，並可不限次數重新練習。</p>
+<p class="note">本模式不需要輸入班級、座號或姓名，也不限制練習次數。每題可按「報讀本題與選項」聆聽題目及選項。</p>
+<div class="row"><button id="start" class="primary">開始練習</button></div>
+<p id="warning" role="alert"></p>
+</section>
+<section id="quiz" class="card hidden">
+<div class="meta"><span id="counter">第 1 / 80 題</span><span id="answered">已作答 0 題</span></div><div class="progress"><div id="bar" class="bar"></div></div>
+<div id="qtext" class="question"></div><div class="speech-tools"><button id="speak" class="secondary" type="button">🔊 報讀本題與選項</button><button id="stopSpeak" class="secondary" type="button">■ 停止報讀</button></div><div id="options"></div>
+<div class="row"><button id="prev" class="secondary">上一題</button><button id="next" class="primary">下一題</button></div>
+<p class="note">離開本頁或切換至其他 App 將直接交卷，不會保留未作答題目的補答機會。</p>
+</section>
+<section id="result" class="card hidden"><h2>測驗結果</h2><div class="score" id="score"></div><p id="resultText"></p><div id="review"></div><p class="note">此結果以本練習檔案的暫定答案計分；題目原檔未附答案表，正式使用前請老師核對答案。</p></section>
+</main>
+<script>
+const QUESTIONS = [{"n": 1, "q": "下列材料中，甜度最低的是？", "opts": ["A. 果糖", "B. 砂糖", "C. 麥芽糖", "D. 乳糖"], "ans": "D"}, {"n": 2, "q": "台灣目前使用的白油，每桶重量約為？", "opts": ["A. 5公斤", "B. 10公斤", "C. 16公斤", "D. 30公斤"], "ans": "C"}, {"n": 3, "q": "塔塔粉是屬？", "opts": ["A. 中性鹽", "B. 酸性鹽", "C. 鹼性鹽", "D. 低鹼性鹽"], "ans": "B"}, {"n": 4, "q": "麵包配方中糖含量（依烘焙百分比）佔20％以上的是？", "opts": ["A. 土司麵包", "B. 法國麵包", "C. 甜麵包", "D. 全麥麵包"], "ans": "C"}, {"n": 5, "q": "一般以中種法製作麵包，中種麵糰的原料不含？", "opts": ["A. 鹽", "B. 酵母", "C. 麵粉", "D. 水"], "ans": "A"}, {"n": 6, "q": "以下那一種原料不屬於化學膨大劑？", "opts": ["A. 發粉", "B. 小蘇打", "C. 酵母", "D. 阿摩尼亞（碳酸氫銨）"], "ans": "C"}, {"n": 7, "q": "下列那種油脂約含有10％的氣體（氮氣）？", "opts": ["A. 清香油", "B. 瑪琪琳", "C. 雪白乳化油", "D. 奶油"], "ans": "C"}, {"n": 8, "q": "沒有分析檢驗的情況下，下列何者不是由外觀判斷油炸油的劣化？", "opts": ["A. 顏色加深", "B. 黏度增加", "C. 有蟹泡並提前冒煙", "D. 酸價為1.0"], "ans": "D"}, {"n": 9, "q": "麵包配方中何種材料添加愈多發酵愈快？", "opts": ["A. 油脂", "B. 蛋黃", "C. 酵母", "D. 細砂糖"], "ans": "C"}, {"n": 10, "q": "國產麵粉每袋的重量以何種最多？", "opts": ["A. 22磅", "B. 30磅", "C. 22公斤", "D. 30公斤"], "ans": "C"}, {"n": 11, "q": "海綿蛋糕配方主要原料為？", "opts": ["A. 細砂糖、麵粉、鹽、牛奶", "B. 麵粉、沙拉油、水", "C. 麵粉、細砂糖、發粉", "D. 麵粉、細砂糖、蛋"], "ans": "D"}, {"n": 12, "q": "下列何種材料可提高小西餅產品的脆性？", "opts": ["A. 鹽", "B. 水", "C. 糖", "D. 蛋"], "ans": "C"}, {"n": 13, "q": "製作某種麵包，使用新鮮酵母4％，今因某種原因需改用快速即發酵母粉，用量應為？", "opts": ["A. 4％", "B. 2％", "C. 1.6％", "D. 1.33％"], "ans": "C"}, {"n": 14, "q": "配方內使用60％鮮奶製作麵包，比用4％的脫脂奶粉作麵包，其實際奶粉固形量？", "opts": ["A. 較少", "B. 相同", "C. 較多", "D. 大同小異"], "ans": "C"}, {"n": 15, "q": "奶水中含固形物（奶粉）量為？", "opts": ["A. 4％", "B. 8％", "C. 12％", "D. 16％"], "ans": "C"}, {"n": 16, "q": "做蘇打餅乾應注意油脂的？", "opts": ["A. 安定性好、不易酸敗", "B. 打發性好", "C. 乳化效果好", "D. 可塑性好"], "ans": "A"}, {"n": 17, "q": "蒸發奶水含固形物為？", "opts": ["A. 40％", "B. 35％", "C. 30％", "D. 26％"], "ans": "D"}, {"n": 18, "q": "麵包配方中正常用糖量如從5％增加為10％，則烤好後的麵包最明顯的不同是？", "opts": ["A. 表皮顏色變淺", "B. 表皮變薄而軟", "C. 表皮顏色加深", "D. 表皮變粗糙"], "ans": "C"}, {"n": 19, "q": "做麵包時配方中油脂量高，可使麵包表皮？", "opts": ["A. 顏色深", "B. 厚", "C. 柔軟", "D. 硬"], "ans": "C"}, {"n": 20, "q": "乳化劑在蛋糕中的功能是？", "opts": ["A. 使蛋糕風味佳", "B. 使蛋糕顏色加深", "C. 融和配方內水和油使組織細膩", "D. 縮短攪拌時間減少人工"], "ans": "C"}, {"n": 21, "q": "一般烘焙人員所稱的「重曹」(baking soda)是指？", "opts": ["A. 發粉", "B. 蘇打粉", "C. 酵母", "D. 酵素"], "ans": "B"}, {"n": 22, "q": "全蛋的固形物為？", "opts": ["A. 10％", "B. 15％", "C. 25％", "D. 35％"], "ans": "C"}, {"n": 23, "q": "要使麵包長時間保持柔軟，可在配方內添加？", "opts": ["A. 膨大劑", "B. 麥芽酵素", "C. 乳化劑", "D. 丙酸鈣"], "ans": "C"}, {"n": 24, "q": "稀釋奶油霜飾最適當的原料是？", "opts": ["A. 沙拉油", "B. 水", "C. 蛋", "D. 稀糖漿"], "ans": "D"}, {"n": 25, "q": "一般油炸用油發煙點應在？", "opts": ["A. 150～160℃", "B. 160～170℃", "C. 170～180℃", "D. 200℃以上"], "ans": "D"}, {"n": 26, "q": "為使小西餅達到鬆脆與擴展的目的，配方內可多使用？", "opts": ["A. 細砂糖", "B. 糖粉", "C. 糖漿", "D. 麥芽糖"], "ans": "A"}, {"n": 27, "q": "食品工廠用的油炸用油最好選用？", "opts": ["A. 沙拉油", "B. 氫化油", "C. 黃豆油", "D. 奶油"], "ans": "B"}, {"n": 28, "q": "新鮮酵母貯存的最佳溫度為？", "opts": ["A. -10～0℃", "B. 2～10℃", "C. 11～20℃", "D. 21～27℃"], "ans": "B"}, {"n": 29, "q": "製作麩皮或裸麥麵包，其主要原料的麵粉為？", "opts": ["A. 高筋麵粉", "B. 洗筋粉", "C. 粉心粉", "D. 低筋麵粉"], "ans": "A"}, {"n": 30, "q": "下列那一種油脂其烤酥性最大？", "opts": ["A. 純奶油", "B. 人造奶油", "C. 豬油", "D. 雪白油"], "ans": "D"}, {"n": 31, "q": "製作天使蛋糕時塔塔粉與鹽的用量總和為？", "opts": ["A. 0.1％", "B. 1％", "C. 5％", "D. 10％"], "ans": "B"}, {"n": 32, "q": "下列那一種糖的甜度最高？", "opts": ["A. 果糖", "B. 轉化糖漿", "C. 砂糖", "D. 葡萄糖"], "ans": "A"}, {"n": 33, "q": "製做丹麥麵包或鬆餅，其裹入用油脂應採用？", "opts": ["A. 豬油", "B. 雪白奶油", "C. 白油（烤酥油）", "D. 瑪琪琳"], "ans": "D"}, {"n": 34, "q": "麵粉如因貯存太久筋性受損，在做麵包時可酌量在配方內？", "opts": ["A. 增加鹽的用量", "B. 減少糖的用量", "C. 使用脫脂奶粉", "D. 增加乳化劑"], "ans": "D"}, {"n": 35, "q": "製作高成分奶油海綿蛋糕為降低麵粉的筋性，配方內部分麵粉最好用哪一項代替？", "opts": ["A. 全脂奶粉", "B. 太白粉", "C. 小麥澱粉", "D. 乳清粉"], "ans": "C"}, {"n": 36, "q": "乳化油在下列那一項產品較不合適添加？", "opts": ["A. 戚風蛋糕", "B. 麵包", "C. 海綿蛋糕", "D. 奶油霜飾"], "ans": "D"}, {"n": 37, "q": "欲增加小西餅鬆酥的性質可酌量增加？", "opts": ["A. 水", "B. 油", "C. 糖", "D. 高筋麵粉"], "ans": "B"}, {"n": 38, "q": "使用蒸發奶水代替鮮奶時，應照鮮奶用量？", "opts": ["A. 等量使用", "B. 1/3蒸發奶水加2/3水", "C. 2/3蒸發奶水加1/3水", "D. 1/2蒸發奶水加1/2水"], "ans": "D"}, {"n": 39, "q": "製作蛋糕道納司所使用之膨脹劑是？", "opts": ["A. 酵母", "B. 發粉(B.P)", "C. 油脂", "D. 小蘇打(B.S)"], "ans": "B"}, {"n": 40, "q": "製作蛋白霜飾所需要之主原料是？", "opts": ["A. 蛋黃", "B. 全蛋", "C. 蛋白和糖", "D. 蛋黃和糖"], "ans": "C"}, {"n": 41, "q": "一個中型雞蛋去殼後約重？", "opts": ["A. 50公克", "B. 70公克", "C. 80公克", "D. 100公克"], "ans": "A"}, {"n": 42, "q": "麵粉中的蛋白質每增加1％，則吸水量約增加？", "opts": ["A. 2％", "B. 4％", "C. 6％", "D. 不變"], "ans": "B"}, {"n": 43, "q": "烘焙用乾酪(Cheese)原料，其主要的組成成分為？", "opts": ["A. 灰粉", "B. 澱粉", "C. 蛋白質", "D. 醣"], "ans": "C"}, {"n": 44, "q": "烘焙產品使用何者糖，在其烤焙時較易產生梅納反應？", "opts": ["A. 果糖", "B. 砂糖", "C. 麥芽糖", "D. 乳糖"], "ans": "D"}, {"n": 45, "q": "下列何種油脂含有反式脂肪酸？", "opts": ["A. 麻油", "B. 花生油", "C. 牛油", "D. 完全氫化植物油"], "ans": "C"}, {"n": 46, "q": "下列材料中何者不屬於膨脹劑？", "opts": ["A. 發粉", "B. 阿摩尼亞", "C. 可可粉", "D. 小蘇打粉"], "ans": "C"}, {"n": 47, "q": "小麥胚乳的主要色素為？", "opts": ["A. 葉綠素", "B. 葉紅素", "C. 葉黃素", "D. 胡蘿蔔素"], "ans": "C"}, {"n": 48, "q": "胚乳約佔整個小麥穀粒的？", "opts": ["A. 75%", "B. 83%", "C. 92%", "D. 100%"], "ans": "B"}, {"n": 49, "q": "麵粉中添加維生素C作為改良劑之主要效用為？", "opts": ["A. 熟成作用", "B. 漂白作用", "C. 熟成及漂白作用", "D. 殺菌作用"], "ans": "A"}, {"n": 50, "q": "蛋糕用麵粉一般由何種麥所磨製？", "opts": ["A. 硬紅春麥", "B. 硬紅冬麥", "C. 琥珀色硬質小麥", "D. 軟質冬麥"], "ans": "D"}, {"n": 51, "q": "食品用油溶於水（O/W）之乳化劑，其親水親油平衡值（HLB：Hydrophilic-Lipophilic Balance value）之範圍介於？", "opts": ["A. 3.5～6", "B. 8～18", "C. 20～25", "D. 26～30"], "ans": "B"}, {"n": 52, "q": "製作轉化糖漿時，以下列何種酸水解得到之品質最佳？", "opts": ["A. 鹽酸", "B. 硫酸", "C. 磷酸", "D. 酒石酸"], "ans": "D"}, {"n": 53, "q": "在常溫時不釋出氣體，須於烤焙時才釋出二氧化碳氣體，為？", "opts": ["A. 快性反應發粉", "B. 慢性反應發粉", "C. 雙重反應發粉", "D. 多重反應發粉"], "ans": "B"}, {"n": 54, "q": "椰子粉的脂肪含量約為？", "opts": ["A. 30％", "B. 40％", "C. 50％", "D. 60％"], "ans": "D"}, {"n": 55, "q": "小麥之橫斷面呈粉質狀者為何？", "opts": ["A. 高筋麵粉", "B. 中筋麵粉", "C. 粉心麵粉", "D. 低筋麵粉"], "ans": "D"}, {"n": 56, "q": "麵粉蛋白質是屬於部分不完全蛋白質，因為其胺基酸內缺少了一種必需胺基酸為？", "opts": ["A. 甲硫胺酸（methioine）", "B. 胱胺酸（cystine）", "C. 半胱胺酸（cysteine）", "D. 離胺酸（lysine）"], "ans": "D"}, {"n": 57, "q": "小麥胚芽中含有下列何種物質，其含有硫氫根（-SH），會減少麵筋彈性，使麵糰發粘？", "opts": ["A. 維生素E", "B. 礦物質", "C. 油脂", "D. 麩胱甘肽"], "ans": "D"}, {"n": 58, "q": "測定低筋粉或軟麥麵粉中膠性粘度之儀器設備為？", "opts": ["A. 麵粉沉降係數測定儀(Falling Number)", "B. 連續溫度黏度測定儀(Viscosgraph)", "C. 麵糰拉力特性測定儀(Extensograph)", "D. 麵糰攪拌特性測定儀(Farinograph)"], "ans": "B"}, {"n": 59, "q": "測定麵筋之伸張力及伸張阻力等品質之儀器設備為？", "opts": ["A. 麵粉酵素活性測定儀(Amylograph)", "B. 連續溫度黏度測定儀(Viscosgraph)", "C. 麵糰拉力特性測定儀(Extensograph)", "D. 麵糰攪拌特性測定儀(Farinograph)"], "ans": "C"}, {"n": 60, "q": "測定麵粉中之液化酵素的儀器設備為？", "opts": ["A. 麵粉酵素活性測定儀(Amylograph)", "B. 連續溫度黏度測定儀(Viscosgraph)", "C. 麵糰拉力特性測定儀(Extensograph)", "D. 麵糰攪拌特性測定儀(Farinograph)"], "ans": "A"}, {"n": 61, "q": "D.E.值（葡萄糖當量）30～50之澱粉糖漿，其組成成分為？", "opts": ["A. 蔗糖", "B. 果糖", "C. 葡萄糖", "D. 糊精、麥芽糖及葡萄糖之混合物"], "ans": "D"}, {"n": 62, "q": "有關糖對麵包品質之影響，下列何者有誤？", "opts": ["A. 可防止麵包變硬", "B. 是一種柔性材料", "C. 烤焙時著色快", "D. 增加風味"], "ans": "B"}, {"n": 63, "q": "下列何種糖，酵母發酵產生二氧化碳及酒精之速率最慢？", "opts": ["A. 砂糖", "B. 果糖", "C. 葡萄糖", "D. 麥芽糖"], "ans": "D"}, {"n": 64, "q": "雞蛋內含有下列何種酵素，可以殺死多種微生物，增長貯存時間？", "opts": ["A. 蛋白質分解酵素", "B. 脂肪分解酵素", "C. 澱粉分解酵素", "D. 溶菌酵素"], "ans": "D"}, {"n": 65, "q": "製造乾燥蛋白粉時，為避免於乾燥時產生變色反應，必須去除蛋白內之？", "opts": ["A. 葡萄糖", "B. 脂肪", "C. 蛋白質", "D. 礦物質"], "ans": "A"}, {"n": 66, "q": "有關發粉，下列敘述何者錯誤？", "opts": ["A. 以碳酸鈉為主原料", "B. 由各種不同的酸性鹽混合而成", "C. 加澱粉或麵粉為填充劑", "D. 俗稱為泡打粉或發泡粉"], "ans": "A"}, {"n": 67, "q": "小西餅在烘焙過程中，下列何者不是扮演膨脹的因素？", "opts": ["A. 碳酸氫銨", "B. 碳酸氫鈉", "C. 酵母", "D. 水"], "ans": "C"}, {"n": 68, "q": "油炸用食用油之總極性化合物（total polar compounds）含量達百分之多少以上時，不得再予使用，應全部更換新油", "opts": ["A. 25", "B. 30", "C. 40", "D. 45"], "ans": "A"}, {"n": 69, "q": "製作食用豆漿，那一個不是正常步驟？", "opts": ["A. 水中浸泡約3至8個小時", "B. 將黃豆磨碎", "C. 用紗布分離豆渣", "D. 生豆漿不必再加熱"], "ans": "D"}, {"n": 70, "q": "乳糖不耐症的人喝那種飲料不會產生副作用？", "opts": ["A. 全脂牛奶", "B. 豆漿", "C. 脫脂牛奶", "D. 巧克力牛奶"], "ans": "B"}, {"n": 71, "q": "市售椰奶包裝及脂肪含量那一項是錯的？", "opts": ["A. 鋁箔紙盒裝，脂肪含量比較低", "B. 罐裝，脂肪含量比較低", "C. 罐裝，脂肪含量比較高", "D. 包裝不一樣脂肪含量都一樣"], "ans": "B"}, {"n": 72, "q": "下列對椰奶或椰漿(Coconut Milk)及椰子鮮奶油(Coconut Cream)敘述何者為非：", "opts": ["A. 椰奶，水和椰肉的比例約在1：1，如牛乳一樣的液狀", "B. 椰子鮮奶油，水和椰肉的比例約在1：4，脂肪含量較高、質地濃稠似鮮奶油", "C. 椰奶在開封前是常溫保存", "D. 椰漿，水和椰肉的比例約在1：4"], "ans": "D"}, {"n": 73, "q": "對全素(Vegan)敘述何者為非？", "opts": ["A. 英國的《經濟學人》報導中全球大趨勢指出2019年是全素之年", "B. 這類素食者的飲食跟植物五辛素很像但不吃蛋、奶", "C. 這類素食者不只不食用動物食品，也不使用動物製品", "D. 這類素食者可以食用蜂蜜"], "ans": "D"}, {"n": 74, "q": "製作全素麵包不可加入牛奶，可使用下列那一項原料代替？", "opts": ["A. 蛋黃", "B. 蛋白", "C. 鮮奶油", "D. 豆漿"], "ans": "D"}, {"n": 75, "q": "製作全素巧克力產品，下列那一項原料不可加入？", "opts": ["A. 可可粉", "B. 白巧克力", "C. 可可脂", "D. 可可膏"], "ans": "B"}, {"n": 76, "q": "全素烘焙產品下列那一項原料不可使用？", "opts": ["A. 椰子油", "B. 發酵奶油", "C. 橄欖油", "D. 葡萄籽油"], "ans": "B"}, {"n": 77, "q": "製作全素產品下列那一項原料可以取代奶粉？", "opts": ["A. 米穀粉", "B. 豆漿粉", "C. 玉米粉", "D. 蓬萊米粉"], "ans": "B"}, {"n": 78, "q": "製作全素義大利蛋白霜可用那一項原料取代蛋白打發？", "opts": ["A. 乳清蛋白", "B. 義大利蛋白霜粉", "C. 鷹嘴豆汁", "D. 豆漿"], "ans": "C"}, {"n": 79, "q": "全素的烘焙產品不可含有動物性成分，下列那一項原料不可使用？", "opts": ["A. 杏桃果膠", "B. 果凍粉", "C. 動物膠", "D. 果膠粉"], "ans": "C"}, {"n": 80, "q": "製作全素的慕斯蛋糕，不可使用下列那一項原料？", "opts": ["A. 動物膠", "B. 可可脂", "C. 寒天粉", "D. 巧克力"], "ans": "A"}];
+const PASSWORD = "0109";
+let idx=0, picks={}, identity="", finished=false, started=false;
+const $=id=>document.getElementById(id);
+function keyFor(){return "quiz1012:"+[$("studentClass").value.trim(),$("seat").value.trim(),$("studentName").value.trim()].map(s=>s.toLowerCase()).join("|")}
+function warn(s){$("warning").textContent=s}
+function save(){}
+function render(){
+ speechSynthesis.cancel();
+ const q=QUESTIONS[idx]; $("counter").textContent=`第 ${idx+1} / ${QUESTIONS.length} 題`;
+ $("answered").textContent=`已作答 ${Object.keys(picks).length} 題`;
+ $("bar").style.width=`${(idx+1)/QUESTIONS.length*100}%`;
+ $("qtext").textContent=`${q.n}. ${q.q}`;
+ $("options").innerHTML="";
+ q.opts.forEach(opt=>{
+  const letter=opt.slice(0,1), label=document.createElement("label"); label.className="option";
+  const radio=document.createElement("input");radio.type="radio";radio.name="answer";radio.value=letter;radio.checked=picks[q.n]===letter;
+  radio.addEventListener("change",()=>{picks[q.n]=letter;save();renderMeta()});
+  const span=document.createElement("span");span.textContent=opt.slice(3);
+  label.append(radio,span);$("options").append(label);
+ });
+ $("prev").disabled=idx===0;$("next").textContent=idx===QUESTIONS.length-1?"交卷":"下一題";
+}
+function speakCurrent(){
+ const q=QUESTIONS[idx];
+ const text=`第${q.n}題。${q.q}。${q.opts.map(o=>o.replace(/^\([A-D]\)\s*/, "")).map((o,i)=>`選項${["A","B","C","D"][i]}：${o}`).join("。")}。`;
+ if(!("speechSynthesis" in window)){alert("此瀏覽器不支援語音報讀，請改用較新的 Chrome 或 Safari。");return;}
+ speechSynthesis.cancel();
+ const utterance=new SpeechSynthesisUtterance(text);
+ utterance.lang="zh-TW"; utterance.rate=0.9;
+ const voices=speechSynthesis.getVoices();
+ const zhVoice=voices.find(v=>v.lang==="zh-TW")||voices.find(v=>v.lang.toLowerCase().startsWith("zh"));
+ if(zhVoice) utterance.voice=zhVoice;
+ speechSynthesis.speak(utterance);
+}
+function renderMeta(){$("answered").textContent=`已作答 ${Object.keys(picks).length} 題`;save()}
+function startQuiz(){
+ idx=0;picks={};started=true;finished=false;identity="";
+ $("intro").classList.add("hidden");$("result").classList.add("hidden");$("quiz").classList.remove("hidden");
+ render();
+}
+function finish(reason){
+ if(!started||finished)return;finished=true;speechSynthesis.cancel();
+ const score=QUESTIONS.reduce((sum,q)=>sum+(picks[q.n]===q.ans?1.25:0),0);
+ const correct=QUESTIONS.filter(q=>picks[q.n]===q.ans).length;
+ $("quiz").classList.add("hidden");$("result").classList.remove("hidden");
+ $("score").textContent=`${score.toFixed(2)} 分`;
+ $("resultText").textContent=`答對 ${correct} 題，未作答或答錯 ${QUESTIONS.length-correct} 題。${reason==="leave"?"因離開測驗頁面，系統已結束本次練習。":"已完成交卷。"}`;
+ const rev=$("review");rev.innerHTML="";
+ const wrong=QUESTIONS.filter(q=>picks[q.n]!==q.ans);
+ const heading=document.createElement("h3");heading.textContent=`錯題統整（${wrong.length} 題）`;rev.append(heading);
+ if(wrong.length===0){const d=document.createElement("p");d.textContent="全部答對，沒有錯題。";rev.append(d);}
+ wrong.forEach(q=>{
+   const d=document.createElement("div");d.className="review-item";
+   const chosen=q.opts.find(o=>o.trim().startsWith((picks[q.n]||"未作答")+"."))||"未作答";
+   const correctOption=q.opts.find(o=>o.trim().startsWith(q.ans+"."));
+   const title=document.createElement("strong");title.textContent=`第 ${q.n} 題：${q.q}`;
+   const your=document.createElement("div");your.textContent=`你的答案：${picks[q.n] ? chosen : "未作答"}`;
+   const answer=document.createElement("div");answer.textContent=`正確答案：${correctOption||q.ans}`;
+   d.append(title,your,answer);rev.append(d);
+ });
+ const restart=document.createElement("button");restart.className="primary";restart.textContent="再練習一次";
+ restart.addEventListener("click",()=>{speechSynthesis.cancel();$("result").classList.add("hidden");$("intro").classList.remove("hidden");});
+ rev.append(restart);
+}
+$("start").addEventListener("click",startQuiz);
+$("speak").addEventListener("click",speakCurrent);
+$("stopSpeak").addEventListener("click",()=>speechSynthesis.cancel());
+
+$("prev").addEventListener("click",()=>{if(idx>0){idx--;render()}});
+$("next").addEventListener("click",()=>{if(idx<QUESTIONS.length-1){idx++;render()}else finish("submit")});
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")finish("leave")});
+window.addEventListener("pagehide",()=>finish("leave"));
+</script></body></html>
