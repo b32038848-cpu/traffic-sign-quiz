@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f3f4f6">
+<title>烘焙食品丙級｜工作項目三 1～10 題報讀（跳過第3題）</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:#f3f4f6;color:#222;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid #ddd;padding:15px}main{max-width:780px;margin:auto;padding:14px 12px 50px}.wrap{max-width:780px;margin:auto}h1{font-size:20px;margin:0 0 5px}.sub{font-size:13px;color:#667085;line-height:1.5}.card{background:#fff;padding:17px;border-radius:15px;margin:12px 0;box-shadow:0 2px 9px rgba(0,0,0,.05)}.intro{font-size:16px;line-height:1.7}.toolbar{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.btn{border:0;border-radius:11px;padding:13px 12px;font-size:16px;font-weight:700;cursor:pointer;touch-action:manipulation}.primary{background:#222;color:#fff}.secondary{background:#e9edf2;color:#222}.question{font-size:18px;font-weight:800;line-height:1.7;margin:9px 0 10px}.answer{font-size:17px;line-height:1.65;margin:0 0 12px;color:#222}.label{font-size:13px;color:#667085;font-weight:800}.read-one{width:100%;background:#edf1f5;color:#222}.notice{font-size:13px;color:#667085;line-height:1.6;margin-top:14px}@media(max-width:420px){h1{font-size:18px}.card{padding:14px}.question{font-size:17px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>烘焙食品丙級｜工作項目三：產品製作</h1><div class="sub">第 1～10 題報讀｜依題目與答案朗讀｜第 3 題已跳過</div></div></header>
+<main>
+<section class="card">
+<div class="intro">按「朗讀本題」可以聽單題題目與答案；按「全部朗讀」會依序朗讀第 1、2、4～10 題。若需中止，按「停止朗讀」。</div>
+<div class="toolbar"><button class="btn primary" id="readAll">🔊 全部朗讀</button><button class="btn secondary" id="stop">⏹ 停止朗讀</button></div>
+<div class="notice">若未發出聲音，請確認手機或電腦已解除靜音，並使用 Safari 或 Chrome 開啟此檔案。</div>
+</section>
+<div id="items"></div>
+</main>
+<script>
+const items = [
+{n:1,q:'西點用亮光糖漿製作原料，下列何者為非？',a:'答案：第四項，糖、水。'},
+{n:2,q:'烤焙時若遇到產品不滿一盤時，可做以下之處理方式，才不致於烤焙不均？',a:'答案：第一項，白紙打濕置於空盤處。'},
+{n:4,q:'派皮自模型中取出易破碎原因為？',a:'答案：第三項，派皮過熱自盤中取出。'},
+{n:5,q:'製作蒸烤布丁時，牛奶與雞蛋拌勻溫度宜控制在多少，可縮短烤焙時間？',a:'答案：第三項，攝氏六十度正負五度。'},
+{n:6,q:'蒸烤布丁烤盤內的水宜選用哪一種，可縮短烤焙時間又不影響其組織？',a:'答案：第二項，溫水。'},
+{n:7,q:'製作鬆餅摺疊次數，以下列何者為佳？',a:'答案：第三項，三折法乘以四次。'},
+{n:8,q:'良好的鬆餅製作環境，室溫宜控制在多少？',a:'答案：第二項，攝氏二十度正負五度。'},
+{n:9,q:'要烤出一個組織細緻的蒸烤布丁，烤爐溫度宜選用多少？',a:'答案：第二項，攝氏一百五十度。'},
+{n:10,q:'製作大量手工丹麥小西餅，粉與糖油拌勻時應留意什麼，方不致麵糰乾硬而不易成型？',a:'答案：第一項，分次攪拌。'}
+];
+const root = document.getElementById('items');
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+root.innerHTML = items.map(x => `<article class="card"><div class="label">第 ${x.n} 題</div><div class="question">${esc(x.q)}</div><div class="answer">${esc(x.a)}</div><button class="btn read-one" data-n="${x.n}">🔊 朗讀第 ${x.n} 題與答案</button></article>`).join('');
+function stopReading(){if('speechSynthesis' in window) window.speechSynthesis.cancel();}
+function utter(text){if(!('speechSynthesis' in window)){alert('此瀏覽器不支援語音朗讀，請使用手機 Chrome 或 Safari。');return;} const u=new SpeechSynthesisUtterance(text);u.lang='zh-TW';u.rate=0.88;u.pitch=1;window.speechSynthesis.speak(u);}
+document.querySelectorAll('.read-one').forEach(btn=>btn.addEventListener('click',()=>{stopReading();const x=items.find(q=>q.n===Number(btn.dataset.n));utter(`第${x.n}題。${x.q}。${x.a}`);}));
+document.getElementById('readAll').addEventListener('click',()=>{stopReading();const full=items.map(x=>`第${x.n}題。${x.q}。${x.a}`).join('。下一題。');utter(full);});
+document.getElementById('stop').addEventListener('click',stopReading);
+</script>
+</body>
+</html>
