@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2459d3">
+<title>機車駕照｜行車檢查與正確使用燈光｜手機互動測驗</title>
+<style>
+:root{color-scheme:light;--blue:#2459d3;--ink:#172033;--muted:#627089;--line:#d4dce8;--bg:#f2f5f9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",Arial,sans-serif;color:var(--ink)}
+.wrap{max-width:900px;margin:0 auto;padding:14px 12px 36px}
+.card{background:#fff;border:1px solid #dce3ed;border-radius:22px;box-shadow:0 5px 22px rgba(20,35,65,.07);padding:22px}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+h1{font-size:clamp(22px,4.5vw,30px);line-height:1.25;margin:0 0 8px;font-weight:850}
+.sub{font-size:16px;line-height:1.5;color:var(--muted)}
+.scorechip{white-space:nowrap;color:var(--muted);font-size:15px;font-weight:700}
+.progress{height:10px;background:#e5eaf1;border-radius:999px;overflow:hidden;margin:18px 0 22px}
+.bar{height:100%;width:0;background:var(--blue);transition:width .2s}
+.qno{color:var(--blue);font-size:18px;font-weight:800;margin:0 0 10px}
+.qtext{font-size:clamp(19px,4vw,24px);font-weight:750;line-height:1.55;margin:0 0 16px;white-space:pre-wrap}
+.figure{display:none;text-align:center;margin:8px 0 20px}
+.figure img{width:min(240px,65vw);max-height:240px;object-fit:contain}
+.opts{display:grid;gap:11px}
+.opt{display:block;width:100%;text-align:left;background:#fff;color:var(--ink);border:1.5px solid var(--line);border-radius:16px;padding:15px 16px;font-size:18px;line-height:1.5;cursor:pointer;touch-action:manipulation}
+.opt:disabled{cursor:default;opacity:1}
+.opt.correct{border:2px solid #168447;background:#eefaf2}
+.opt.wrong{border:2px solid #c63131;background:#fff0f0}
+.feedback{display:none;margin-top:14px;border-radius:14px;padding:13px 15px;font-size:17px;font-weight:750;line-height:1.5}
+.feedback.show{display:block}
+.feedback.ok{background:#e8f7ed;color:#176b39}
+.feedback.bad{background:#fff0f0;color:#9b2020}
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+.btn{border:0;border-radius:14px;background:var(--blue);color:white;padding:13px 21px;font-size:18px;font-weight:800;cursor:pointer}
+.btn:disabled{background:#9db5ec;cursor:not-allowed}
+#quiz,#result{display:none}
+.resultScore{font-weight:900;font-size:34px;margin:12px 0 4px}
+.resultRate{font-size:20px;color:var(--muted)}
+.summaryline{color:var(--muted);font-size:15px;margin-top:10px}
+.review{margin-top:20px}
+.reviewitem{border-top:1px solid #e3e8ef;padding:14px 0;line-height:1.5;font-size:16px}
+.reviewitem strong{color:#b42323}
+.smallnote{margin-top:16px;font-size:13px;color:var(--muted);line-height:1.6}
+
+#select {display:block}
+.menuintro{font-size:16px;line-height:1.6;color:var(--muted);margin:0 0 18px}
+.testGroups h3{font-size:18px;line-height:1.5;margin:22px 0 10px}
+.setbtn{width:100%;display:grid;grid-template-columns:74px 1fr auto;align-items:center;gap:10px;text-align:left;border:1.5px solid var(--line);border-radius:15px;background:#fff;padding:14px 15px;margin:9px 0;color:var(--ink);font-size:16px;cursor:pointer;touch-action:manipulation}
+.setbtn span{color:var(--blue);font-weight:800}
+.setbtn strong{font-size:17px}
+.setbtn em{font-style:normal;background:#edf2ff;color:var(--blue);padding:5px 9px;border-radius:999px;font-weight:800;font-size:14px;white-space:nowrap}
+.setbtn:active{background:#f4f7ff}
+#quiz,#result{display:none}
+@media(max-width:520px){.setbtn{grid-template-columns:65px 1fr auto;padding:13px 10px;gap:7px}.setbtn strong{font-size:15px}.setbtn span{font-size:14px}.setbtn em{font-size:12px;padding:5px 7px}}
+@media(max-width:520px){.card{padding:18px 15px;border-radius:18px}.top{display:block}.scorechip{margin-top:8px}.opt{font-size:17px;padding:14px}}
+</style>
+</head>
+<body>
+<div class="wrap"><main class="card">
+<div class="top"><div><h1>機車駕照｜行車檢查與正確使用燈光</h1><div class="sub">官方題庫 115.1｜第 147～236 題及第 779～806 題｜共 118 題</div><div class="sub">分組練習，每回合最多 20 題；不含報讀功能，選項維持官方原順序。</div></div><div id="scorechip" class="scorechip">準備開始</div></div>
+<div class="progress" id="progressWrap" style="display:none"><div class="bar" id="bar"></div></div>
+<section id="select">
+<h2>選擇測驗項目</h2>
+<p class="menuintro">每回合最多 20 題。題目依官方原題號分組，每組內題目順序會隨機排列；作答後立即顯示對錯，完成後可查看錯題。</p>
+<div class="testGroups">
+  <h3>一、行車檢查（設備、燈光）｜第 147～236 題</h3>
+  <button class="setbtn" data-set="equip1"><span>第 1 回</span><strong>第 147～166 題</strong><em>20 題</em></button>
+  <button class="setbtn" data-set="equip2"><span>第 2 回</span><strong>第 167～186 題</strong><em>20 題</em></button>
+  <button class="setbtn" data-set="equip3"><span>第 3 回</span><strong>第 187～206 題</strong><em>20 題</em></button>
+  <button class="setbtn" data-set="equip4"><span>第 4 回</span><strong>第 207～226 題</strong><em>20 題</em></button>
+  <button class="setbtn" data-set="equip5"><span>第 5 回</span><strong>第 227～236 題</strong><em>10 題</em></button>
+  <h3>二、正確使用燈光｜第 779～806 題</h3>
+  <button class="setbtn" data-set="light1"><span>第 1 回</span><strong>第 779～798 題</strong><em>20 題</em></button>
+  <button class="setbtn" data-set="light2"><span>第 2 回</span><strong>第 799～806 題</strong><em>8 題</em></button>
+</div>
+<div class="smallnote">原題號會保留。最後一組未滿 20 題，是因為該分類剩餘題數不足 20 題。</div>
+</section>
+<section id="quiz">
+<div class="qno" id="qno"></div>
+<div class="qtext" id="qtext"></div>
+<div class="figure" id="figure"></div>
+<div class="opts" id="opts"></div>
+<div class="feedback" id="feedback" aria-live="polite"></div>
+<div class="actions"><button id="next" class="btn" disabled>下一題</button></div>
+</section>
+<section id="result">
+<h2>測驗完成</h2><div class="resultScore" id="resultScore"></div><div class="resultRate" id="resultRate"></div>
+<div class="summaryline" id="resultSummary"></div>
+<div class="review" id="review"></div>
+<div class="actions"><button class="btn" id="backMenu" type="button" style="background:#596579">回測驗選單</button><button class="btn" id="restart">重做本組</button></div>
+<div class="smallnote">題目與官方答案依交通部公路局《機車駕照筆試題庫 115.1》整理。圖示題（217～220、792）已內嵌示意圖，確保手機網頁離線或上傳 GitHub Pages 時不依賴外部圖片路徑。</div>
+</section>
+</main></div>
+<script>
+const QUESTIONS=[{"no":147,"ans":2,"q":"檢查機車的煞車時，輕抓煞車拉桿，應有保留多少間隙？","opts":["不應有間隙","應要有 1 至 2 公分間隙","應要有 3 至 4 公分以上間隙。"]},{"no":148,"ans":1,"q":"機車消音器損壞後，不加修復仍然行駛者，依道路交通管理處罰條例應處","opts":["罰鍰並責令改正","交通警察告誡","吊扣牌照"]},{"no":149,"ans":1,"q":"駕駛機車起駛前","opts":["應顯示方向燈，注意前後左右有無障礙或車輛行人","看側方有無車輛通過","看清前方路面"]},{"no":150,"ans":3,"q":"駕駛人在起駛前應","opts":["鳴按喇叭","顯示方向燈，儘快駛入車道","顯示方向燈，注意前後左右有無障礙或車輛行人"]},{"no":151,"ans":3,"q":"遇有緊急或危險情況按鳴喇叭時，應以單響為原則，並","opts":["不得連續按鳴 3 次","每次時間不得超過半秒鐘","以上皆是"]},{"no":152,"ans":3,"q":"於下列何種情形行駛時應開亮頭燈？","opts":["遇濃霧、雨、天色昏暗或視線不清時","行經隧道時","以上皆是"]},{"no":153,"ans":1,"q":"有關機車煞車燈燈色，下列何者正確？","opts":["紅色","橙色","黃色"]},{"no":154,"ans":3,"q":"機車裝設霧燈之規定，以下何者正確？","opts":["前後霧燈應為 1 盞或 2 盞","前霧燈限用黃色或淡黃色或白色，後霧燈限用紅色","以上皆是"]},{"no":155,"ans":1,"q":"機車頭燈之燈色應為","opts":["白色或淡黃色","藍色","沒有規定"]},{"no":156,"ans":1,"q":"煞車燈之規定，何者不正確？","opts":["燈色應為淡黃色","煞車作用時，應為續亮，不得閃爍","應為紅色"]},{"no":157,"ans":3,"q":"方向燈燈色應為","opts":["紅色","黃色","橙色"]},{"no":158,"ans":1,"q":"小型輕型機車之輪胎直徑之規定為何？應在","opts":["300 公釐以上，420 公釐以下","200 公釐以上，400 公釐以下","250 公釐以上，350 公釐以下"]},{"no":159,"ans":2,"q":"小型輕型機車車輛空重（含電池）應在","opts":["75 公斤以下","70 公斤以下","65 公斤以下"]},{"no":160,"ans":3,"q":"機車排氣管隔熱防護裝置","opts":["不影響騎車操作所以可不裝","隨興可裝可不裝","為避免燙傷他人，規定均需安裝"]},{"no":161,"ans":3,"q":"機車設備下列何者不正確？","opts":["不得裝設可發出不同音調之喇叭","左右兩側之照後鏡不得拆除","擋泥板可以不裝"]},{"no":162,"ans":1,"q":"現行機車出廠滿幾年辦理轉讓過戶時需要參加臨時檢驗？","opts":["5 年","7 年","10 年"]},{"no":163,"ans":1,"q":"機車因故辦理停駛，期限最多不得超過","opts":["1 年","1 年半","2 年"]},{"no":164,"ans":1,"q":"報廢之車輛","opts":["不得再行申請登記檢驗領照使用","修復後可申請登記檢驗領照使用","無規定"]},{"no":165,"ans":2,"q":"機車發生交通事故遭受重大損壞，經修復後應實施","opts":["定期檢驗","臨時檢驗","申請牌照檢驗"]},{"no":166,"ans":1,"q":"機車全高不得超過：","opts":["2 公尺","2.5 公尺","3 公尺"]},{"no":167,"ans":3,"q":"機車裝置照後鏡，其功能為","opts":["增加車輛平衡","方便駕駛人整理儀容","幫助駕駛人增加兩側視野"]},{"no":168,"ans":1,"q":"速克達型（無段變速型）機車之煞車拉桿","opts":["右手控制前輪、左手控制後輪","左手控制前輪、右手控制後輪","左手、右手同時控制前、後輪"]},{"no":169,"ans":2,"q":"車輛長時間停放未使用，最好多久發動 1 次，每次 3-5 分鐘，以維持車輛引擎最佳啟動狀況？","opts":["每季","每週","每月"]},{"no":170,"ans":3,"q":"汽油引擎正常之排氣顏色為","opts":["黑色","藍白色","無色"]},{"no":171,"ans":2,"q":"機車引擎之排氣顏色為黑色，可能為","opts":["汽油完全燃燒","汽油燃燒不完全","燃燒引擎機油"]},{"no":172,"ans":2,"q":"機車排放廢氣中會造成地球溫室效應的主要氣體是哪一種？","opts":["一氧化碳","二氧化碳","水蒸氣"]},{"no":173,"ans":3,"q":"檢查機車引擎機油時","opts":["引擎熄火","停在平坦地面","以上皆是"]},{"no":174,"ans":1,"q":"機車引擎機油除定期檢查外","opts":["應定期更換","不須更換","視機油廠牌而定"]},{"no":175,"ans":2,"q":"添加機油時，應由何處加入？","opts":["機油尺孔","引擎上機油蓋口","汽油箱蓋口"]},{"no":176,"ans":3,"q":"機車是否更換機油濾清器？","opts":["視機油廠牌而定","不須更換","按照機車使用手冊規範而定"]},{"no":177,"ans":2,"q":"夜間或黑暗處，檢查電瓶液時，不可使用之照明工具為","opts":["手電筒","打火機","電源工作燈"]},{"no":178,"ans":2,"q":"電瓶樁頭塗上何物，可以防止腐蝕並使導電良好？","opts":["油漆","黃油","柏油"]},{"no":179,"ans":2,"q":"機車起動馬達使用之電源來自","opts":["發電機供給","電瓶供給","引擎供給"]},{"no":180,"ans":1,"q":"機車安裝空氣濾清器的主要目的是","opts":["避免吸入空氣中沙塵損傷汽缸","減少機車運轉噪音","過濾排放廢氣，減少污染"]},{"no":181,"ans":1,"q":"輪胎氣壓不足時，易造成","opts":["輪胎兩側磨損","輪胎中央磨損","轉向變輕"]},{"no":182,"ans":3,"q":"輪胎氣壓不足時，易造成","opts":["輪胎兩側磨損","行駛耗油增加","以上皆是"]},{"no":183,"ans":2,"q":"輪胎氣壓太高時，易造成","opts":["輪胎兩側磨損","輪胎中央磨損","行駛耗油增加"]},{"no":184,"ans":3,"q":"輪胎氣壓過高時，易造成","opts":["車輛避震器加速損壞","輪胎中央磨損","以上皆是"]},{"no":185,"ans":2,"q":"輪胎胎面中央的花紋有較嚴重磨耗，其原因為","opts":["輪胎氣壓太低","輪胎氣壓太高","車輛載重過大"]},{"no":186,"ans":3,"q":"車胎過度磨損","opts":["不致危險","乘坐較舒適","會影響車輛轉向及煞車距離"]},{"no":187,"ans":3,"q":"機車輪胎之胎紋深度小於多少應即更換？","opts":["2 公釐","1.5 公釐","達到輪胎的磨耗指示點"]},{"no":188,"ans":3,"q":"機車輪胎規格 3.50-10-8PR 表示","opts":["輪胎寬度 3.5 英吋","輪胎內徑 10 英吋","以上皆是"]},{"no":189,"ans":3,"q":"駕駛人檢查輪胎之內容主要為","opts":["檢查胎壓是否正常","檢查輪胎外表是否龜裂、損傷或異常磨損","以上皆是"]},{"no":190,"ans":2,"q":"輪胎構造中，哪一部分強度最弱？","opts":["胎面","胎邊（胎腹）","胎唇"]},{"no":191,"ans":2,"q":"檢查輪胎氣壓必須於","opts":["行駛後輪胎胎溫高於常溫時","行駛前輪胎胎溫處於常溫時","隨時均可"]},{"no":192,"ans":3,"q":"輪胎氣壓太低會造成","opts":["胎邊容易受損而造成爆胎","增加摩擦阻力而增加油耗","以上皆是"]},{"no":193,"ans":3,"q":"輪胎應受保護","opts":["避免接近熱源","避免接觸礦油類相關油質","以上皆是"]},{"no":194,"ans":2,"q":"建議使用之輪胎，以輪胎製造後不超過","opts":["3 年","6 年","9 年"]},{"no":195,"ans":1,"q":"機車輪胎上的胎紋最主要功能為何？","opts":["排水及增加摩擦力","增加行駛速度","防止輪胎表面龜裂"]},{"no":196,"ans":3,"q":"輪胎製造日期編號：MMD1213 表示","opts":["2013 年 12 月","2012 年第 13 週","2013 年第 12 週"]},{"no":197,"ans":3,"q":"輪胎胎紋太淺之危險性：","opts":["影響輪胎摩擦力及抓地力，易延長煞車距離而發生事故","雨天行駛時輪胎排水性變差，易發生打滑失控","以上皆是"]},{"no":198,"ans":1,"q":"機車照後鏡之使用，何者不適當？","opts":["行進中與前車距離很近時，需觀看照後鏡以利超車","行駛前應將照後鏡調整至容易觀察後方車輛或道路狀況之角度與位置","可利用等待紅燈時間調整照後鏡"]},{"no":199,"ans":3,"q":"購買安全帽","opts":["必須貼有標準檢驗局之認證合格標籤","應選擇顏色鮮明或有反光材料之安全帽","以上皆是"]},{"no":200,"ans":1,"q":"安全帽經強力碰撞後","opts":["不宜再使用","外觀無損壞可繼續使用","製造日期於 3 年內外觀無損壞可繼續使用"]},{"no":201,"ans":1,"q":"機車附載成員未戴安全帽","opts":["處罰駕駛人","處罰附載成員","不處罰"]},{"no":202,"ans":1,"q":"下列敘述何者正確？","opts":["胎面與輪胎磨耗指示平齊時，表示需更換輪胎","胎面與輪胎磨耗指示垂直時，表示需更換輪胎","機車輪胎任一點胎紋深度達 1.6 公釐時，表示需更換輪胎"]},{"no":203,"ans":3,"q":"下列何者非騎車出發前之必要動作","opts":["檢查燈光","確認胎壓","暖車"]},{"no":204,"ans":3,"q":"機車照後鏡之敘述，何者錯誤？","opts":["大多為凸面鏡","幫助騎士掌握車輛後方狀況","行進中若發現照後鏡無法順利觀察後方狀況，行駛中應即刻進行調整"]},{"no":205,"ans":2,"q":"機車駐車架之敘述，何者錯誤？","opts":["可分為主腳架與側腳架","屬於需作經常性更換之零件","側腳架較不穩固，僅建議於短暫停車時使用"]},{"no":206,"ans":3,"q":"機車方向燈之敘述，下列何者錯誤？","opts":["用以提醒前後方來車，本車欲轉彎之方向","燈色應為橙色","可依路況決定轉彎前是否顯示"]},{"no":207,"ans":2,"q":"機車基本配件及功能下列何者正確？","opts":["照後鏡會阻礙機車於車陣中穿梭之流暢，必要時可拆除","頭燈包含遠光燈與近光燈","照後鏡屬於凹面鏡"]},{"no":208,"ans":2,"q":"騎乘機車如果爆胎，第一時間應","opts":["立即煞車","放鬆油門","轉動方向把手"]},{"no":209,"ans":3,"q":"機車改裝，下列何者有違規定？","opts":["擅自裝設高亮度 HID 頭燈","將排氣管往上翹","以上皆有違規定"]},{"no":210,"ans":3,"q":"選用安全帽之原則","opts":["愈緊愈好，避免被風吹走","選深色的，比較不易髒","以上皆非"]},{"no":211,"ans":2,"q":"下列何項不會顯示於機車儀表板？","opts":["遠光燈指示","輪胎磨耗指示","行車速度指示"]},{"no":212,"ans":2,"q":"以下何者非機車懸吊裝置之主要功能？","opts":["減少輪胎磨損","能增加引擎動力","使車輛能更安全與舒適的操控"]},{"no":213,"ans":1,"q":"機車煞車方式要隨外在環境調整，在乾燥或下坡路段","opts":["前輪煞車為主、後輪煞車為輔","後輪煞車為主、前輪煞車為輔","前、後輪煞車平均分配"]},{"no":214,"ans":2,"q":"機車煞車方式要隨外在環境調整，在濕滑或上坡路段","opts":["前輪煞車為主、後輪煞車為輔","後輪煞車為主、前輪煞車為輔","前、後輪煞車平均分配"]},{"no":215,"ans":1,"q":"更換機車電瓶時，先將主開關鑰匙轉至「OFF」位置，再拆卸電瓶，步驟為：","opts":["先拆負極線，再拆正極線","先拆正極線，再拆負極線","先拆後拆都可以"]},{"no":216,"ans":3,"q":"空氣濾清器如堆積塵埃，造成：","opts":["馬力降低","耗油","以上皆是"]},{"no":217,"ans":1,"q":"（圖示）下列標誌的意思為何？","opts":["車輛寬度限制","禁止停車","車輛高度限制"],"img":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNDAgMjQwIj48cmVjdCB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI0MCIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEyMCIgcj0iODgiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2Q3MTkyMCIgc3Ryb2tlLXdpZHRoPSIyMCIvPjx0ZXh0IHg9IjEyMCIgeT0iMTEzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSI0MiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzExMSI+MuWFrOWwujwvdGV4dD48cGF0aCBkPSJNNjQgMTM5IEgxNzYgTTY0IDEzOSBsMTMgLTEwIE02NCAxMzkgbDEzIDEwIE0xNzYgMTM5IGwtMTMgLTEwIE0xNzYgMTM5IGwtMTMgMTAiIHN0cm9rZT0iIzExMSIgc3Ryb2tlLXdpZHRoPSI1IiBmaWxsPSJub25lIi8+PC9zdmc+"},{"no":218,"ans":1,"q":"（圖示）下列標誌的意思為何？","opts":["車輛長度限制","車寬限制","禁止汽車進入"],"img":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNDAgMjQwIj48cmVjdCB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI0MCIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEyMCIgcj0iODgiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2Q3MTkyMCIgc3Ryb2tlLXdpZHRoPSIyMCIvPjxnIGZpbGw9IiMxMTEiIHN0cm9rZT0iIzExMSI+PHJlY3QgeD0iNTUiIHk9Ijg4IiB3aWR0aD0iOTgiIGhlaWdodD0iNDgiIHJ4PSIzIi8+PHBhdGggZD0iTTE1MyAxMDIgTDE3NCAxMDIgTDE4NSAxMjEgTDE4NSAxMzYgTDE1MyAxMzYgWiIvPjxjaXJjbGUgY3g9IjgwIiBjeT0iMTQyIiByPSIxMCIvPjxjaXJjbGUgY3g9IjE2MSIgY3k9IjE0MiIgcj0iMTAiLz48cGF0aCBkPSJNNDkgMTY2IEgxOTEgTTQ5IDE2NiBsMTMgLTkgTTQ5IDE2NiBsMTMgOSBNMTkxIDE2NiBsLTEzIC05IE0xOTEgMTY2IGwtMTMgOSIgc3Ryb2tlLXdpZHRoPSI0IiBmaWxsPSJub25lIi8+PC9nPjwvc3ZnPg=="},{"no":219,"ans":2,"q":"（圖示）下列標誌的意思為何？","opts":["停車再開","停車檢查","禁止行人通行"],"img":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNDAgMjQwIj48cmVjdCB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI0MCIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEyMCIgcj0iODgiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2Q3MTkyMCIgc3Ryb2tlLXdpZHRoPSIyMCIvPjx0ZXh0IHg9IjEyMCIgeT0iMTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzExMSI+5YGc6LuKPC90ZXh0PjxyZWN0IHg9IjczIiB5PSIxMTIiIHdpZHRoPSI5NCIgaGVpZ2h0PSI4IiBmaWxsPSIjMTExIi8+PHRleHQgeD0iMTIwIiB5PSIxNTEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjI3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMTExIj7mqqLmn6U8L3RleHQ+PC9zdmc+"},{"no":220,"ans":2,"q":"（圖示）下列標誌的意思為何？","opts":["停車再開","停車檢查","禁止通行"],"img":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNDAgMjQwIj48cmVjdCB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI0MCIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEyMCIgcj0iODgiIGZpbGw9IiNmZmYiIHN0cm9rZT0iI2Q3MTkyMCIgc3Ryb2tlLXdpZHRoPSIyMCIvPjx0ZXh0IHg9IjEyMCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjI1IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMTExIj7pl5zljaE8L3RleHQ+PHJlY3QgeD0iNzMiIHk9IjExMiIgd2lkdGg9Ijk0IiBoZWlnaHQ9IjgiIGZpbGw9IiMxMTEiLz48dGV4dCB4PSIxMjAiIHk9IjE1MSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjciIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxMTEiPuWBnOi7ijwvdGV4dD48L3N2Zz4="},{"no":221,"ans":2,"q":"使用機車時，除了注意是否有汽油外，下列敘述何者正確？","opts":["不需要額外做基本保養","需額外做基本保養，以確保車況","只需要檢查輪胎胎紋深度"]},{"no":222,"ans":2,"q":"機車煞車時出現異常聲響，關於處置方式，下列敘述何者正確？","opts":["若異音僅於潮濕天氣出現且煞車功能正常，屬正常現象無須特別處理","應儘速至合格機車行由專業技師檢查煞車系統，確認異常原因並進行必要檢修","可自行檢視來令片厚度，若尚未磨損至警示線則無安全疑慮"]},{"no":223,"ans":3,"q":"機車行車前應實施安全檢查，關於檢查項目，下列敘述何者正確？","opts":["主要檢查煞車及輪胎狀況，確認制動系統正常即可安全上路","機車出廠前已通過安全檢驗，日常騎乘僅需於定期保養時進行全面檢查","應檢查燈光、方向燈、煞車、輪胎、喇叭及照後鏡等項目，確保各系統正常運作"]},{"no":224,"ans":1,"q":"有關安全帽的注意事項，下列敘述何者錯誤？","opts":["受過撞擊之安全帽，如外觀無損壞，則可正常使用不必更換","頭帶長度不宜過長或過短，約留 1 指空間大小","扣子應該在下巴後方，保留 1 指縫的空間，並且旋鈕緊固"]},{"no":225,"ans":2,"q":"機車駕駛人及附載乘客配戴安全帽時，關於帽帶之扣繫方式，下列敘述何者正確？","opts":["帽帶扣繫後應保留約一至二指寬之鬆緊度，以兼顧舒適性與透氣需求","安全帽應正面配戴並將帽帶確實扣緊，使安全帽穩固貼合頭部","短程騎乘或低速行駛時，帽帶僅需輕扣固定，無須緊繫"]},{"no":226,"ans":2,"q":"關於機車安全帽之選購，下列敘述何者正確？","opts":["選購時應以配戴舒適度及通風散熱性能為首要考量","應選購貼有經濟部標準檢驗局商品檢驗標識之合格安全帽","進口品牌安全帽通過國際安全認證者，其防護性能較國內檢驗標準更為嚴格，可安心選購"]},{"no":227,"ans":3,"q":"關於機車車燈之改裝或加工，下列敘述何者正確？","opts":["車燈黏貼透明保護膜以防止刮傷，且不影響燈光亮度者，符合規定","加裝經檢審驗合格之高亮度燈泡以提升夜間照明效果，符合規定","車燈不得噴色、黏貼膠紙或加裝燈罩，以免影響辨識效果"]},{"no":228,"ans":3,"q":"關於機車排氣管之改裝規定，下列敘述何者正確？","opts":["更換為通過環保署認證且排放值合格之排氣管，符合改裝規定","使用原廠同型號零件更換排氣管位置，因未變更規格故符合規定","排氣管不得變更數量及位置，亦不得拆除消音器或觸媒裝置"]},{"no":229,"ans":3,"q":"機車在引擎發動前，應檢查的項目為何？","opts":["僅須檢查汽油量","僅須檢查機油量","須檢查機油及汽油量"]},{"no":230,"ans":3,"q":"下列何者是量測機車機油量最準確的時機？","opts":["剛停車熄火時","機車發生傾斜時","機車靜置於平坦處，引擎熄火一段時間後"]},{"no":231,"ans":3,"q":"關於機車輪胎氣壓的敘述，下列何者正確？","opts":["充氣氣壓愈高愈佳","胎壓應當低於原廠規定，以增加抓地力","胎壓應符合原廠規定，且胎紋深度足夠"]},{"no":232,"ans":3,"q":"若車輛輪胎胎壓「過高」，則輪胎何處磨損會最嚴重？","opts":["胎紋的兩側","胎紋的內側部分","胎紋的中央部分"]},{"no":233,"ans":1,"q":"機車儀錶板上用以表示行駛里程累積數的是下列何者？","opts":["里程計","速度表","轉速表"]},{"no":234,"ans":2,"q":"機車油量表顯示「E」時，表示什麼意思？","opts":["油量充足，可以繼續行駛","表示油量已不高，應儘速加油","機油不足，應添加機油"]},{"no":235,"ans":2,"q":"關於大型重型機車（逾 250c.c.）的定期檢驗規定，下列敘述何者正確？","opts":["出廠滿 1 年後，每年應至少檢驗 1 次","出廠年份未滿 5 年者，免予定期檢驗","出廠滿 5 年以上者，每滿半年應檢驗 1 次"]},{"no":236,"ans":2,"q":"夜間騎乘機車，對向來車持續開啟遠光燈造成眩目，下列何種做法最能確保安全？","opts":["以遠光燈回應示意對方切換近光燈","視線略偏向右側路緣標線，維持穩定車速與車道，避免直視對向燈光","減速至路邊停車，等待對向車輛通過"]},{"no":779,"ans":3,"q":"夜間行駛，應使用燈光，如市區照明清楚時，","opts":["戴有色眼鏡","使用遠光燈","使用近光燈"]},{"no":780,"ans":1,"q":"變換車道時，為預防因自己的駕駛死角而發生危險，應","opts":["提前顯示方向燈，觀看照後鏡並擺頭察看","緊盯前方注意路況","與前方車輛保持安全距離"]},{"no":781,"ans":3,"q":"夜間行車遙見對向有來車時應：","opts":["使用遠光燈及大鳴喇叭警告來車，並加速前進","立即就地停車，並熄滅全部燈光，以待來車通過","使用近光燈，並減速交會"]},{"no":782,"ans":1,"q":"夜間跟隨他車行駛之車輛：","opts":["用近光燈","用遠光燈","不必開燈"]},{"no":783,"ans":3,"q":"機車在隧道內行駛時：","opts":["不得開燈","應開燈快行","應開燈慢行"]},{"no":784,"ans":3,"q":"在紅燈亮時，行人穿越道上無人穿越，且交叉路口車輛不擁擠時：","opts":["可以向前行駛","可以右轉行駛","禁止行駛"]},{"no":785,"ans":1,"q":"夜間會車時應","opts":["使用近光燈","使用遠光燈","無規定"]},{"no":786,"ans":1,"q":"機車夜間在照明清楚之市區行駛","opts":["使用近光燈","可用遠光燈","可以關燈"]},{"no":787,"ans":3,"q":"下列何者並非機車行駛時應開亮頭燈之情形？","opts":["夜間或行經隧道","遇濃霧、雨、雪、天色昏暗或視線不清時","行經市區道路"]},{"no":788,"ans":3,"q":"機車之車燈","opts":["不可噴色","不可黏貼膠紙","以上皆是"]},{"no":789,"ans":3,"q":"使用燈光規定下列何者不正確？","opts":["夜間應開亮頭燈","行經隧道、調撥車道應開亮頭燈","天色昏暗或視線不清時，得使用霧燈"]},{"no":790,"ans":2,"q":"夜間行車交會，來車不變換近光燈時應如何處置？","opts":["以眼還眼，也用遠光燈報復","不和對方一般見識，以近光燈減速行駛","按喇叭警告"]},{"no":791,"ans":3,"q":"機車行駛於最外側車道要進入待轉區時，方向燈的使用方式何者正確？","opts":["需打右轉方向燈","需打左轉方向燈","無須打方向燈"]},{"no":792,"ans":1,"q":"（圖示）下列標誌代表何種意思？","opts":["開亮頭燈","注意號誌","按鳴喇叭"],"img":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNDAgMjQwIj48cmVjdCB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI0MCIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEyMCIgcj0iOTMiIGZpbGw9IiMwNzY2YzciLz48cGF0aCBkPSJNNzQgMTU4IEwxMTkgMTEzIEwxMTkgMTY0IEw4OCAxODIgWiIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik04NCAxNDggTDExNSAxMTcgTTk2IDE2MCBMMTI3IDEyOSBNMTA4IDE3MiBMMTM5IDE0MSIgc3Ryb2tlPSIjMDc2NmM3IiBzdHJva2Utd2lkdGg9IjciLz48cGF0aCBkPSJNMTE5IDExMyBRMTY2IDk3IDE3MCAxMzkgUTE2NiAxNzYgMTE5IDE2NCBaIiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTY5IDE3NCBMMTA2IDEzNyBNNjAgMTYxIEw5NyAxMjQgTTgwIDE4NCBMMTE3IDE0NyIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg=="},{"no":793,"ans":2,"q":"機車駕駛人行駛至交叉路口，右轉彎之操作順序，下列何者為正確？","opts":["檢查照後鏡→打方向燈→確認安全→換入外側車道、右轉車道或慢車道，駛至路口後再行右轉","打方向燈→檢查照後鏡→確認安全→換入外側車道、右轉車道或慢車道，駛至路口後再行右轉","打方向燈→換入外側車道、右轉車道或慢車道，駛至路口後再行右轉→檢查照後鏡→確認安全"]},{"no":794,"ans":3,"q":"為增加車輛辨識度，機車駕駛人行駛於道路時，頭燈於何時開啟？","opts":["僅在夜間、隧道或視線不良時應開啟","僅行經郊區或山區道路時應開啟","全日均可開啟（白天可開啟頭燈或日間行車燈）"]},{"no":795,"ans":2,"q":"雖然是白天，有濃霧時，應如何使用燈號？","opts":["僅需開霧燈","應開啟頭燈及霧燈","僅需開頭燈"]},{"no":796,"ans":1,"q":"為免對向車輛駕駛人目眩，夜間會車時，機車駕駛人應如何使用燈光？","opts":["使用近光燈","使用遠光燈","交互使用遠光燈和近光燈"]},{"no":797,"ans":1,"q":"機車夜間跟車行駛於照明不足之道路時，關於燈光使用方式，下列敘述何者正確？","opts":["應開啟頭燈並使用近光燈，以利辨識前方路況並避免影響前車駕駛人視線","應開啟遠光燈以獲得較遠照明範圍，確保充分掌握前方道路狀況","跟隨前車行駛時可借助前車燈光照明，僅需開啟定位燈標示車輛位置即可"]},{"no":798,"ans":2,"q":"機車於夜間或視線不清之路段臨時停車時，關於燈光顯示之規定，下列敘述何者正確？","opts":["停放於路燈照明範圍內或有反光設施處，得免開啟停車燈光","應顯示停車燈光或反光標示，以利其他用路人辨識","已放置車輛故障標誌或反光三角牌者，得免開啟停車燈光"]},{"no":799,"ans":2,"q":"依道路交通安全規則，除夜間外，車輛行經下列何種情況時應開啟頭燈？","opts":["僅於無照明設施之隧道或涵洞時須開啟頭燈，有照明設施者得免開燈","行經隧道、涵洞、調撥車道或遇濃霧、大雨致視線不清時，應開啟頭燈","行經設有完善照明之地下道時，因環境亮度充足，得免開啟頭燈"]},{"no":800,"ans":2,"q":"機車駕駛人，警員現場攔查舉發不依規定使用燈光者，將會有何種處罰？","opts":["僅處以罰鍰","處以罰鍰加記違規點數","吊扣駕駛執照"]},{"no":801,"ans":2,"q":"機車於路邊停車起駛時，駕駛人應如何處置？","opts":["因速度慢，不須顯示方向燈","應顯示方向燈，並注意前後左右來車，確認安全後始得起駛","應顯示方向燈即可起駛"]},{"no":802,"ans":2,"q":"夜間騎乘機車，下列何種行為最能提高行車安全？","opts":["開啟遠光燈以獲得最佳照明","穿著淺色或反光衣物，並確認車燈及反光裝置功能正常","夜間車少，可加快車速以縮短行駛時間"]},{"no":803,"ans":2,"q":"電動機車起步時，駕駛人應特別注意下列何項特性？","opts":["起步加速較慢，需多催油門","扭力輸出直接快速，應謹慎控制電門","需預熱引擎後才能起步"]},{"no":804,"ans":2,"q":"騎乘電動機車行經住宅區巷弄時，下列何種做法最為適當？","opts":["因車輛安靜，可快速通過以減少干擾","應減速慢行並提高警覺，因行人可能未察覺車輛接近","持續按喇叭提醒行人注意"]},{"no":805,"ans":2,"q":"根據國際（OECD）研究，當撞擊速度從時速 30 公里提高到時速 50 公里時，機車騎士死亡的機率變化為何？","opts":["從 10％增加至約 40％","從 10％大幅增加至約 80％","從 30％增加至約 60％"]},{"no":806,"ans":2,"q":"根據國際（OECD）研究，當平均行車速度增加時，下列敘述何者正確？","opts":["受傷事故與死亡事故增加幅度大致相同","死亡事故增加幅度遠大於受傷事故增加幅度","只要未超過速限，事故風險不會明顯改變"]}];
+const SETS={
+  equip1:{title:'行車檢查（設備、燈光）｜第 1 回',min:147,max:166},
+  equip2:{title:'行車檢查（設備、燈光）｜第 2 回',min:167,max:186},
+  equip3:{title:'行車檢查（設備、燈光）｜第 3 回',min:187,max:206},
+  equip4:{title:'行車檢查（設備、燈光）｜第 4 回',min:207,max:226},
+  equip5:{title:'行車檢查（設備、燈光）｜第 5 回',min:227,max:236},
+  light1:{title:'正確使用燈光｜第 1 回',min:779,max:798},
+  light2:{title:'正確使用燈光｜第 2 回',min:799,max:806}
+};
+let order=[],idx=0,score=0,locked=false,wrong=[],currentSet='equip1';
+const $=id=>document.getElementById(id);
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+function start(setId){
+  currentSet=setId||currentSet;
+  const s=SETS[currentSet];
+  order=shuffle(QUESTIONS.filter(q=>q.no>=s.min&&q.no<=s.max));
+  idx=0;score=0;locked=false;wrong=[];
+  $('select').style.display='none';$('quiz').style.display='block';$('result').style.display='none';$('progressWrap').style.display='block';
+  $('scorechip').textContent='答對 0 題';
+  const subtitle=document.querySelector('.top .sub');
+  if(subtitle) subtitle.textContent=`${s.title}｜第 ${s.min}～${s.max} 題｜本組 ${order.length} 題`;
+  const details=document.querySelectorAll('.top .sub')[1];
+  if(details) details.textContent='每題作答後立即顯示對錯；本回合完成後可查看錯題。';
+  render();
+}
+function backToMenu(){
+  $('select').style.display='block';$('quiz').style.display='none';$('result').style.display='none';$('progressWrap').style.display='none';$('scorechip').textContent='選擇測驗';
+  const subtitle=document.querySelector('.top .sub');
+  if(subtitle) subtitle.textContent='官方題庫 115.1｜第 147～236 題及第 779～806 題｜共 118 題';
+  const details=document.querySelectorAll('.top .sub')[1];
+  if(details) details.textContent='分組練習，每回合最多 20 題；不含報讀功能，選項維持官方原順序。';
+}
+function render(){const item=order[idx];locked=false;$('qno').textContent=`第 ${item.no} 題`;$('qtext').textContent=item.q;$('bar').style.width=`${idx/order.length*100}%`;$('scorechip').textContent=`答對 ${score} 題`;$('feedback').className='feedback';$('feedback').textContent='';$('next').disabled=true;$('next').textContent=idx===order.length-1?'查看成績':'下一題';
+const fig=$('figure');fig.innerHTML='';if(item.img){const im=document.createElement('img');im.src=item.img;im.alt=`第 ${item.no} 題圖示`;fig.appendChild(im);fig.style.display='block'}else{fig.style.display='none'}
+const box=$('opts');box.innerHTML='';item.opts.forEach((txt,i)=>{const b=document.createElement('button');b.className='opt';b.type='button';b.textContent=`(${i+1}) ${txt}`;b.onclick=()=>answer(i+1,b,item);box.appendChild(b)})}
+function answer(choice,button,item){if(locked)return;locked=true;const buttons=[...document.querySelectorAll('.opt')];buttons.forEach(b=>b.disabled=true);const fb=$('feedback');if(choice===item.ans){score++;button.classList.add('correct');fb.className='feedback show ok';fb.textContent='答對！'}else{button.classList.add('wrong');buttons[item.ans-1].classList.add('correct');fb.className='feedback show bad';fb.textContent=`答錯。官方正確答案：（${item.ans}）${item.opts[item.ans-1]}`;wrong.push(item)}$('scorechip').textContent=`答對 ${score} 題`;$('next').disabled=false}
+$('next').onclick=()=>{if(!locked)return;if(idx<order.length-1){idx++;render()}else finish()};
+function finish(){$('bar').style.width='100%';$('quiz').style.display='none';$('result').style.display='block';$('scorechip').textContent='測驗完成';$('resultScore').textContent=`答對 ${score}／${order.length} 題`;$('resultRate').textContent=`正確率：${Math.round(score/order.length*100)}%`;$('resultSummary').textContent=`錯誤題數：${wrong.length} 題`;
+const rev=$('review');rev.innerHTML='';if(!wrong.length){rev.innerHTML='<h3>錯題檢討</h3><p>全部答對，沒有錯題。</p>'}else{const h=document.createElement('h3');h.textContent='錯題檢討';rev.appendChild(h);wrong.sort((a,b)=>a.no-b.no).forEach(item=>{const d=document.createElement('div');d.className='reviewitem';const t=document.createElement('div');t.innerHTML=`<strong>第 ${item.no} 題</strong>　${escapeHtml(item.q)}`;d.appendChild(t);const a=document.createElement('div');a.textContent=`正確答案：（${item.ans}）${item.opts[item.ans-1]}`;d.appendChild(a);rev.appendChild(d)})}}
+function escapeHtml(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+document.querySelectorAll('[data-set]').forEach(btn=>btn.addEventListener('click',()=>start(btn.dataset.set)));$('restart').onclick=()=>start(currentSet);$('backMenu').onclick=backToMenu;backToMenu();
+</script>
+</body></html>
