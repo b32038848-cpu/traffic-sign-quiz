@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#17365d">
+<title>烘焙食品丙級｜工作項目三 51～80 題目與答案朗讀</title>
+<style>
+:root{color-scheme:light;--ink:#17212b;--muted:#5b6673;--line:#d8dee6;--blue:#1d4ed8;--ok:#eaf8ef;--surface:#fff;--page:#f4f6f9}
+*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif;line-height:1.6}
+header{background:#17365d;color:#fff;padding:20px 16px}header .wrap,main{max-width:900px;margin:auto}h1{font-size:22px;margin:0 0 5px}header p{margin:0;color:#dce7f5;font-size:14px}main{padding:16px}.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 2px 8px #1322380a}.title{font-size:20px;font-weight:800;margin-bottom:8px}.muted{color:var(--muted);font-size:14px}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}button{appearance:none;border:1px solid #c5ced9;border-radius:11px;background:#fff;color:var(--ink);font:inherit;font-weight:700;padding:11px 14px;cursor:pointer;min-height:44px}button.primary{background:var(--blue);border-color:var(--blue);color:#fff}button.secondary{background:#eef2f7}button:disabled{opacity:.48;cursor:not-allowed}.notice{background:#f7f9fc;border-radius:12px;padding:12px 14px;font-size:14px;color:#374151}.qcard{padding:16px 18px}.qno{font-size:14px;font-weight:800;color:var(--blue)}.question{font-size:19px;font-weight:800;line-height:1.6;margin:6px 0 12px}.answer{border-radius:10px;background:var(--ok);padding:11px 13px;font-size:17px;font-weight:750}.qactions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.progress{height:7px;border-radius:99px;background:#e7ebf1;overflow:hidden;margin-top:12px}.progress>div{height:100%;background:var(--blue);width:0;transition:width .2s}.foot{text-align:center;color:var(--muted);font-size:12px;padding:12px}@media(max-width:560px){header{padding:16px 13px}h1{font-size:20px}main{padding:10px}.card{padding:14px}.question{font-size:18px}.actions button,.qactions button{flex:1}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>烘焙食品丙級｜工作項目三：產品製作</h1><p>第 51～80 題｜只顯示題目與正確答案｜支援逐題及連續朗讀</p></div></header>
+<main>
+<section class="card">
+<div class="title">朗讀控制</div>
+<div class="notice">本頁不顯示選項，只保留題目與正確答案。請使用 Chrome、Edge 或 Safari 開啟；按下朗讀按鈕後，瀏覽器會開始語音播放。</div>
+<div class="actions"><button class="primary" id="readAll">🔊 全部朗讀（題目＋正確答案）</button><button class="secondary" id="testVoice">🔊 測試朗讀</button><button class="secondary" id="stop">⏹ 停止朗讀</button></div>
+<div class="progress"><div id="progressFill"></div></div><div class="muted" id="status" aria-live="polite">共 30 題</div>
+</section>
+<div id="list"></div>
+<div class="foot">語音使用瀏覽器內建中文語音；實際音色取決於裝置及瀏覽器設定。</div>
+</main>
+<script>
+const QUESTIONS = [
+{n:51,q:"奶油海綿蛋糕中奶油用量最多可用？",a:"40～50％。"},
+{n:52,q:"乳沫類蛋糕其麵糊的打發性主要是來自配方中的？",a:"蛋。"},
+{n:53,q:"可可粉加入蛋糕配方內時須注意調整其吸水量。製作魔鬼蛋糕時，為增加可口風味，配方中增加 3％的可可粉，則配方中的吸水應該？",a:"增加 4.5％。"},
+{n:54,q:"麵粉含水量比標準減少 1％時，麵包麵糰攪拌時配方內水的用量可隨著增加多少？",a:"2％。"},
+{n:55,q:"煮製奶油空心餅（泡芙），何者為正確？",a:"油脂與水煮沸並不斷攪拌加入麵粉，繼續攪拌加熱至麵粉完全糊化。"},
+{n:56,q:"小西餅的烤焙原則為何？",a:"高溫短時間。"},
+{n:57,q:"炸油炸甜圈餅（道納司，doughnuts）的油溫以多少為佳？",a:"180～190℃。"},
+{n:58,q:"奶油空心餅成型後應該如何處理？",a:"馬上進爐烘烤。"},
+{n:59,q:"製作麵包時麵粉筋性較弱，應採用何種攪拌速度？",a:"中速。"},
+{n:60,q:"裹入油脂為麵糰的 1/4，即表示油脂量為麵糰的多少？",a:"25％。"},
+{n:61,q:"重奶油蛋糕如欲組織細膩，可以採用哪一種方法？",a:"麵粉油脂拌合法。"},
+{n:62,q:"麵糰分割重量 600 公克，烤好麵包重量為 540 公克，其烤焙損耗是？",a:"10％。"},
+{n:63,q:"整形後的丹麥麵包或甜麵包麵糰，如需冷藏，冰箱溫度應為何？",a:"0～7℃。"},
+{n:64,q:"烤焙法國麵包時，烤爐內必須有蒸氣設備，蒸氣的壓力與量應如何？",a:"壓力低、量大。"},
+{n:65,q:"海綿蛋糕有冷攪拌法和熱攪拌法，熱攪拌法是先將蛋加溫至多少？",a:"35～43℃。"},
+{n:66,q:"海綿蛋糕配方中各項材料百分比加起來為 180％，已知麵糊總量為 9 公斤，其麵粉用量應為？",a:"5 公斤。"},
+{n:67,q:"蛋白經攪拌後，最易與其他原料拌合且進爐後膨脹力最好的階段是？",a:"濕性發泡。"},
+{n:68,q:"製作某烘焙食品，麵粉用量為 22 公斤，乳化劑用量為 0.33 公斤，乳化劑所佔烘焙百分比為？",a:"1.5％。"},
+{n:69,q:"麵包製程中所說的「醒麵」即是？",a:"中間發酵。"},
+{n:70,q:"麵包配方經試驗為正確，但烤焙後表皮顏色經常深淺不一，下列何者不是可能原因？",a:"冷卻不足。"},
+{n:71,q:"中種麵糰攪拌後理想的溫度應為？",a:"23～26℃。"},
+{n:72,q:"一般乳沫類蛋糕使用蛋白的溫度最好為？",a:"17～22℃。"},
+{n:73,q:"戚風蛋糕蛋白部分要與麵粉拌合最好的階段，是把蛋白攪到哪一種程度？",a:"濕性發泡。"},
+{n:74,q:"天使蛋糕蛋白應打到何種程度，成品膨脹能力較佳？",a:"濕性發泡。"},
+{n:75,q:"麵包麵糰的中間發酵時間約為？",a:"8～15 分鐘。"},
+{n:76,q:"奶油空心餅進爐後，在爐內麵糊出油是因為？",a:"加蛋時麵糊太冷，無法乳化均勻。"},
+{n:77,q:"烤焙用具（塑膠製品除外）貯放前，最好採取哪一種處理方式？",a:"洗淨烤乾。"},
+{n:78,q:"奶油空心餅產品內壁呈青色，底部會有很多黑色小孔，是配方中使用過多的哪一種原料？",a:"碳酸氫銨。"},
+{n:79,q:"奶油空心餅成品底部凹陷大，是因為製作時？",a:"烤盤油擦太多。"},
+{n:80,q:"為使奶油空心餅在烤焙後表皮品質及膨大性良好，進烤爐前可噴哪一種材料於麵糊表面？",a:"水。"}
+];
+const $=id=>document.getElementById(id);
+let runToken=0;
+function phrase(item){return `第${item.n}題。${item.q}。正確答案：${item.a}`;}
+function stopReading(){runToken++;if('speechSynthesis' in window)window.speechSynthesis.cancel();$('status').textContent='已停止朗讀。';$('readAll').disabled=false;}
+function speakOne(text,onEnd){if(!('speechSynthesis' in window)){alert('此瀏覽器不支援語音朗讀，請改用 Chrome、Edge 或 Safari。');return;}const u=new SpeechSynthesisUtterance(text);u.lang='zh-TW';u.rate=0.88;u.pitch=1;u.onend=()=>onEnd&&onEnd();u.onerror=(e)=>{if(e.error!=='canceled'&&e.error!=='interrupted')$('status').textContent='語音播放出現問題，請再按一次朗讀。';onEnd&&onEnd();};window.speechSynthesis.speak(u);}
+function speakAll(){if(!('speechSynthesis' in window)){alert('此瀏覽器不支援語音朗讀，請改用 Chrome、Edge 或 Safari。');return;}stopReading();const token=runToken;$('readAll').disabled=true;let i=0;function next(){if(token!==runToken)return;if(i>=QUESTIONS.length){$('status').textContent='全部 30 題朗讀完成。';$('readAll').disabled=false;return;}const item=QUESTIONS[i++];$('status').textContent=`正在朗讀第 ${item.n} 題（${i}/30）`;speakOne(phrase(item),next);}next();}
+function render(){const host=$('list');host.innerHTML='';for(const item of QUESTIONS){const card=document.createElement('section');card.className='card qcard';card.innerHTML=`<div class="qno">第 ${item.n} 題</div><div class="question"></div><div class="answer"></div><div class="qactions"><button type="button" class="primary">🔊 朗讀題目＋正確答案</button></div>`;card.querySelector('.question').textContent=item.q;card.querySelector('.answer').textContent='正確答案：'+item.a;card.querySelector('button').addEventListener('click',()=>{stopReading();$('status').textContent=`正在朗讀第 ${item.n} 題`;speakOne(phrase(item),()=>{$('status').textContent=`第 ${item.n} 題朗讀完成。`;});});host.appendChild(card);}}
+$('readAll').addEventListener('click',speakAll);$('stop').addEventListener('click',stopReading);$('testVoice').addEventListener('click',()=>{stopReading();speakOne('語音測試。這是烘焙食品丙級，工作項目三，第五十一到第八十題。',()=>{$('status').textContent='語音測試完成。';});$('status').textContent='正在測試語音…';});render();
+</script>
+</body>
+</html>
