@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>烘焙食品丙級｜工作項目三｜101–120</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--ink:#1f2937;--accent:#245a75;--muted:#64748b;--border:#dbe2e8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Noto Sans TC",sans-serif}
+header{background:var(--accent);color:white;padding:22px 16px}header h1{font-size:1.25rem;margin:0}header p{margin:4px 0 0;font-size:.92rem}
+main{max-width:850px;margin:20px auto;padding:0 14px}.toolbar,.question,.result{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}button{border:0;border-radius:8px;padding:10px 14px;font:inherit;cursor:pointer;background:var(--accent);color:white}button.secondary{background:#e8eef2;color:var(--ink)}button:disabled{opacity:.45;cursor:not-allowed}
+.progress{height:8px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-top:10px}#bar{height:100%;background:#4f9b78;width:0}
+.qhead{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:.9rem}.question h2{font-size:1.08rem;margin:10px 0 14px}.choices{display:grid;gap:9px}label.choice{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);border-radius:9px;padding:11px;cursor:pointer}label.choice:has(input:checked){border-color:var(--accent);background:#edf5f8}input{margin-top:6px;accent-color:var(--accent)}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}.hidden{display:none!important}.muted{color:var(--muted)}.score{font-size:1.5rem;font-weight:700}.answerline{padding:10px;border-bottom:1px solid var(--border)}.bad{color:#b42318}.good{color:#167044}
+</style></head><body>
+<header><h1>烘焙食品丙級｜工作項目三：產品製作</h1><p>題號 101–120・單次作答・語音朗讀</p></header>
+<main>
+<div class="toolbar"><div><strong id="status">準備開始</strong><div class="progress"><div id="bar"></div></div></div><div class="actions"><button id="start">開始測驗</button><button id="read" class="secondary" disabled>朗讀題目</button><button id="stop" class="secondary" disabled>停止朗讀</button></div></div>
+<div id="quiz" class="question hidden"></div>
+<div id="finish" class="result hidden"></div>
+<div class="toolbar"><button id="teacher" class="secondary">教師功能</button></div>
+<div id="teacherPanel" class="result hidden"><label>教師密碼 <input id="pw" type="password" inputmode="numeric" style="padding:8px;border:1px solid var(--border);border-radius:6px"></label><div class="actions"><button id="unlock">確認</button></div><div id="teacherContent"></div></div>
+</main>
+<script>
+const questions=[[101, 1, "下列那一項非麵包滾圓的目的？", ["鬆弛麵筋使麵糰易於整型", "使麵糰表面光滑不易粘手", "使麵糰易於保住二氧化碳", "使氣體均勻分佈"]], [102, 4, "調整配方時，下列何者材料不會使麵包麵糰較軟？", ["水", "糖", "油", "麵粉"]], [103, 1, "調整甜麵包配方時，若增加蛋的使用量，得酌量減少原配方的？", ["水", "糖", "油", "麵粉"]], [104, 1, "法國麵包（硬式麵包）常用之烤焙溫度為多少？", ["230℃", "200℃", "170℃", "150℃"]], [105, 2, "800 公克的帶蓋土司在正常的狀態下，給予200℃烤溫，烤焙所需時間為？", ["15～20 分", "35～40 分", "55～60 分", "1 小時以上"]], [106, 4, "下列那一種麵包，烤焙時間最短？", ["800 公克的帶蓋土司", "450 公克的圓頂葡萄乾土司", "350 公克的法國麵包", "90 公克包餡的甜麵包"]], [107, 3, "下列那一種麵包必需使用蒸氣烤爐？", ["甜麵包", "丹麥麵包", "硬式麵包", "葡萄乾麵包"]], [108, 1, "圓烤盤，其直徑為22公分、高5公分其容積為？", ["1899.7 立方公分", "1997.7 立方公分", "7598.8 立方公分", "110 立方公分"]], [109, 2, "長方型烤盤，其長為30公分、寬為22公分、高為5公分，其容積為？", ["3300 平方公分", "3300 立方公分", "660 平方公分", "660 立方公分"]], [110, 2, "低成分重奶油蛋糕，採用何種攪拌方法為宜？", ["麵粉油脂拌合法", "糖油拌合法", "兩步拌合法", "糖水拌合法"]], [111, 4, "何種攪拌方法能節省人工和縮短攪拌時間？", ["糖油拌合法", "麵粉油脂拌合法", "糖水拌合法", "直接法"]], [112, 3, "麵糊類蛋糕的麵糊溫度應該是？在這個溫度的麵糊所烤出來的蛋糕，體積最大，內部組織細膩。", ["10℃", "15℃", "22℃", "30℃"]], [113, 4, "下列何種蛋糕在烘焙時不可擦防粘油脂？", ["海綿蛋糕", "重奶油蛋糕", "輕奶油蛋糕", "天使蛋糕"]], [114, 1, "理想的海綿蛋糕麵糊比重為", ["0.46", "0.56", "0.66", "0.76"]], [115, 3, "利用糖油拌合法製作丹麥小西餅(Danish cookies)，材料中的麵粉應在最後加入，輕輕拌勻，其主要的原因為？", ["容易吸收水分", "好控制麵粉量", "避免攪拌出筋", "防止破壞打發的氣泡"]], [116, 4, "菠蘿甜麵包整形後，通常置於室內（或烤箱邊），而不送入最後發酵箱其原因為？", ["不需最後發酵", "需較高濕度發酵", "需較高溫度發酵", "避免高濕高溫的發酵使菠蘿皮融解而化開"]], [117, 1, "50～100公克左右的甜麵包，其烤焙應？", ["上火為主，下火為輔", "只用上火", "下火為主，上火為輔", "只用下火"]], [118, 2, "以糖油拌合法攪拌丹麥小西餅，在糖油部分打發過度，其產品組織較？", ["硬", "粗糙", "細膩", "沒影響"]], [119, 2, "戚風蛋糕在攪拌蛋白與糖時，如果攪拌不足易造成產品？", ["組織較軟", "拌入其他材料時易消泡", "體積較大", "不影響蛋糕品質"]], [120, 2, "可以減少海綿蛋糕出爐時收縮的程度為？", ["選用麵筋較強的麵粉", "烤焙時間避免過久", "烤盤擦油", "減少配方中的用油量"]]];
+const KEY='baking_work03_101_120_attempt_v1';
+let idx=0, answers={}, started=false, locked=false;
+const $=id=>document.getElementById(id);
+function render(){
+ const q=questions[idx]; $('quiz').classList.remove('hidden');
+ $('quiz').innerHTML=`<div class="qhead"><span>第 ${idx+1} / ${questions.length} 題</span><span>題號 ${q[0]}</span></div><h2>${q[2]}</h2><div class="choices">${q[3].map((c,i)=>`<label class="choice"><input type="radio" name="answer" value="${i+1}" ${answers[q[0]]===i+1?'checked':''}><span>${['①','②','③','④'][i]} ${c}</span></label>`).join('')}</div><div class="actions"><button id="prev" class="secondary" ${idx===0?'disabled':''}>上一題</button><button id="next">${idx===questions.length-1?'交卷':'下一題'}</button></div>`;
+ $('prev').onclick=()=>{save();idx--;render()};
+ $('next').onclick=()=>{save();if(idx===questions.length-1)finish();else{idx++;render()}};
+ $('status').textContent=`作答中：${Object.keys(answers).length} / 20`;
+ $('bar').style.width=(Object.keys(answers).length/20*100)+'%';
+ $('read').disabled=false; $('stop').disabled=false;
+}
+function save(){const r=document.querySelector('input[name="answer"]:checked');if(r)answers[questions[idx][0]]=Number(r.value)}
+function speak(){
+ const q=questions[idx], text=`第${q[0]}題。${q[2]}。`+q[3].map((c,i)=>`選項${i+1}：${c}。`).join('');
+ if(!('speechSynthesis'in window)){alert('此瀏覽器不支援語音朗讀');return}
+ speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='zh-TW';speechSynthesis.speak(u)
+}
+function finish(){
+ locked=true;started=false;localStorage.setItem(KEY,JSON.stringify({submitted:true,answers}));
+ $('quiz').classList.add('hidden');$('finish').classList.remove('hidden');
+ const score=questions.reduce((s,q)=>s+(answers[q[0]]===q[1]?5:0),0);
+ $('finish').innerHTML=`<h2>測驗完成</h2><div class="score">${score} / 100</div><p>已提交作答。答案與逐題結果由教師功能查看。</p><p class="muted">本測驗已鎖定，重新載入頁面仍不能再次作答。</p>`;
+ $('status').textContent='已交卷';$('bar').style.width='100%';$('start').disabled=true;$('read').disabled=true;$('stop').disabled=true;
+}
+$('start').onclick=()=>{if(locked)return;started=true;$('start').disabled=true;idx=0;render()};
+$('read').onclick=speak;$('stop').onclick=()=>speechSynthesis.cancel();
+$('teacher').onclick=()=> $('teacherPanel').classList.toggle('hidden');
+$('unlock').onclick=()=>{
+ if($('pw').value!=='1212'){alert('密碼錯誤');return}
+ const saved=JSON.parse(localStorage.getItem(KEY)||'null');
+ const current=saved?.answers||answers;
+ const score=questions.reduce((s,q)=>s+(current[q[0]]===q[1]?5:0),0);
+ $('teacherContent').innerHTML=`<h3>成績：${score} / 100</h3><div>${questions.map(q=>`<div class="answerline"><strong>${q[0]}.</strong> ${q[2]}<br>正確答案：${q[1]}. ${q[3][q[1]-1]}　｜作答：${current[q[0]]||'未作答'} ${current[q[0]]===q[1]?'✓':'✗'}</div>`).join('')}</div><div class="actions"><button id="reset">重設測驗</button></div>`;
+ $('reset').onclick=()=>{if(confirm('確定清除本機作答紀錄並重設？')){localStorage.removeItem(KEY);location.reload()}};
+};
+const saved=JSON.parse(localStorage.getItem(KEY)||'null');
+if(saved?.submitted){locked=true;$('start').disabled=true;$('status').textContent='此測驗已提交並鎖定';$('finish').classList.remove('hidden');$('finish').innerHTML='<h2>測驗已完成</h2><p>此瀏覽器已有提交紀錄。請教師輸入密碼查看結果或重設。</p>';}
+</script></body></html>
