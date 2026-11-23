@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>烘焙食品學科｜錯題朗讀複習</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f5f8;color:#202938;font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;line-height:1.7}
+.wrap{max-width:860px;margin:auto;padding:18px 12px 48px}header,.panel{background:#fff;border:1px solid #dce2ea;border-radius:14px;padding:18px;margin-bottom:14px}
+h1{font-size:22px;margin:0 0 5px}.muted{color:#657184;font-size:14px}.top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.question{font-size:20px;margin:20px 0}.answer{font-size:18px;color:#18794e;font-weight:700;margin:14px 0}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}button{border:0;border-radius:9px;padding:11px 15px;font:inherit;background:#e8edf4;color:#202938;cursor:pointer}
+button.primary{background:#2457a7;color:#fff}button:disabled{opacity:.4;cursor:not-allowed}
+.progress{height:8px;background:#e8edf4;border-radius:8px;margin:14px 0;overflow:hidden}.bar{height:100%;background:#2457a7;width:0}
+.note{background:#f7f9fc;border-radius:9px;padding:12px;color:#536174;font-size:14px}
+@media(max-width:560px){.wrap{padding:10px 8px 36px}.panel,header{padding:14px}.question{font-size:18px}}
+</style></head><body><main class="wrap">
+<header><h1>烘焙食品學科｜錯題朗讀複習</h1><div class="muted">依你提供的錯題及正確答案整理，共20題</div></header>
+<section class="panel" id="intro"><h2>朗讀複習</h2>
+<p>本頁只保留朗讀功能，不包含測驗或填答。朗讀內容僅有題目與正確答案，不會讀出選項代號或其他選項。</p>
+<div class="note">可逐題朗讀，也可依序播放全部題目；播放途中可停止。</div>
+<div class="actions"><button class="primary" id="begin">開始複習</button><button id="playAll">🔊 依序朗讀全部題目</button></div></section>
+<section class="panel" id="reader" hidden>
+<div class="top"><b id="counter"></b><span class="muted">只朗讀題目＋正確答案</span></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="question" id="question"></div><div class="answer" id="answer"></div>
+<div class="actions"><button class="primary" id="speakOne">🔊 報讀本題與正確答案</button><button id="stop">停止報讀</button></div>
+<div class="actions"><button id="prev">上一題</button><button class="primary" id="next">下一題</button><button id="back">返回</button></div>
+</section></main><script>
+const DATA=[{"id":11,"q":"新鮮酵母貯存的最佳溫度為？","letter":"B","a":"2～10℃"},{"id":14,"q":"製作轉化糖漿使用何種糖原料？","letter":"B","a":"砂糖"},{"id":16,"q":"小麥製粉時，與其出粉率成正比者為？","letter":"B","a":"灰分含量"},{"id":17,"q":"麵粉中添加維生素C 作為改良劑之主要效用為？","letter":"A","a":"熟成作用"},{"id":18,"q":"食品用油溶於水（O/W）之乳化劑，其親水親油平衡值（HLB：Hydrophilic - Lipophilic Balance value）之範圍介於？","letter":"B","a":"8～18"},{"id":19,"q":"製作海綿蛋糕添加乳化起泡劑目的為？","letter":"B","a":"增加麵糊的安定性"},{"id":28,"q":"有關發粉，下列敘述何者錯誤？","letter":"A","a":"以碳酸鈉為主原料"},{"id":41,"q":"經攪拌後之蛋白糖以手指勾起成山峰狀，倒置而不彎曲，此階段稱為？","letter":"C","a":"乾性發泡"},{"id":45,"q":"使用分割滾圓機分割麵糰，假如機器分割麵糰每分鐘30 粒每個50g，現有60 公斤麵糰多少時間可分割完？","letter":"C","a":"40 分"},{"id":47,"q":"使用不同烤爐來烤焙麵包，下列何者敘述不正確？","letter":"B","a":"使用瓦斯爐，爐溫加熱上升較慢"},{"id":52,"q":"小西餅的烤焙原則為何？","letter":"A","a":"高溫短時間"},{"id":53,"q":"製作麵包時麵粉筋性較弱，應採用何種攪拌速度？","letter":"B","a":"中速"},{"id":54,"q":"烤焙法國麵包烤爐內必須有蒸氣設備，蒸氣的壓力為？","letter":"C","a":"壓力低，量大"},{"id":55,"q":"一般乳沫類蛋糕使用蛋白的溫度最好為","letter":"A","a":"17～22℃"},{"id":56,"q":"天使蛋糕蛋白應打到何種程度，成品膨脹能力較佳？","letter":"B","a":"濕性發泡"},{"id":57,"q":"麵包麵糰的中間發酵時間約為（ ）即可？","letter":"B","a":"8～15 分鐘"},{"id":64,"q":"酵母油炸甜圈餅（酵母道納司，yeast doughnuts）所使用的配方，大致上與甜麵包類似，然在為求成品之品質與形狀之完整性，則酵母油炸甜圈餅（酵母道納司，yeast doughnuts）配方中的糖與油脂，較甜麵包配方？","letter":"B","a":"少"},{"id":65,"q":"法國麵包（硬式麵包）常用之烤焙溫度為多少？","letter":"A","a":"230℃"},{"id":75,"q":"一般蒸烤牛奶布丁，所選用之凝凍材料為？","letter":"A","a":"雞蛋"},{"id":79,"q":"想保持丹麥小西餅有明顯花紋，下列何者不正確?","letter":"B","a":"糖油攪拌時充分打發"}];const $=id=>document.getElementById(id);let index=0,sequenceToken=0;
+function stop(){sequenceToken++;if("speechSynthesis"in window)speechSynthesis.cancel();}
+function say(text,onend){if(!("speechSynthesis"in window)){alert("此瀏覽器不支援語音報讀，請使用 Chrome 或 Safari。");return;}const u=new SpeechSynthesisUtterance(text);u.lang="zh-TW";u.rate=.9;if(onend)u.onend=onend;speechSynthesis.speak(u);}
+function sentence(x){return `第${x.id}題。${x.q}。正確答案。${x.a}。`;}
+function render(){const x=DATA[index];$("counter").textContent=`第 ${index+1}／${DATA.length} 題（原題第 ${x.id} 題）`;$("question").textContent=x.q;$("answer").textContent=`正確答案：${x.a}`;$("bar").style.width=((index+1)/DATA.length*100)+"%";$("prev").disabled=index===0;$("next").disabled=index===DATA.length-1;}
+$("begin").onclick=()=>{$("reader").hidden=false;$("intro").hidden=true;index=0;render();};
+$("speakOne").onclick=()=>{stop();say(sentence(DATA[index]));};
+$("stop").onclick=stop;
+$("prev").onclick=()=>{stop();index--;render();};
+$("next").onclick=()=>{stop();index++;render();};
+$("back").onclick=()=>{stop();$("reader").hidden=true;$("intro").hidden=false;};
+$("playAll").onclick=()=>{stop();const token=sequenceToken;let i=0;function playNext(){if(token!==sequenceToken||i>=DATA.length)return;const x=DATA[i++];say(sentence(x),playNext);}playNext();};
+</script></body></html>
