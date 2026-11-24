@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>烘焙食品丙級｜工作項目一朗讀題目</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--ink:#20242a;--muted:#667085;--line:#e3e6eb;--accent:#245b8f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;line-height:1.65}
+main{max-width:850px;margin:auto;padding:20px 14px 50px}h1{font-size:1.45rem;margin:0 0 5px}.sub{color:var(--muted);margin-bottom:18px}
+.group{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:14px 0;padding:16px}
+h2{font-size:1.1rem;margin:0 0 12px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+button{border:0;border-radius:9px;padding:10px 13px;background:var(--accent);color:white;font-size:.95rem;cursor:pointer}
+button.secondary{background:#e9eef4;color:#263746}button.stop{background:#7b3434}
+.item{border-top:1px solid var(--line);padding:13px 0}.qtitle{font-weight:650}.opts{margin:6px 0 8px 1.2em;color:#394150}.answer{font-size:.9rem;color:var(--muted)}.item button{padding:7px 10px;font-size:.88rem}
+.status{position:sticky;bottom:10px;background:#20242a;color:white;padding:9px 12px;border-radius:10px;margin-top:14px;font-size:.9rem}
+</style></head><body><main>
+<h1>烘焙食品丙級｜工作項目一：產品分類</h1>
+<div class="sub">依據上傳 PDF 題庫第 1～30 題，分成每組 10 題。每題只保留題目與正確答案，按「朗讀本題」即可聽取。</div>
+<div class="actions"><button onclick="speakAll()">依序朗讀全部 30 題</button><button class="secondary" onclick="speechSynthesis.pause()">暫停</button><button class="secondary" onclick="speechSynthesis.resume()">繼續</button><button class="stop" onclick="speechSynthesis.cancel()">停止朗讀</button></div>
+<div id="groups"></div><div class="status" id="status">準備就緒｜請選擇題目朗讀。</div>
+</main><script>
+const questions=[[1, "歐美流行之比薩─義大利發麵餅屬於？", ["麵包項", "餅乾項", "中點項", "西點項"], 4], [2, "下列何種產品不需經過油炸而成？", ["開口笑", "沙其瑪", "道納司", "鬆餅"], 4], [3, "最適合製作鮮奶油蛋糕及冰淇淋蛋糕是？", ["麵糊類蛋糕", "乳沫類蛋糕", "戚風類蛋糕", "磅蛋糕"], 3], [4, "那一種蛋糕之烤溫最低？", ["輕奶油", "海綿蛋糕", "水果蛋糕", "天使蛋糕"], 3], [5, "同種蛋糕那一種麵糊的著色最深？", ["低酸性", "中性", "鹼性", "強酸性"], 3], [6, "那一種蛋糕麵糊理想比重最輕？", ["海綿類", "戚風類", "麵糊類", "天使類"], 4], [7, "下列何種為硬式麵包？", ["全麥麵包", "甜麵包", "可鬆麵包", "法國麵包"], 4], [8, "何種蛋糕在攪拌前，蛋先予加溫到40～43℃，使容易起泡及膨脹？", ["輕奶油蛋糕", "重奶油蛋糕", "海綿蛋糕", "水果蛋糕"], 3], [9, "下列蛋糕配方中何者宜使用高筋麵粉？", ["魔鬼蛋糕", "水果蛋糕", "果醬捲", "戚風蛋糕"], 2], [10, "下列何種產品一定要使用高筋麵粉？", ["海綿蛋糕", "比薩餅", "白土司麵包", "天使蛋糕"], 3], [11, "蛋糕依麵糊性質和膨大方法的不同可分為？", ["二大類", "三大類", "四大類", "五大類"], 2], [12, "長崎蛋糕屬於？", ["麵糊類蛋糕", "乳沫類蛋糕", "戚風類蛋糕", "重奶油蛋糕"], 2], [13, "配方中採用液體油脂可製作下列何種蛋糕？", ["水果蛋糕", "重奶油蛋糕", "海綿蛋糕", "輕奶油蛋糕"], 3], [14, "下列何種產品配方中使用酵母，以利產品之膨脹？", ["鬆餅", "酥鬆性小西餅", "綠豆椪", "丹麥式甜麵包"], 4], [15, "配方中採用高筋麵粉，比較適合製作下列何種產品？", ["擠出小西餅", "魔鬼蛋糕", "法國麵包", "天使蛋糕"], 3], [16, "歐美俗稱的磅蛋糕（pound cake）是屬於？", ["戚風類蛋糕", "麵糊類蛋糕", "乳沫類蛋糕", "天使蛋糕"], 2], [17, "下列何種產品之麵糰是屬於發酵性麵糰？", ["奶油小西餅", "蛋黃酥", "廣式月餅", "美式甜麵包"], 4], [18, "下列何種產品之麵糰，其配方中糖油含量最低？", ["蘇打餅乾", "口糧餅乾", "戚風蛋糕", "海綿蛋糕"], 1], [19, "下列何種產品，其麵糊須經加熱熬煮？", ["廣式月餅", "太陽餅", "天使蛋糕", "奶油空心餅"], 4], [20, "下列何種產品，以烘焙百分比而言，其配方中用蛋量超過100％？", ["麵包", "鬆餅", "中點", "蛋糕"], 4], [21, "下列何種產品，不需經烤焙過程？", ["法國麵包", "戚風蛋糕", "奶油空心餅", "開口笑"], 4], [22, "奶油雞蛋布丁派是屬於？", ["生派皮生派餡", "熟派皮熟派餡", "雙皮派", "油炸派"], 1], [23, "牛肉派是屬於？", ["生派皮生派餡", "熟派皮熟派餡", "雙皮派", "油炸派"], 3], [24, "餅乾麵糰在攪拌終了階段不須產生麵筋的產品是？", ["輥輪推壓小西餅", "硬質餅乾", "蘇打餅乾", "瑪莉餅乾"], 1], [25, "餅乾麵糰在壓延成型時須考慮收縮比的產品為？", ["煎餅", "蘇打餅乾", "乳沫類小西餅", "線切成型小西餅"], 2], [26, "依照製作方法，乳沫類小西餅是以下列何者方式成型？", ["塊狀成型", "擠出成型", "線切成型", "推壓成型"], 2], [27, "以麵粉與油脂調製烘焙層次分明之鬆酥性產品是？", ["小西餅", "脆餅", "煎餅", "鬆餅、派、起酥"], 4], [28, "小西餅配方中糖的用量比油多、油的用量比水多，麵糰較乾硬，須擀平或用模型壓出的產品是？", ["軟性小西餅", "酥硬性小西餅", "鬆酥性小西餅", "脆硬性小西餅"], 4], [29, "下列何者不適合用直接法攪拌？", ["海綿小西餅", "奶油小西餅", "瑪琍餅乾", "調味餅乾"], 1], [30, "台灣素食分類分為五大類，下列哪一類不是在素食分類？", ["奶素", "蛋奶素", "五辛素", "鍋邊素"], 4]];
+const labels=["一","二","三","四"];
+function speechText(q){return `第${q[0]}題。${q[1]}。正確答案是：${labels[q[3]-1]}，${q[2][q[3]-1]}。`;}
+function speak(q){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(speechText(q));u.lang="zh-TW";u.rate=0.9;u.onstart=()=>status.textContent=`正在朗讀第 ${q[0]} 題`;u.onend=()=>status.textContent=`第 ${q[0]} 題朗讀完成`;speechSynthesis.speak(u);}
+function speakAll(){speechSynthesis.cancel();const qs=[...questions];let i=0;function next(){if(i>=qs.length){status.textContent="全部 30 題朗讀完成";return;}let q=qs[i++],u=new SpeechSynthesisUtterance(speechText(q));u.lang="zh-TW";u.rate=0.9;status.textContent=`正在朗讀第 ${q[0]} 題`;u.onend=next;speechSynthesis.speak(u);}next();}
+for(let g=0;g<3;g++){const section=document.createElement("section");section.className="group";section.innerHTML=`<h2>第 ${g+1} 組｜第 ${g*10+1}～${g*10+10} 題</h2><div class="actions"><button class="secondary" onclick="speakRange(${g*10},${g*10+10})">朗讀本組 10 題</button></div>`;questions.slice(g*10,g*10+10).forEach(q=>{const el=document.createElement("div");el.className="item";el.innerHTML=`<div class="qtitle">${q[0]}. ${q[1]}</div><div class="answer">正確答案：${labels[q[3]-1]}. ${q[2][q[3]-1]}</div><button class="secondary">朗讀本題</button>`;el.querySelector("button").onclick=()=>speak(q);section.appendChild(el);});document.getElementById("groups").appendChild(section);}
+function speakRange(start,end){speechSynthesis.cancel();let i=start;function next(){if(i>=end){status.textContent=`第 ${start/10+1} 組朗讀完成`;return;}let q=questions[i++],u=new SpeechSynthesisUtterance(speechText(q));u.lang="zh-TW";u.rate=0.9;status.textContent=`正在朗讀第 ${q[0]} 題`;u.onend=next;speechSynthesis.speak(u);}next();}
+</script></body></html>
